@@ -1,7 +1,7 @@
 import React from 'react';
-import { XComponent } from '../construx/construx';
+import { Component } from '../construx/construx';
 
-class Other extends XComponent {
+class Other extends Component {
   constructor() {
     super();
   }

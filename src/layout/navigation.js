@@ -1,8 +1,8 @@
 import React from 'react';
-import { XComponent } from '../construx/construx';
+import { Component } from '../construx/construx';
 import { Link } from 'react-router';
 
-class Navigation extends XComponent {
+class Navigation extends Component {
   constructor() {
     super();
   }

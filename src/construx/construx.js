@@ -25,6 +25,12 @@ Other
     other.setState(appState);
   });
 
+Home
+  .fetches('/api/v2/users')
+  .when('componentDidMount')
+  .thenDispatches('MY_ACTION')
+  .using(data => data);
+
 ```
 
 TODO: Why can't babel find my super methods?
@@ -37,7 +43,7 @@ these certain events.
 /*
  * Import the necessary items from React and Redux.
  */
-import React, { Component } from 'react';
+import React, { Component as ReactComponent } from 'react';
 import { createStore as storeCreator } from 'redux';
 
 /*
@@ -210,7 +216,7 @@ class Dispatch {
  * Adds a layer to React's Component class for smoother Redux
  * work.
  */
-class XComponent extends Component {
+class Component extends ReactComponent {
 
   /**
    * @constructor
@@ -252,7 +258,7 @@ class XComponent extends Component {
        * Finally we return the result of the original method.
        */
       this[methodName] = (...args) => {
-        let out = orig ? orig(...args) : undefined;
+        let out = orig ? orig.call(this, ...args) : undefined;
         methodName === 'shouldComponentUpdate' && !out && (out = false);
         methodName === 'componentDidMount' && createSubscribers(this);
         runDispatches(methodName, out, this);
@@ -287,6 +293,8 @@ class XComponent extends Component {
   static picksUp(actionType) {
     return new Pickup(actionType, this.name);
   }
+
+  static fetches(url) {}
 
 }
 
@@ -366,4 +374,4 @@ function createStore(...args) {
  * through all the necessary top level pieces as well as our new component type.
  */
 export { combineReducers, applyMiddleware, bindActionCreators, compose } from 'redux';
-export { createStore, XComponent };
+export { createStore, Component };

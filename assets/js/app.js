@@ -35649,8 +35649,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Home = function (_XComponent) {
-  _inherits(Home, _XComponent);
+var Home = function (_Component) {
+  _inherits(Home, _Component);
 
   function Home() {
     _classCallCheck(this, Home);
@@ -35670,7 +35670,7 @@ var Home = function (_XComponent) {
   }]);
 
   return Home;
-}(_construx.XComponent);
+}(_construx.Component);
 
 exports.default = Home;
 
@@ -35697,8 +35697,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Other = function (_XComponent) {
-  _inherits(Other, _XComponent);
+var Other = function (_Component) {
+  _inherits(Other, _Component);
 
   function Other() {
     _classCallCheck(this, Other);
@@ -35718,7 +35718,7 @@ var Other = function (_XComponent) {
   }]);
 
   return Other;
-}(_construx.XComponent);
+}(_construx.Component);
 
 exports.default = Other;
 
@@ -35728,7 +35728,7 @@ exports.default = Other;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.XComponent = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
+exports.Component = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -35758,6 +35758,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .then((appState, other) => {
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          other.setState(appState);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .thenDispatches('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .using(data => data);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ```
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
@@ -36011,8 +36017,8 @@ var Dispatch = function () {
  */
 
 
-var XComponent = function (_Component) {
-  _inherits(XComponent, _Component);
+var Component = function (_ReactComponent) {
+  _inherits(Component, _ReactComponent);
 
   /**
    * @constructor
@@ -36027,16 +36033,16 @@ var XComponent = function (_Component) {
    * @return {undefined}
    */
 
-  function XComponent() {
+  function Component() {
     var _Object$getPrototypeO;
 
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    _classCallCheck(this, XComponent);
+    _classCallCheck(this, Component);
 
-    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(XComponent)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
 
     _this[UNSUBSCRIBE] = null;
 
@@ -36064,7 +36070,11 @@ var XComponent = function (_Component) {
        * Finally we return the result of the original method.
        */
       _this[methodName] = function () {
-        var out = orig ? orig.apply(undefined, arguments) : undefined;
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
         methodName === 'shouldComponentUpdate' && !out && (out = false);
         methodName === 'componentDidMount' && createSubscribers(_this);
         runDispatches(methodName, out, _this);
@@ -36085,7 +36095,7 @@ var XComponent = function (_Component) {
    */
 
 
-  _createClass(XComponent, null, [{
+  _createClass(Component, null, [{
     key: 'dispatches',
     value: function dispatches(actionType) {
       return new Dispatch(actionType, this.name);
@@ -36105,9 +36115,12 @@ var XComponent = function (_Component) {
     value: function picksUp(actionType) {
       return new Pickup(actionType, this.name);
     }
+  }, {
+    key: 'fetches',
+    value: function fetches(url) {}
   }]);
 
-  return XComponent;
+  return Component;
 }(_react.Component);
 
 /**
@@ -36192,7 +36205,7 @@ function createStore() {
  * through all the necessary top level pieces as well as our new component type.
  */
 exports.createStore = createStore;
-exports.XComponent = XComponent;
+exports.Component = Component;
 
 },{"react":229,"redux":235}],247:[function(require,module,exports){
 'use strict';
@@ -36270,8 +36283,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Navigation = function (_XComponent) {
-  _inherits(Navigation, _XComponent);
+var Navigation = function (_Component) {
+  _inherits(Navigation, _Component);
 
   function Navigation() {
     _classCallCheck(this, Navigation);
@@ -36313,7 +36326,7 @@ var Navigation = function (_XComponent) {
   }]);
 
   return Navigation;
-}(_construx.XComponent);
+}(_construx.Component);
 
 exports.default = Navigation;
 
@@ -36329,10 +36342,6 @@ var _construx = require('../construx/construx');
 var _home = require('../components/home');
 
 var _home2 = _interopRequireDefault(_home);
-
-var _other = require('../components/other');
-
-var _other2 = _interopRequireDefault(_other);
 
 var _navigation = require('../layout/navigation');
 
@@ -36362,11 +36371,16 @@ _home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').using(funct
   return { prop: 'val' };
 });
 
-_navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, other) {
-  console.log('HIT THEN:', appState, other);
-  other.setState(appState);
+// dispatchFrom(Home)
+//   .type('ACTION_TYPE_1')
+//   .when('compnentDidMount')
+//   .using(() => { prop: val })
+
+_navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, nav) {
+  console.log('HIT THEN:', appState, nav);
+  nav.setState(appState);
 });
 
 exports.default = store;
 
-},{"../components/home":244,"../components/other":245,"../construx/construx":246,"../layout/navigation":248}]},{},[243]);
+},{"../components/home":244,"../construx/construx":246,"../layout/navigation":248}]},{},[243]);
