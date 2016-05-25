@@ -1,0 +1,20 @@
+{
+  "index": "index.html",
+  "appSrc" : "src/**/*.js",
+  "appEntry": "src/app.js",
+  "appOutput": {
+    "fileName": "app.js",
+    "dest": "assets/js"
+  },
+  "stylesSrc": "scss/**/*.scss",
+  "stylesEntry": "scss/app.scss",
+  "stylesOutput": {
+    "dest": "assets/css"
+  },
+  "serverSrc": "server/**/*.js",
+  "serverPort": 8080,
+  "gulpfile": "gulpfile.babel.js",
+  "package": "package.json",
+  "config": "gulpconfig.json",
+  "useBrowserHistory": true
+}
