@@ -26,7 +26,7 @@ are picking those up.
 With Construx, you'll need to create a store and write a reducer, just as you
 would with Redux. However, you won't need to pass that store around to any
 components, you won't need to write any manual `dispatch` calls, and you won't
-need to write any manul `subscribe` calls.
+need to write any manual `subscribe` calls.
 
 Instead you'll write something like this:
 
@@ -221,6 +221,8 @@ Using Construx completely removes the need for writing React applications using
 the "container vs presentational" pattern. There is no need for classes such as
 React Redux's `Provider` because no state change data needs to be passed from
 parent to child.
+
+**As such, Construx is built on Redux proper and uses Redux as a dependency, NOT React Redux.**
 
 We'll also never need to awkwardly spread ajax calls all over the application either.
 Because Construx wants you to tie Redux actions to all ajax calls, it simply
