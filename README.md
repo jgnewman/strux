@@ -1,10 +1,10 @@
-# Construx
+# Strux
 
 Cross-component communication _finally_ made simple.
 
-## What is Construx?
+## What is Strux?
 
-Construx is designed for React.js. It's a layer on top of Redux that allows
+Strux is designed for React.js. It's a layer on top of Redux that allows
 you to describe communication between application components in a revolutionary
 way.
 
@@ -16,14 +16,14 @@ components at a high level. For example, if component A subscribes to an action,
 there is no good way within component A to tell where in the world that action
 is coming from or what conditions trigger it.
 
-Construx attempts to provde a paradigm wherein cross-component communication
+Strux attempts to provde a paradigm wherein cross-component communication
 can be fully described in one cohesive place, thus making it extremely easy to
 understand which components are dispatching which actions and which components
 are picking those up.
 
 ## How does it work?
 
-With Construx, you'll need to create a store and write a reducer, just as you
+With Strux, you'll need to create a store and write a reducer, just as you
 would with Redux. However, you won't need to pass that store around to any
 components, you won't need to write any manual `dispatch` calls, and you won't
 need to write any manual `subscribe` calls.
@@ -45,7 +45,7 @@ AnotherComponent
   });
 ```
 
-The call chains shown in this example are called "constructs". Each construct
+The call chains shown in this example are called "structs". Each struct
 describes how a given component class will dispatch a given Redux action in
 response to a specific event with specific data, or how it will respond
 to the triggering of a given action and what it will do with the data that
@@ -57,14 +57,14 @@ specific actions.
 
 ## Can I see a full, working example?
 
-Let's start by getting everything Redux-y and Construx-y out of the way first.
+Let's start by getting everything Redux-y and Strux-y out of the way first.
 We can do that all in one file if we want, but of course we have the option
 to break it into separate files as we so choose.
 
 ```javascript
 
-// Import createStore from Construx INSTEAD of Redux.
-import { createStore } from 'construx';
+// Import createStore from Strux INSTEAD of Redux.
+import { createStore } from 'strux';
 
 // Import a couple of components we've created.
 import { MyComponent, AnotherComponent } from './components';
@@ -83,7 +83,7 @@ function reducer(state = {}, action) {
 // create a store.
 createStore(reducer);
 
-// Create a construct describing how MyComponent
+// Create a struct describing how MyComponent
 // will dispatch 'MY_ACTION'.
 MyComponent
   .dispatches('MY_ACTION')
@@ -92,7 +92,7 @@ MyComponent
     return { data: componentState.actionData }
   });
 
-// Create another construct describing how
+// Create another struct describing how
 // AnotherComponent will subscribe to state changes
 // triggered by 'MY_ACTION' and what it will do when
 // that data comes through.
@@ -113,8 +113,8 @@ file. We'll create them together as well.
 // Import React so our JSX will work.
 import React from 'react';
 
-// Import Component from Construx INSTEAD of from React.
-import { Component } from 'construx';
+// Import Component from Strux INSTEAD of from React.
+import { Component } from 'strux';
 
 // Create a standard, run-of-the-mill React component.
 export class MyComponent extends Component {
@@ -152,29 +152,29 @@ We can see in the above example that there is no cross-component communication
 written within the definition for either class. Instead, it is all handled
 together in one place.
 
-Here's how it will work based on our constructs:
+Here's how it will work based on our structs:
 
-#### From the first construct:
+#### From the first struct:
 
 1. An instance of `MyComponent` will mount.
 2. A Redux action called 'MY_ACTION' will be dispatched.
 3. The body of the action will be created from the state of the component.
 
-#### From the second construct:
+#### From the second struct:
 
 1. When an instance of `AnotherComponent` has mounted, it will implicitly subscribe to Redux state changes.
 2. Whenever a state change happened because 'MY_ACTION' was dispatched, the `handleStateChange` method will be triggered and handed the new Redux state.
 
-## Why do I have to import `createStore` and `component` from Construx?
+## Why do I have to import `createStore` and `component` from Strux?
 
-In order for Construx to implicitly work with Redux state changes, it needs
-a reference to your Redux store. Construx's version of `createStore` doesn't
+In order for Strux to implicitly work with Redux state changes, it needs
+a reference to your Redux store. Strux's version of `createStore` doesn't
 do anything special except pass your reducer straight into Redux's `createStore`
 and then capture a reference to that store to use for itself.
 
-In order for Construx to implicitly create subscriptions and trigger dispatches
+In order for Strux to implicitly create subscriptions and trigger dispatches
 within component lifecycle functions, it needs access to the component's
-`constructor` function in order to set those things up. Construx's version of
+`constructor` function in order to set those things up. Strux's version of
 `Component` doesn't do anything special except extend React's `Component` to
 set up a few handlers for lifecycle functions when the component gets
 instantiated.
@@ -192,13 +192,13 @@ React components. Specifically those are:
 - `componentWillUpdate`
 - `componentDidUpdate`
 
-This, of course, reveals Construx's philosophy that all dispatches should be
+This, of course, reveals Strux's philosophy that all dispatches should be
 triggered within lifecycle functions.
 
-## Does Construx handle anything asynchronous?
+## Does Strux handle anything asynchronous?
 
-In fact, Construx has ajax built in using the native `fetch` API. Here is an
-example of a fetch-based construct:
+In fact, Strux has ajax built in using the native `fetch` API. Here is an
+example of a fetch-based struct:
 
 ```javascript
 MyComponent
@@ -210,22 +210,22 @@ MyComponent
 
 Let's walk through the semantics of this function chain.
 
-1. `MyComponent` is set up to fetch a particular URL. Notice that the URL has a variable in it because we may want to fetch a different user at a different time and we'd like to be able to reuse this construct. We can also pass in an object for configuring the ajax call if we want.
+1. `MyComponent` is set up to fetch a particular URL. Notice that the URL has a variable in it because we may want to fetch a different user at a different time and we'd like to be able to reuse this struct. We can also pass in an object for configuring the ajax call if we want.
 2. The fetch occurs when the component has mounted. And when that happens, we use the component's state to return a value for the variable within our URL.
 3. When the data comes back, the Redux action `MY_ACTION` is triggered.
 4. We'll create the body of the action using the parsed data that was returned as well as the component's state.
 
 ## What are the bigger implications?
 
-Using Construx completely removes the need for writing React applications using
+Using Strux completely removes the need for writing React applications using
 the "container vs presentational" pattern. There is no need for classes such as
 React Redux's `Provider` because no state change data needs to be passed from
 parent to child.
 
-**As such, Construx is built on Redux proper and uses Redux as a dependency, NOT React Redux.**
+**As such, Strux is built on Redux proper and uses Redux as a dependency, NOT React Redux.**
 
 We'll also never need to awkwardly spread ajax calls all over the application either.
-Because Construx wants you to tie Redux actions to all ajax calls, it simply
+Because Strux wants you to tie Redux actions to all ajax calls, it simply
 becomes another source of cross-component communication.
 
 ## Temporary Usage Guide

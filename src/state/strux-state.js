@@ -1,4 +1,4 @@
-import { createStore } from '../construx/construx';
+import { createStore } from '../strux/strux';
 import Home from '../components/home';
 import Navigation from '../layout/navigation';
 

@@ -35593,9 +35593,9 @@ var _jquery = require('jquery');
 
 var _jquery2 = _interopRequireDefault(_jquery);
 
-var _construxState = require('./state/construx-state');
+var _struxState = require('./state/strux-state');
 
-var _construxState2 = _interopRequireDefault(_construxState);
+var _struxState2 = _interopRequireDefault(_struxState);
 
 var _layout = require('./layout/layout');
 
@@ -35626,7 +35626,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), (0, _jquery2.default)('#app')[0]);
 
-},{"./components/home":244,"./components/other":245,"./layout/layout":250,"./state/construx-state":252,"jquery":2,"react":229,"react-dom":3,"react-router":33}],244:[function(require,module,exports){
+},{"./components/home":244,"./components/other":245,"./layout/layout":246,"./state/strux-state":248,"jquery":2,"react":229,"react-dom":3,"react-router":33}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35639,7 +35639,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _construx = require('../construx/construx');
+var _strux = require('../strux/strux');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35673,11 +35673,11 @@ var Home = function (_Component) {
   }]);
 
   return Home;
-}(_construx.Component);
+}(_strux.Component);
 
 exports.default = Home;
 
-},{"../construx/construx":246,"react":229}],245:[function(require,module,exports){
+},{"../strux/strux":252,"react":229}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35690,7 +35690,7 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _construx = require('../construx/construx');
+var _strux = require('../strux/strux');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35721,295 +35721,198 @@ var Other = function (_Component) {
   }]);
 
   return Other;
-}(_construx.Component);
+}(_strux.Component);
 
 exports.default = Other;
 
-},{"../construx/construx":246,"react":229}],246:[function(require,module,exports){
+},{"../strux/strux":252,"react":229}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Component = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     CONCEPT:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Describe redux communications across your app all in one place. This will
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     eliminate the need to hunt down dispatches and subscriptions.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     EXAMPLE:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import Home from './home';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { createStore } from 'construx';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     const store = createStore(function reducer() { ... });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .dispatches('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(state => state);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Other
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .picksUp('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .then((appState, other) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         other.setState(appState);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users/:id')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount', state => { return {id: 1} })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .thenDispatches('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(data => data);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
-
-/*
- * Import the necessary items from React and Redux.
- */
-
-
-var _redux = require('redux');
-
-Object.defineProperty(exports, 'combineReducers', {
-  enumerable: true,
-  get: function get() {
-    return _redux.combineReducers;
-  }
-});
-Object.defineProperty(exports, 'applyMiddleware', {
-  enumerable: true,
-  get: function get() {
-    return _redux.applyMiddleware;
-  }
-});
-Object.defineProperty(exports, 'bindActionCreators', {
-  enumerable: true,
-  get: function get() {
-    return _redux.bindActionCreators;
-  }
-});
-Object.defineProperty(exports, 'compose', {
-  enumerable: true,
-  get: function get() {
-    return _redux.compose;
-  }
-});
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _dispatch = require('./lib/dispatch');
+var _navigation = require('./navigation');
 
-var _pickup = require('./lib/pickup');
-
-var _fetch = require('./lib/fetch');
+var _navigation2 = _interopRequireDefault(_navigation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var Layout = function (_Component) {
+  _inherits(Layout, _Component);
 
-/*
- * Track a reference to the store created by the user.
- */
-var store = null;
+  function Layout() {
+    _classCallCheck(this, Layout);
 
-/*
- * A symbol allowing us to hide Redux store subscriptions from the user.
- */
-var UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
-
-/*
- * Every time a dispatch occurs, we'll reset this variable first so that
- * when subscribers fire, they'll be able to know which action type
- * triggered the handler.
- */
-var incomingAction = new (function () {
-  function _class() {
-    _classCallCheck(this, _class);
-
-    this.action = null;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Layout).call(this));
   }
 
-  _createClass(_class, [{
-    key: 'get',
-    value: function get() {
-      return this.action;
-    }
-  }, {
-    key: 'set',
-    value: function set(val) {
-      this.action = val;
+  _createClass(Layout, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'layout' },
+        _react2.default.createElement(_navigation2.default, null),
+        this.props.children
+      );
     }
   }]);
 
-  return _class;
-}())();
-
-/*
- * We'll need to generate methods for each of these lifeCycle method names.
- */
-var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
-
-/**
- * @class
- *
- * Adds a layer to React's Component class for smoother Redux
- * work.
- */
-
-var Component = function (_ReactComponent) {
-  _inherits(Component, _ReactComponent);
-
-  /**
-   * @constructor
-   *
-   * Runs the super constructor, sets up an place for us to
-   * store subscriptions, and makes sure implicit methods exist for this
-   * instance. We have to create those methods in the constructor because
-   * they are not methods on the Component prototype.
-   *
-   * @param  {Arguments} ...args Any arguments passed to the constructor.
-   *
-   * @return {undefined}
-   */
-
-  function Component() {
-    var _Object$getPrototypeO;
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _classCallCheck(this, Component);
-
-    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
-
-    _this[UNSUBSCRIBE] = null;
-
-    /*
-     * Make sure we have an existing method for each life cycle method name.
-     * We'll begin by getting a reference to the original method if the user
-     * has already attached one.
-     */
-    lifeCycle.forEach(function (methodName) {
-      var orig = _this[methodName];
-
-      /*
-       * For each method we create, we'll grab the result of calling the
-       * original method if there was one.
-       *
-       * If this is componentDidMount, we'll create all implicit redux
-       * subscribers automatically.
-       *
-       * Next we run any dispatches that are supposed to occur when this
-       * method is called.
-       *
-       * If this is componentWillUnmount, we unsubscribe our implicit
-       * subscribers.
-       *
-       * Finally we return the result of the original method.
-       */
-      _this[methodName] = function () {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
-        methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && (0, _pickup.createSubscribers)(incomingAction, store, _this);
-        (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
-        (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
-        methodName === 'componentWillUnmount' && typeof _this[UNSUBSCRIBE] === 'function' && _this[UNSUBSCRIBE]();
-        return out;
-      };
-    });
-    return _this;
-  }
-
-  /**
-   * A new static method that allows us to begin describing circumstances that
-   * will cause instances of this component to trigger Redux dispatches.
-   *
-   * @param  {String} actionType A redux action type name.
-   *
-   * @return {Dispatch} Contains more methods for completing the description.
-   */
-
-
-  _createClass(Component, null, [{
-    key: 'dispatches',
-    value: function dispatches(actionType) {
-      return new _dispatch.Dispatch(actionType, this.name);
-    }
-
-    /**
-     * A new static method that allows us to begin describing that instances
-     * of this component will subscribe to certain Redux action types.
-     *
-     * @param  {String} actionType A redux action type name.
-     *
-     * @return {Pickup} Contains more methods for completing the description.
-     */
-
-  }, {
-    key: 'picksUp',
-    value: function picksUp(actionType) {
-      return new _pickup.Pickup(actionType, this.name);
-    }
-
-    /**
-     * A new static method that allows us to begin describing circumstances that
-     * will cause a data fetch within the application.
-     *
-     * @param  {String} url    The datapoint.
-     * @param  {Object} config An object modifying the call made _a la_ the fetch api.
-     *
-     * @return {Pickup} Contains more methods for completing the description.
-     */
-
-  }, {
-    key: 'fetches',
-    value: function fetches(url, config) {
-      return new _fetch.Fetch(url, config, this.name);
-    }
-  }]);
-
-  return Component;
+  return Layout;
 }(_react.Component);
 
-/**
- * Override Redux's createStore with a version that allows us to keep
- * track of the store the user creates.
- *
- * @param  {Arguments} ...args Usually a reducer function.
- *
- * @return A Redux store.
- */
+exports.default = Layout;
 
+},{"./navigation":247,"react":229}],247:[function(require,module,exports){
+'use strict';
 
-function createStore() {
-  store = _redux.createStore.apply(undefined, arguments);
-  return store;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _strux = require('../strux/strux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Navigation = function (_Component) {
+  _inherits(Navigation, _Component);
+
+  function Navigation() {
+    _classCallCheck(this, Navigation);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Navigation).call(this));
+  }
+
+  _createClass(Navigation, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'navigation' },
+        'Navigation',
+        _react2.default.createElement(
+          'ul',
+          null,
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/', activeClassName: 'active' },
+              'Home'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/other', activeClassName: 'active' },
+              'Other'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Navigation;
+}(_strux.Component);
+
+exports.default = Navigation;
+
+},{"../strux/strux":252,"react":229,"react-router":33}],248:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _strux = require('../strux/strux');
+
+var _home = require('../components/home');
+
+var _home2 = _interopRequireDefault(_home);
+
+var _navigation = require('../layout/navigation');
+
+var _navigation2 = _interopRequireDefault(_navigation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function reducer() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+
+    case 'ACTION_TYPE_1':
+      console.log('REDUCER ACTION_TYPE_1:', action);
+      return Object.assign({ prop: action.prop });
+
+    case 'ACTION_TYPE_2':
+      console.log('REDUCER, ACTION_TYPE_2:', action);
+      return Object.assign({ data: action.data });
+
+    default:
+      return Object.assign({}, state, {});
+  }
 }
 
-/*
- * Users will be able to use this module INSTEAD of Redux as it passes
- * through all the necessary top level pieces as well as our new component type.
- */
-exports.createStore = createStore;
-exports.Component = Component;
+var store = (0, _strux.createStore)(reducer);
 
-},{"./lib/dispatch":247,"./lib/fetch":248,"./lib/pickup":249,"react":229,"redux":235}],247:[function(require,module,exports){
+_home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').as(function (state) {
+  console.log('HIT USING:', state);
+  return { prop: 'val' };
+});
+
+_home2.default.fetches('./:file').when('componentDidMount', function (state) {
+  return { file: 'package' };
+}).thenDispatches('ACTION_TYPE_2').as(function (data) {
+  console.log('describer got', data);
+  return { data: data };
+});
+
+// dispatchFrom(Home)
+//   .type('ACTION_TYPE_1')
+//   .when('compnentDidMount')
+//   .using(() => { prop: val })
+
+_navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, nav) {
+  console.log('HIT THEN:', appState, nav);
+  nav.setState(appState);
+});
+
+exports.default = store;
+
+},{"../components/home":244,"../layout/navigation":247,"../strux/strux":252}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36188,7 +36091,7 @@ function runDispatches(event, incomingAction, store, instance) {
 exports.Dispatch = Dispatch;
 exports.runDispatches = runDispatches;
 
-},{}],248:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36508,7 +36411,7 @@ function runFetches(event, incomingAction, store, instance) {
 exports.Fetch = Fetch;
 exports.runFetches = runFetches;
 
-},{}],249:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36547,7 +36450,7 @@ var pickups = {};
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
+var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /**
  * @class
@@ -36627,191 +36530,288 @@ function createSubscribers(incomingAction, store, instance) {
 exports.Pickup = Pickup;
 exports.createSubscribers = createSubscribers;
 
-},{}],250:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.Component = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     CONCEPT:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Describe redux communications across your app all in one place. This will
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     eliminate the need to hunt down dispatches and subscriptions.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     EXAMPLE:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import Home from './home';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { createStore } from 'strux';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     const store = createStore(function reducer() { ... });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .dispatches('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(state => state);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Other
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .picksUp('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .then((appState, other) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         other.setState(appState);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users/:id')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount', state => { return {id: 1} })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .thenDispatches('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(data => data);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
+
+/*
+ * Import the necessary items from React and Redux.
+ */
+
+
+var _redux = require('redux');
+
+Object.defineProperty(exports, 'combineReducers', {
+  enumerable: true,
+  get: function get() {
+    return _redux.combineReducers;
+  }
+});
+Object.defineProperty(exports, 'applyMiddleware', {
+  enumerable: true,
+  get: function get() {
+    return _redux.applyMiddleware;
+  }
+});
+Object.defineProperty(exports, 'bindActionCreators', {
+  enumerable: true,
+  get: function get() {
+    return _redux.bindActionCreators;
+  }
+});
+Object.defineProperty(exports, 'compose', {
+  enumerable: true,
+  get: function get() {
+    return _redux.compose;
+  }
+});
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _navigation = require('./navigation');
+var _dispatch = require('./lib/dispatch');
 
-var _navigation2 = _interopRequireDefault(_navigation);
+var _pickup = require('./lib/pickup');
+
+var _fetch = require('./lib/fetch');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Layout = function (_Component) {
-  _inherits(Layout, _Component);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-  function Layout() {
-    _classCallCheck(this, Layout);
+/*
+ * Track a reference to the store created by the user.
+ */
+var store = null;
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Layout).call(this));
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+
+/*
+ * Every time a dispatch occurs, we'll reset this variable first so that
+ * when subscribers fire, they'll be able to know which action type
+ * triggered the handler.
+ */
+var incomingAction = new (function () {
+  function _class() {
+    _classCallCheck(this, _class);
+
+    this.action = null;
   }
 
-  _createClass(Layout, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'layout' },
-        _react2.default.createElement(_navigation2.default, null),
-        this.props.children
-      );
+  _createClass(_class, [{
+    key: 'get',
+    value: function get() {
+      return this.action;
+    }
+  }, {
+    key: 'set',
+    value: function set(val) {
+      this.action = val;
     }
   }]);
 
-  return Layout;
+  return _class;
+}())();
+
+/*
+ * We'll need to generate methods for each of these lifeCycle method names.
+ */
+var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
+
+/**
+ * @class
+ *
+ * Adds a layer to React's Component class for smoother Redux
+ * work.
+ */
+
+var Component = function (_ReactComponent) {
+  _inherits(Component, _ReactComponent);
+
+  /**
+   * @constructor
+   *
+   * Runs the super constructor, sets up an place for us to
+   * store subscriptions, and makes sure implicit methods exist for this
+   * instance. We have to create those methods in the constructor because
+   * they are not methods on the Component prototype.
+   *
+   * @param  {Arguments} ...args Any arguments passed to the constructor.
+   *
+   * @return {undefined}
+   */
+
+  function Component() {
+    var _Object$getPrototypeO;
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _classCallCheck(this, Component);
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    _this[UNSUBSCRIBE] = null;
+
+    /*
+     * Make sure we have an existing method for each life cycle method name.
+     * We'll begin by getting a reference to the original method if the user
+     * has already attached one.
+     */
+    lifeCycle.forEach(function (methodName) {
+      var orig = _this[methodName];
+
+      /*
+       * For each method we create, we'll grab the result of calling the
+       * original method if there was one.
+       *
+       * If this is componentDidMount, we'll create all implicit redux
+       * subscribers automatically.
+       *
+       * Next we run any dispatches that are supposed to occur when this
+       * method is called.
+       *
+       * If this is componentWillUnmount, we unsubscribe our implicit
+       * subscribers.
+       *
+       * Finally we return the result of the original method.
+       */
+      _this[methodName] = function () {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
+        methodName === 'shouldComponentUpdate' && !out && (out = false);
+        methodName === 'componentDidMount' && (0, _pickup.createSubscribers)(incomingAction, store, _this);
+        (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
+        (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
+        methodName === 'componentWillUnmount' && typeof _this[UNSUBSCRIBE] === 'function' && _this[UNSUBSCRIBE]();
+        return out;
+      };
+    });
+    return _this;
+  }
+
+  /**
+   * A new static method that allows us to begin describing circumstances that
+   * will cause instances of this component to trigger Redux dispatches.
+   *
+   * @param  {String} actionType A redux action type name.
+   *
+   * @return {Dispatch} Contains more methods for completing the description.
+   */
+
+
+  _createClass(Component, null, [{
+    key: 'dispatches',
+    value: function dispatches(actionType) {
+      return new _dispatch.Dispatch(actionType, this.name);
+    }
+
+    /**
+     * A new static method that allows us to begin describing that instances
+     * of this component will subscribe to certain Redux action types.
+     *
+     * @param  {String} actionType A redux action type name.
+     *
+     * @return {Pickup} Contains more methods for completing the description.
+     */
+
+  }, {
+    key: 'picksUp',
+    value: function picksUp(actionType) {
+      return new _pickup.Pickup(actionType, this.name);
+    }
+
+    /**
+     * A new static method that allows us to begin describing circumstances that
+     * will cause a data fetch within the application.
+     *
+     * @param  {String} url    The datapoint.
+     * @param  {Object} config An object modifying the call made _a la_ the fetch api.
+     *
+     * @return {Pickup} Contains more methods for completing the description.
+     */
+
+  }, {
+    key: 'fetches',
+    value: function fetches(url, config) {
+      return new _fetch.Fetch(url, config, this.name);
+    }
+  }]);
+
+  return Component;
 }(_react.Component);
 
-exports.default = Layout;
+/**
+ * Override Redux's createStore with a version that allows us to keep
+ * track of the store the user creates.
+ *
+ * @param  {Arguments} ...args Usually a reducer function.
+ *
+ * @return A Redux store.
+ */
 
-},{"./navigation":251,"react":229}],251:[function(require,module,exports){
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _construx = require('../construx/construx');
-
-var _reactRouter = require('react-router');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Navigation = function (_Component) {
-  _inherits(Navigation, _Component);
-
-  function Navigation() {
-    _classCallCheck(this, Navigation);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Navigation).call(this));
-  }
-
-  _createClass(Navigation, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'navigation' },
-        'Navigation',
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/', activeClassName: 'active' },
-              'Home'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/other', activeClassName: 'active' },
-              'Other'
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Navigation;
-}(_construx.Component);
-
-exports.default = Navigation;
-
-},{"../construx/construx":246,"react":229,"react-router":33}],252:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _construx = require('../construx/construx');
-
-var _home = require('../components/home');
-
-var _home2 = _interopRequireDefault(_home);
-
-var _navigation = require('../layout/navigation');
-
-var _navigation2 = _interopRequireDefault(_navigation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function reducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-
-    case 'ACTION_TYPE_1':
-      console.log('REDUCER ACTION_TYPE_1:', action);
-      return Object.assign({ prop: action.prop });
-
-    case 'ACTION_TYPE_2':
-      console.log('REDUCER, ACTION_TYPE_2:', action);
-      return Object.assign({ data: action.data });
-
-    default:
-      return Object.assign({}, state, {});
-  }
+function createStore() {
+  store = _redux.createStore.apply(undefined, arguments);
+  return store;
 }
 
-var store = (0, _construx.createStore)(reducer);
+/*
+ * Users will be able to use this module INSTEAD of Redux as it passes
+ * through all the necessary top level pieces as well as our new component type.
+ */
+exports.createStore = createStore;
+exports.Component = Component;
 
-_home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').as(function (state) {
-  console.log('HIT USING:', state);
-  return { prop: 'val' };
-});
-
-_home2.default.fetches('./:file').when('componentDidMount', function (state) {
-  return { file: 'package' };
-}).thenDispatches('ACTION_TYPE_2').as(function (data) {
-  console.log('describer got', data);
-  return { data: data };
-});
-
-// dispatchFrom(Home)
-//   .type('ACTION_TYPE_1')
-//   .when('compnentDidMount')
-//   .using(() => { prop: val })
-
-_navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, nav) {
-  console.log('HIT THEN:', appState, nav);
-  nav.setState(appState);
-});
-
-exports.default = store;
-
-},{"../components/home":244,"../construx/construx":246,"../layout/navigation":251}]},{},[243]);
+},{"./lib/dispatch":249,"./lib/fetch":250,"./lib/pickup":251,"react":229,"redux":235}]},{},[243]);

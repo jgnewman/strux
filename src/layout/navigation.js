@@ -1,5 +1,5 @@
 import React from 'react';
-import { Component } from '../construx/construx';
+import { Component } from '../strux/strux';
 import { Link } from 'react-router';
 
 class Navigation extends Component {

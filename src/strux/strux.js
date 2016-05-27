@@ -8,7 +8,7 @@ EXAMPLE:
 
 ```
 import Home from './home';
-import { createStore } from 'construx';
+import { createStore } from 'strux';
 
 const store = createStore(function reducer() { ... });
 
@@ -50,7 +50,7 @@ let store = null;
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-const UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
+const UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that

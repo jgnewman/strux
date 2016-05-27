@@ -27,7 +27,7 @@ const pickups = {};
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-const UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
+const UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /**
  * @class
