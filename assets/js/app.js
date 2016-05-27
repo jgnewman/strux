@@ -35626,7 +35626,7 @@ _reactDom2.default.render(_react2.default.createElement(
   )
 ), (0, _jquery2.default)('#app')[0]);
 
-},{"./components/home":244,"./components/other":245,"./layout/layout":247,"./state/construx-state":249,"jquery":2,"react":229,"react-dom":3,"react-router":33}],244:[function(require,module,exports){
+},{"./components/home":244,"./components/other":245,"./layout/layout":250,"./state/construx-state":252,"jquery":2,"react":229,"react-dom":3,"react-router":33}],244:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35655,7 +35655,10 @@ var Home = function (_Component) {
   function Home() {
     _classCallCheck(this, Home);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
+
+    _this.state = { sup: 'hi' };
+    return _this;
   }
 
   _createClass(Home, [{
@@ -35730,8 +35733,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Component = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      CONCEPT:
@@ -35749,9 +35750,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Home
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .dispatches('MY_ACTION')
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .when('componentDidMount')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .using((result, home) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         return home.state;
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(state => state);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Other
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .picksUp('MY_ACTION')
@@ -35760,17 +35759,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        });
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Home
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users/:id')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount', state => { return {id: 1} })
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .thenDispatches('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .using(data => data);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(data => data);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     TODO: Why can't babel find my super methods?
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Only possible explanation: These aren't prototypal methods. React is just saying,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     hey, if you happen to have put this function in your own prototype, call it on
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     these certain events.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
@@ -35810,6 +35804,12 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _dispatch = require('./lib/dispatch');
+
+var _pickup = require('./lib/pickup');
+
+var _fetch = require('./lib/fetch');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -35824,38 +35824,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var store = null;
 
 /*
- * Holds descriptions for all dispatch actions throughout the application.
- * The tree takes the following form:
- *   dispatches = {
- *     componentDidMount: {
- *       ComponentClassName: [ { type: 'MY_ACTION', transformer: FUNCTION } ]
- *     }
- *   }
- */
-var dispatches = {};
-
-/*
- * Holds descriptions for all pickup actions throughout the application.
- * The tree takes the following form:
- *   pickups = {
- *     componentClassName: {
- *       'MY_ACTION': [FUNCTION, FUNCTION, FUNCTION]
- *     }
- *   }
- */
-var pickups = {};
-
-/*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol();
+var UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that
  * when subscribers fire, they'll be able to know which action type
  * triggered the handler.
  */
-var incomingAction = null;
+var incomingAction = new (function () {
+  function _class() {
+    _classCallCheck(this, _class);
+
+    this.action = null;
+  }
+
+  _createClass(_class, [{
+    key: 'get',
+    value: function get() {
+      return this.action;
+    }
+  }, {
+    key: 'set',
+    value: function set(val) {
+      this.action = val;
+    }
+  }]);
+
+  return _class;
+}())();
 
 /*
  * We'll need to generate methods for each of these lifeCycle method names.
@@ -35865,157 +35863,9 @@ var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMoun
 /**
  * @class
  *
- * Builds a level of the pickups tree.
- */
-
-var Pickup = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function Pickup(actionType, className) {
-    _classCallCheck(this, Pickup);
-
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Associates a handler with an action type in context of a Redux subscription.
-   *
-   * @param  {Function} handler Called with the new state and a component instance.
-   *
-   * @return {undefined}
-   */
-
-
-  _createClass(Pickup, [{
-    key: 'then',
-    value: function then(handler) {
-      pickups[this.className] = pickups[this.className] || {};
-      pickups[this.className][this.actionType] = pickups[this.className][this.actionType] || [];
-      pickups[this.className][this.actionType].push(handler);
-    }
-  }]);
-
-  return Pickup;
-}();
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-
-var ActionBuilder = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} triggerMethod The name of the method triggering a dispatch.
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function ActionBuilder(triggerMethod, actionType, className) {
-    _classCallCheck(this, ActionBuilder);
-
-    this.triggerMethod = triggerMethod;
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Completes the last level of the dispatches tree so that we will have
-   * the necessary data to actually fire a Redux dispatch.
-   *
-   * @param  {Function} transformer Should return an object that will constitute an action.
-   *
-   * @return {undefined}
-   */
-
-
-  _createClass(ActionBuilder, [{
-    key: 'using',
-    value: function using(transformer) {
-      dispatches[this.triggerMethod][this.className].push({
-        type: this.actionType,
-        transformer: transformer
-      });
-    }
-  }]);
-
-  return ActionBuilder;
-}();
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-
-var Dispatch = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType A Redux action type.
-   * @param  {String} className  The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function Dispatch(actionType, className) {
-    _classCallCheck(this, Dispatch);
-
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Allows the user to specify a component method that will trigger the dispatch.
-   *
-   * @param  {String} triggerMethod The method name.
-   *
-   * @return {ActionBuilder} Contains more functionality for completing the description.
-   */
-
-
-  _createClass(Dispatch, [{
-    key: 'when',
-    value: function when(triggerMethod) {
-      dispatches[triggerMethod] = dispatches[triggerMethod] || {};
-      dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
-      return new ActionBuilder(triggerMethod, this.actionType, this.className);
-    }
-  }]);
-
-  return Dispatch;
-}();
-
-/**
- * @class
- *
  * Adds a layer to React's Component class for smoother Redux
  * work.
  */
-
 
 var Component = function (_ReactComponent) {
   _inherits(Component, _ReactComponent);
@@ -36076,8 +35926,9 @@ var Component = function (_ReactComponent) {
 
         var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
         methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && createSubscribers(_this);
-        runDispatches(methodName, out, _this);
+        methodName === 'componentDidMount' && (0, _pickup.createSubscribers)(incomingAction, store, _this);
+        (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
+        (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
         methodName === 'componentWillUnmount' && typeof _this[UNSUBSCRIBE] === 'function' && _this[UNSUBSCRIBE]();
         return out;
       };
@@ -36091,14 +35942,14 @@ var Component = function (_ReactComponent) {
    *
    * @param  {String} actionType A redux action type name.
    *
-   * @return {Pickup} Contains more methods for completing the description.
+   * @return {Dispatch} Contains more methods for completing the description.
    */
 
 
   _createClass(Component, null, [{
     key: 'dispatches',
     value: function dispatches(actionType) {
-      return new Dispatch(actionType, this.name);
+      return new _dispatch.Dispatch(actionType, this.name);
     }
 
     /**
@@ -36113,79 +35964,28 @@ var Component = function (_ReactComponent) {
   }, {
     key: 'picksUp',
     value: function picksUp(actionType) {
-      return new Pickup(actionType, this.name);
+      return new _pickup.Pickup(actionType, this.name);
     }
+
+    /**
+     * A new static method that allows us to begin describing circumstances that
+     * will cause a data fetch within the application.
+     *
+     * @param  {String} url    The datapoint.
+     * @param  {Object} config An object modifying the call made _a la_ the fetch api.
+     *
+     * @return {Pickup} Contains more methods for completing the description.
+     */
+
   }, {
     key: 'fetches',
-    value: function fetches(url) {}
+    value: function fetches(url, config) {
+      return new _fetch.Fetch(url, config, this.name);
+    }
   }]);
 
   return Component;
 }(_react.Component);
-
-/**
- * Locates the proper dispatch functions to fire for a given
- * class and method name, and fires them.
- *
- * @param  {String} event       Such as 'componentDidMount'.
- * @param  {Any}    superResult The result of calling the event's super method.
- * @param  {Object} instance    An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-
-
-function runDispatches(event, superResult, instance) {
-
-  /*
-   * Make sure we have an array of actions to loop over.
-   */
-  var actions = dispatches[event];
-  if (actions) {
-    actions = actions[instance.constructor.name];
-  }
-
-  /*
-   * Each object in the array will take the form {type: type, transformer: Fn}.
-   * We'll call the function with the result of the event method as well as
-   * with the class instance itself.
-   *
-   * Next we reset the incoming action so subscribers will know what triggered
-   * them within redux.
-   *
-   * Lastly, we fire a true redux dispatch. NOTE: this assumes the transformer
-   * will return a plain object.
-   */
-  actions && actions.forEach(function (item) {
-    var action = item.transformer(superResult, instance);
-    incomingAction = item.type;
-    store.dispatch(Object.assign(_extends({}, action, { type: item.type })));
-  });
-}
-
-/**
- * Creates implicit subscriptions to Redux actions for a rendered component.
- *
- * @param  {Object} instance An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-function createSubscribers(instance) {
-  instance[UNSUBSCRIBE] = store.subscribe(function () {
-    var relevantPickups = pickups[instance.constructor.name];
-    if (relevantPickups) {
-      relevantPickups = relevantPickups[incomingAction];
-    }
-    if (relevantPickups) {
-      (function () {
-        var state = store.getState();
-        relevantPickups.forEach(function (handler) {
-          return handler(state, instance);
-        });
-      })();
-    }
-  });
-}
 
 /**
  * Override Redux's createStore with a version that allows us to keep
@@ -36195,6 +35995,8 @@ function createSubscribers(instance) {
  *
  * @return A Redux store.
  */
+
+
 function createStore() {
   store = _redux.createStore.apply(undefined, arguments);
   return store;
@@ -36207,7 +36009,625 @@ function createStore() {
 exports.createStore = createStore;
 exports.Component = Component;
 
-},{"react":229,"redux":235}],247:[function(require,module,exports){
+},{"./lib/dispatch":247,"./lib/fetch":248,"./lib/pickup":249,"react":229,"redux":235}],247:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+Home
+  .dispatches('MY_ACTION')
+  .when('componentDidMount')
+  .as(state => state);
+```
+
+*/
+
+/*
+ * Holds descriptions for all dispatch actions throughout the application.
+ * The tree takes the following form:
+ *   dispatches = {
+ *     componentDidMount: {
+ *       ComponentClassName: [ { type: 'MY_ACTION', transformer: FUNCTION } ]
+ *     }
+ *   }
+ */
+var dispatches = {};
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+var ActionBuilder = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} triggerMethod The name of the method triggering a dispatch.
+   * @param  {String} actionType    A Redux action type.
+   * @param  {String} className    The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function ActionBuilder(triggerMethod, actionType, className) {
+    _classCallCheck(this, ActionBuilder);
+
+    this.triggerMethod = triggerMethod;
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Completes the last level of the dispatches tree so that we will have
+   * the necessary data to actually fire a Redux dispatch.
+   *
+   * @param  {Function} transformer Should return an object that will constitute an action.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(ActionBuilder, [{
+    key: "as",
+    value: function as(transformer) {
+      dispatches[this.triggerMethod][this.className].push({
+        type: this.actionType,
+        transformer: transformer
+      });
+    }
+  }]);
+
+  return ActionBuilder;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+
+var Dispatch = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType A Redux action type.
+   * @param  {String} className  The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Dispatch(actionType, className) {
+    _classCallCheck(this, Dispatch);
+
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Allows the user to specify a component method that will trigger the dispatch.
+   *
+   * @param  {String} triggerMethod The method name.
+   *
+   * @return {ActionBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(Dispatch, [{
+    key: "when",
+    value: function when(triggerMethod) {
+      dispatches[triggerMethod] = dispatches[triggerMethod] || {};
+      dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
+      return new ActionBuilder(triggerMethod, this.actionType, this.className);
+    }
+  }]);
+
+  return Dispatch;
+}();
+
+/**
+ * Locates the proper dispatch functions to fire for a given
+ * class and method name, and fires them.
+ *
+ * @param  {String} event          Such as 'componentDidMount'.
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance       An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function runDispatches(event, incomingAction, store, instance) {
+
+  /*
+   * Make sure we have an array of actions to loop over.
+   */
+  var actions = dispatches[event];
+  if (actions) {
+    actions = actions[instance.constructor.name];
+  }
+
+  /*
+   * Each object in the array will take the form {type: type, transformer: Fn}.
+   * We'll call the function with the state of the class instance.
+   *
+   * Next we reset the incoming action so subscribers will know what triggered
+   * them within redux.
+   *
+   * Lastly, we fire a true redux dispatch. NOTE: this assumes the transformer
+   * will return a plain object.
+   */
+  actions && actions.forEach(function (item) {
+    var action = item.transformer(instance.state);
+    incomingAction.set(item.type);
+    store.dispatch(Object.assign(_extends({}, action, { type: item.type })));
+  });
+}
+
+exports.Dispatch = Dispatch;
+exports.runDispatches = runDispatches;
+
+},{}],248:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+Home
+  .fetches('/api/v2/users/:id')
+  .when('componentDidMount', state => { return {id: 1} })
+  .thenDispatches('MY_ACTION')
+  .as(data => data);
+```
+
+*/
+
+/*
+ * Holds descriptions for all data fetching throughout the application.
+ * The tree takes the following form:
+ *   fetches = {
+ *     componentDidMount: {
+ *       ComponentClassName: [ { url: '/example', config: {...} } ]
+ *     }
+ *   }
+ */
+var fetches = {};
+
+/**
+ * An empty function we can reuse.
+ *
+ * @return {undefined}
+ */
+function emptyFn() {
+  return {};
+}
+
+/**
+ * Recursively replaces all instances of a single placeholder value in a URL
+ * with its actual value.
+ *
+ * @param  {String} url   A string such as '/api/v1/users/:id'.
+ * @param  {String} key   The placeholder value to look for such as 'id'.
+ * @param  {Any}    value A serializable value to swap in for the placheholder.
+ *
+ * @return {String}       The translated string such as '/api/v1/users/1'.
+ */
+function replaceValue(url, key, value) {
+  var colonKey = ':' + key;
+  var val = typeof value === 'string' ? value : JSON.stringify(value);
+  if (url.indexOf(colonKey) > -1) {
+    url = url.replace(colonKey, val);
+    return replaceValue(url, key, val);
+  } else {
+    return url;
+  }
+}
+
+/**
+ * Replaces placeholder URL values with their actual equivalents.
+ *
+ * @param  {String} url     A string such as '/api/v1/users/:id'.
+ * @param  {Object} valsObj Contains values such as {id: 1}.
+ *
+ * @return {String}         The translated string such as '/api/v1/users/1'.
+ */
+function replaceURLVars(url, valsObj) {
+  var newURL = url;
+  Object.keys(valsObj).forEach(function (key) {
+    var val = valsObj[key];
+    newURL = replaceValue(newURL, key, val);
+  });
+  return newURL;
+}
+
+/**
+ * Attempts to parse an item into JSON. If it doesn't work,
+ * returns the item unmodified.
+ *
+ * @param  {Any} data The data to parse.
+ *
+ * @return {Any}      Either the parsed data or the unmodified data.
+ */
+function tryToParse(data) {
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    return data;
+  }
+}
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+var FetchDescription = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType  A redux action name.
+   * @param  {Object} config      Stores all the properties we'll need as we build a fetch.
+   *
+   * @return {undefined}
+   */
+
+  function FetchDescription(actionType, config) {
+    _classCallCheck(this, FetchDescription);
+
+    this.config = Object.assign({}, config, {
+      actionType: actionType
+    });
+  }
+
+  /**
+   * Allows the user to specify what to do with the result of the action.
+   *
+   * @param  {Function} transformer Should return an object that will constitute an action.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(FetchDescription, [{
+    key: 'as',
+    value: function as(transformer) {
+      var config = this.config;
+      fetches[config.triggerMethod][config.className].push(Object.assign({}, config, {
+        dataTransformer: transformer
+      }));
+    }
+  }]);
+
+  return FetchDescription;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+
+var DispatchBuilder = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String}   triggerMethod The name of the component method triggering a fetch.
+   * @param  {Function} translator    How to switch out url vars.
+   * @param  {Object}   config        Stores all the properties we'll need as we build a fetch.
+   *
+   * @return {undefined}
+   */
+
+  function DispatchBuilder(triggerMethod, translator, config) {
+    _classCallCheck(this, DispatchBuilder);
+
+    this.config = Object.assign({}, config, {
+      triggerMethod: triggerMethod,
+      translator: translator
+    });
+  }
+
+  /**
+   * Allows the user to specify a redux action associated with the data return.
+   *
+   * @param  {String} actionType A redux action type name.
+   *
+   * @return {ActionBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(DispatchBuilder, [{
+    key: 'thenDispatches',
+    value: function thenDispatches(actionType) {
+      return new FetchDescription(actionType, this.config);
+    }
+  }]);
+
+  return DispatchBuilder;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the fetches tree.
+ */
+
+
+var Fetch = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} url        The URL to fetch.
+   * @param  {Object} config     Ajax configuration object for `fetch`.
+   * @param  {String} className  The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Fetch(url, config, className) {
+    _classCallCheck(this, Fetch);
+
+    this.url = url;
+    this.config = config || {};
+    this.className = className;
+  }
+
+  /**
+   * Allows the user to specify a component method that will trigger the fetch.
+   *
+   * @param  {String}   triggerMethod The method name.
+   * @param  {Function} translator    How to modify URL vars.
+   *
+   * @return {DispatchBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(Fetch, [{
+    key: 'when',
+    value: function when(triggerMethod, translator) {
+      translator = translator || emptyFn;
+      fetches[triggerMethod] = fetches[triggerMethod] || {};
+      fetches[triggerMethod][this.className] = fetches[triggerMethod][this.className] || [];
+      return new DispatchBuilder(triggerMethod, translator, this);
+    }
+  }]);
+
+  return Fetch;
+}();
+
+/**
+ * Locates the proper fetch functions to fire for a given
+ * class and method name, and fires them.
+ *
+ * @param  {String} event          Such as 'componentDidMount'.
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance       An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function runFetches(event, incomingAction, store, instance) {
+
+  /*
+   * Make sure we have an array of actions to loop over.
+   */
+  var actions = fetches[event];
+  if (actions) {
+    actions = actions[instance.constructor.name];
+  }
+
+  /*
+   * Each object in the array will take the form {
+   *   url: '/api/v2/users/:id',
+   *   config: { ... },
+   *   className: 'Foo',
+   *   triggerMethod: 'componentDidMount',
+   *   translator: FUNCTION,
+   *   actionType: 'MY_ACTION',
+   *   dataTransformer: FUNCTION
+   * }.
+   *
+   * For each object, we'll build a clean URL by replacing any url vars
+   * that may exist within the provided url.
+   *
+   * We'll perform a fetch on the clean URL using the user's provided
+   * config data. When the data comes back, we'll run the provided
+   * data transformer on it and dispatch a redux action.
+   */
+  actions && actions.forEach(function (item) {
+    var cleanURL = replaceURLVars(item.url, item.translator(instance.state || {}));
+
+    /*
+     * Perform a fetch. If it's ok resolve it. If not, reject it.
+     */
+    var fetched = fetch(cleanURL, item.config).then(function (response) {
+      return response.ok ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
+    });
+
+    /*
+     * When the fetch resolves, read it to text then pass it
+     * through the user-prived transformer, set the incoing action,
+     * and dispatch an action.
+     */
+    fetched.then(function (data) {
+      return data.text();
+    }).then(function (data) {
+      var action = item.dataTransformer(tryToParse(data), instance.state || {});
+      incomingAction.set(item.actionType);
+      store.dispatch(Object.assign(_extends({}, action, { type: item.actionType })));
+    });
+  });
+}
+
+exports.Fetch = Fetch;
+exports.runFetches = runFetches;
+
+},{}],249:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+MyComponent
+  .picksUp('MY_ACTION')
+  .then((appState, other) => {
+    other.setState(appState);
+  });
+```
+
+*/
+
+/*
+ * Holds descriptions for all pickup actions throughout the application.
+ * The tree takes the following form:
+ *   pickups = {
+ *     componentClassName: {
+ *       'MY_ACTION': [FUNCTION, FUNCTION, FUNCTION]
+ *     }
+ *   }
+ */
+var pickups = {};
+
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
+
+/**
+ * @class
+ *
+ * Builds a level of the pickups tree.
+ */
+
+var Pickup = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType    A Redux action type.
+   * @param  {String} className    The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Pickup(actionType, className) {
+    _classCallCheck(this, Pickup);
+
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Associates a handler with an action type in context of a Redux subscription.
+   *
+   * @param  {Function} handler Called with the new state and a component instance.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(Pickup, [{
+    key: 'then',
+    value: function then(handler) {
+      pickups[this.className] = pickups[this.className] || {};
+      pickups[this.className][this.actionType] = pickups[this.className][this.actionType] || [];
+      pickups[this.className][this.actionType].push(handler);
+    }
+  }]);
+
+  return Pickup;
+}();
+
+/**
+ * Creates implicit subscriptions to Redux actions for a rendered component.
+ *
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function createSubscribers(incomingAction, store, instance) {
+  instance[UNSUBSCRIBE] = store.subscribe(function () {
+    var relevantPickups = pickups[instance.constructor.name];
+    if (relevantPickups) {
+      relevantPickups = relevantPickups[incomingAction.get()];
+    }
+    if (relevantPickups) {
+      (function () {
+        var state = store.getState();
+        relevantPickups.forEach(function (handler) {
+          return handler(state, instance);
+        });
+      })();
+    }
+  });
+}
+
+exports.Pickup = Pickup;
+exports.createSubscribers = createSubscribers;
+
+},{}],250:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36258,7 +36678,7 @@ var Layout = function (_Component) {
 
 exports.default = Layout;
 
-},{"./navigation":248,"react":229}],248:[function(require,module,exports){
+},{"./navigation":251,"react":229}],251:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36330,7 +36750,7 @@ var Navigation = function (_Component) {
 
 exports.default = Navigation;
 
-},{"../construx/construx":246,"react":229,"react-router":33}],249:[function(require,module,exports){
+},{"../construx/construx":246,"react":229,"react-router":33}],252:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36356,8 +36776,12 @@ function reducer() {
   switch (action.type) {
 
     case 'ACTION_TYPE_1':
-      console.log('REDUCER:', action);
+      console.log('REDUCER ACTION_TYPE_1:', action);
       return Object.assign({ prop: action.prop });
+
+    case 'ACTION_TYPE_2':
+      console.log('REDUCER, ACTION_TYPE_2:', action);
+      return Object.assign({ data: action.data });
 
     default:
       return Object.assign({}, state, {});
@@ -36366,9 +36790,16 @@ function reducer() {
 
 var store = (0, _construx.createStore)(reducer);
 
-_home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').using(function (result, home) {
-  console.log('HIT USING:', result, home);
+_home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').as(function (state) {
+  console.log('HIT USING:', state);
   return { prop: 'val' };
+});
+
+_home2.default.fetches('./:file').when('componentDidMount', function (state) {
+  return { file: 'package' };
+}).thenDispatches('ACTION_TYPE_2').as(function (data) {
+  console.log('describer got', data);
+  return { data: data };
 });
 
 // dispatchFrom(Home)
@@ -36383,4 +36814,4 @@ _navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, nav) {
 
 exports.default = store;
 
-},{"../components/home":244,"../construx/construx":246,"../layout/navigation":248}]},{},[243]);
+},{"../components/home":244,"../construx/construx":246,"../layout/navigation":251}]},{},[243]);

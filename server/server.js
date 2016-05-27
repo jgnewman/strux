@@ -20,6 +20,10 @@ app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../', config.index));
 });
 
+app.get('/package', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../', 'package.json'));
+});
+
 /*
  * Catch all other routes and redirect to the index file
  * if the user wants to use browserHistory with React.

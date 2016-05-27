@@ -15,9 +15,7 @@ const store = createStore(function reducer() { ... });
 Home
   .dispatches('MY_ACTION')
   .when('componentDidMount')
-  .using((result, home) => {
-    return home.state;
-  });
+  .as(state => state);
 
 Other
   .picksUp('MY_ACTION')
@@ -26,17 +24,12 @@ Other
   });
 
 Home
-  .fetches('/api/v2/users')
-  .when('componentDidMount')
+  .fetches('/api/v2/users/:id')
+  .when('componentDidMount', state => { return {id: 1} })
   .thenDispatches('MY_ACTION')
-  .using(data => data);
+  .as(data => data);
 
 ```
-
-TODO: Why can't babel find my super methods?
-Only possible explanation: These aren't prototypal methods. React is just saying,
-hey, if you happen to have put this function in your own prototype, call it on
-these certain events.
 
 */
 
@@ -45,6 +38,9 @@ these certain events.
  */
 import React, { Component as ReactComponent } from 'react';
 import { createStore as storeCreator } from 'redux';
+import { Dispatch, runDispatches } from './lib/dispatch';
+import { Pickup, createSubscribers } from './lib/pickup';
+import { Fetch, runFetches } from './lib/fetch';
 
 /*
  * Track a reference to the store created by the user.
@@ -52,38 +48,26 @@ import { createStore as storeCreator } from 'redux';
 let store = null;
 
 /*
- * Holds descriptions for all dispatch actions throughout the application.
- * The tree takes the following form:
- *   dispatches = {
- *     componentDidMount: {
- *       ComponentClassName: [ { type: 'MY_ACTION', transformer: FUNCTION } ]
- *     }
- *   }
- */
-const dispatches = {};
-
-/*
- * Holds descriptions for all pickup actions throughout the application.
- * The tree takes the following form:
- *   pickups = {
- *     componentClassName: {
- *       'MY_ACTION': [FUNCTION, FUNCTION, FUNCTION]
- *     }
- *   }
- */
-const pickups = {};
-
-/*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-const UNSUBSCRIBE = Symbol();
+const UNSUBSCRIBE = Symbol.for('CONSTRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that
  * when subscribers fire, they'll be able to know which action type
  * triggered the handler.
  */
-let incomingAction = null;
+const incomingAction = new class {
+  constructor() {
+    this.action = null;
+  }
+  get() {
+    return this.action;
+  }
+  set(val) {
+    this.action = val;
+  }
+};
 
 /*
  * We'll need to generate methods for each of these lifeCycle method names.
@@ -97,118 +81,6 @@ const lifeCycle = [
   'componentWillUpdate',
   'componentDidUpdate'
 ];
-
-/**
- * @class
- *
- * Builds a level of the pickups tree.
- */
-class Pickup {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-  constructor(actionType, className) {
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Associates a handler with an action type in context of a Redux subscription.
-   *
-   * @param  {Function} handler Called with the new state and a component instance.
-   *
-   * @return {undefined}
-   */
-  then(handler) {
-    pickups[this.className] = pickups[this.className] || {};
-    pickups[this.className][this.actionType] = pickups[this.className][this.actionType] || [];
-    pickups[this.className][this.actionType].push(handler);
-  }
-}
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-class ActionBuilder {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} triggerMethod The name of the method triggering a dispatch.
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-  constructor(triggerMethod, actionType, className) {
-    this.triggerMethod = triggerMethod;
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Completes the last level of the dispatches tree so that we will have
-   * the necessary data to actually fire a Redux dispatch.
-   *
-   * @param  {Function} transformer Should return an object that will constitute an action.
-   *
-   * @return {undefined}
-   */
-  using(transformer) {
-    dispatches[this.triggerMethod][this.className].push({
-      type: this.actionType,
-      transformer: transformer
-    });
-  }
-}
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-class Dispatch {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType A Redux action type.
-   * @param  {String} className  The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-  constructor(actionType, className) {
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Allows the user to specify a component method that will trigger the dispatch.
-   *
-   * @param  {String} triggerMethod The method name.
-   *
-   * @return {ActionBuilder} Contains more functionality for completing the description.
-   */
-  when(triggerMethod) {
-    dispatches[triggerMethod] = dispatches[triggerMethod] || {};
-    dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
-    return new ActionBuilder(triggerMethod, this.actionType, this.className);
-  }
-}
 
 /**
  * @class
@@ -260,8 +132,9 @@ class Component extends ReactComponent {
       this[methodName] = (...args) => {
         let out = orig ? orig.call(this, ...args) : undefined;
         methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && createSubscribers(this);
-        runDispatches(methodName, out, this);
+        methodName === 'componentDidMount' && createSubscribers(incomingAction, store, this);
+        runDispatches(methodName, incomingAction, store, this);
+        runFetches(methodName, incomingAction, store, this);
         methodName === 'componentWillUnmount'
           && typeof this[UNSUBSCRIBE] === 'function'
           && this[UNSUBSCRIBE]();
@@ -276,7 +149,7 @@ class Component extends ReactComponent {
    *
    * @param  {String} actionType A redux action type name.
    *
-   * @return {Pickup} Contains more methods for completing the description.
+   * @return {Dispatch} Contains more methods for completing the description.
    */
   static dispatches(actionType) {
     return new Dispatch(actionType, this.name);
@@ -294,67 +167,21 @@ class Component extends ReactComponent {
     return new Pickup(actionType, this.name);
   }
 
-  static fetches(url) {}
-
-}
-
-/**
- * Locates the proper dispatch functions to fire for a given
- * class and method name, and fires them.
- *
- * @param  {String} event       Such as 'componentDidMount'.
- * @param  {Any}    superResult The result of calling the event's super method.
- * @param  {Object} instance    An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-function runDispatches(event, superResult, instance) {
-
-  /*
-   * Make sure we have an array of actions to loop over.
+  /**
+   * A new static method that allows us to begin describing circumstances that
+   * will cause a data fetch within the application.
+   *
+   * @param  {String} url    The datapoint.
+   * @param  {Object} config An object modifying the call made _a la_ the fetch api.
+   *
+   * @return {Pickup} Contains more methods for completing the description.
    */
-  let actions = dispatches[event];
-  if (actions) {
-    actions = actions[instance.constructor.name];
+  static fetches(url, config) {
+    return new Fetch(url, config, this.name);
   }
 
-  /*
-   * Each object in the array will take the form {type: type, transformer: Fn}.
-   * We'll call the function with the result of the event method as well as
-   * with the class instance itself.
-   *
-   * Next we reset the incoming action so subscribers will know what triggered
-   * them within redux.
-   *
-   * Lastly, we fire a true redux dispatch. NOTE: this assumes the transformer
-   * will return a plain object.
-   */
-  actions && actions.forEach(item => {
-    const action = item.transformer(superResult, instance);
-    incomingAction = item.type;
-    store.dispatch(Object.assign({...action, type: item.type}));
-  });
 }
 
-/**
- * Creates implicit subscriptions to Redux actions for a rendered component.
- *
- * @param  {Object} instance An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-function createSubscribers(instance) {
-  instance[UNSUBSCRIBE] = store.subscribe(() => {
-    let relevantPickups = pickups[instance.constructor.name];
-    if (relevantPickups) {
-      relevantPickups = relevantPickups[incomingAction];
-    }
-    if (relevantPickups) {
-      const state = store.getState();
-      relevantPickups.forEach(handler => handler(state, instance));
-    }
-  });
-}
 
 /**
  * Override Redux's createStore with a version that allows us to keep
