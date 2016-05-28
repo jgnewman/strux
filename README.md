@@ -223,6 +223,13 @@ Redux API on to you. You can use it to call `createStore`, `combineReducers`,
 and all other Redux functions. Aside from this, Strux gives you a new version
 of React's `Component` and that's it.
 
+Within Strux's version of `Component`, you can call 3 new static methods, all
+of which have been described here. They are:
+
+- `Component.dispatches`
+- `Component.fetches`
+- `Component.picksUp`
+
 ## What are the bigger implications?
 
 Using Strux completely removes the need for writing React applications using
@@ -235,9 +242,3 @@ parent to child.
 We'll also never need to awkwardly spread ajax calls all over the application either.
 Because Strux wants you to tie Redux actions to all ajax calls, it simply
 becomes another source of cross-component communication.
-
-## Temporary Usage Guide
-
-1. Download this repo.
-2. Run `npm install`.
-3. Run `npm start` to start up a server.
