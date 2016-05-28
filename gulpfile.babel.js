@@ -11,6 +11,8 @@ import source from 'vinyl-source-stream';
 import buffer from 'vinyl-buffer';
 import server from './server/server';
 import locations from './gulpconfig.json';
+import copy from 'gulp-copy';
+import babel from 'gulp-babel';
 
 /*
  * Runs through the sequence of transpiling and bundling
@@ -23,6 +25,12 @@ gulp.task('build:js', () => {
     .pipe(source(locations.appOutput.fileName))
     .pipe(buffer())
     .pipe(gulp.dest(locations.appOutput.dest));
+});
+
+gulp.task('dist', () => {
+  return gulp.src(locations.libSrc)
+    .pipe(babel())
+    .pipe(gulp.dest(locations.distOutput));
 });
 
 /*

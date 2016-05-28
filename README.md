@@ -215,6 +215,14 @@ Let's walk through the semantics of this function chain.
 3. When the data comes back, the Redux action `MY_ACTION` is triggered.
 4. We'll create the body of the action using the parsed data that was returned as well as the component's state.
 
+## What is the full Strux API?
+
+Strux is simply a layer sitting on top of Redux. As such, you can import Strux
+_instead of_ Redux and Strux will import Redux as a dependency, passing the full
+Redux API on to you. You can use it to call `createStore`, `combineReducers`,
+and all other Redux functions. Aside from this, Strux gives you a new version
+of React's `Component` and that's it.
+
 ## What are the bigger implications?
 
 Using Strux completely removes the need for writing React applications using

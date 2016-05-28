@@ -36,7 +36,7 @@ Home
 /*
  * Import the necessary items from React and Redux.
  */
-import React, { Component as ReactComponent } from 'react';
+import { Component as ReactComponent } from 'react';
 import { createStore as storeCreator } from 'redux';
 import { Dispatch, runDispatches } from './lib/dispatch';
 import { Pickup, createSubscribers } from './lib/pickup';
