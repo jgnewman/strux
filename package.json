@@ -1,13 +1,13 @@
 {
   "name": "strux",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Cross-component communication finally made simple.",
   "author": "John Newman",
   "license": "MIT",
   "homepage": "https://github.com/jgnewman/strux#readme",
   "bugs": "https://github.com/jgnewman/strux/issues",
   "main": "bin/strux.js",
-  "dependencies" : {},
+  "dependencies": {},
   "peerDependencies": {
     "react": "^15.1.0",
     "redux": "^3.5.2"
