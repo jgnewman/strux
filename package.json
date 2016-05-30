@@ -1,6 +1,6 @@
 {
   "name": "strux",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Cross-component communication finally made simple.",
   "author": "John Newman",
   "license": "MIT",
