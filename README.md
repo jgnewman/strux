@@ -23,7 +23,7 @@ are picking those up.
 
 ## How does it work?
 
-With Strux, you'll need to create a store and write a reducer, just as you
+With Strux, you can create a store and write a reducer, just as you
 would with Redux. However, you won't need to pass that store around to any
 components, you won't need to write any manual `dispatch` calls, and you won't
 need to write any manual `subscribe` calls.
@@ -172,6 +172,12 @@ a reference to your Redux store. Strux's version of `createStore` doesn't
 do anything special except pass your reducer straight into Redux's `createStore`
 and then capture a reference to that store to use for itself.
 
+On that note, you actually don't have to use `createStore` if you don't want to.
+We're only talking about `createStore` because it's a familiar flow for most
+redux users. Strux does provide another way.
+
+But first, let's get to the other part of the question:
+
 In order for Strux to implicitly create subscriptions and trigger dispatches
 within component lifecycle functions, it needs access to the component's
 `constructor` function in order to set those things up. Strux's version of
@@ -179,7 +185,34 @@ within component lifecycle functions, it needs access to the component's
 set up a few handlers for lifecycle functions when the component gets
 instantiated.
 
-## What are my options for events I can pass to `.when`?
+## How would I use Strux without calling `createStore`?
+
+The `createStore` function is provided as a pass-through to Redux for users
+who want to maintain a somewhat familiar flow. However, Strux also provides
+an "implicit store" that exists without you having to create it and
+allows you to break out your reducer procedures into independent, mini reducers.
+
+Here's how you'd make use of Strux's implicit store:
+
+```javascript
+import { implicitStore as store } from 'strux';
+
+store.reduce('MY_ACTION', (state, action) => something)
+     .reduce('ANOTHER_ACTION', (state, action) => something_else)
+     .reduce((state, action) => state);
+```
+
+Notice that you can chain `reduce` calls if you want to. Each function passed to
+`reduce` takes a copy of the current state and the dispatched action. Whatever
+it returns becomes the new Redux state.
+
+In most cases you'll associate one of these mini reducers with an action name.
+Doing this will indicate that your mini reducer should only be called when the
+named action is dispatched. If you don't provide that first argument, your
+mini reducer will be called whenever a dispatched action doesn't match any
+of the actions you've provided a reducer for.
+
+## Getting back to "structs", what are my options for events I can pass to `.when`?
 
 The `.when` method is prepared to accept any lifecycle method native to
 React components. Specifically those are:

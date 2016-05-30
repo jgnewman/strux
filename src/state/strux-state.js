@@ -1,24 +1,37 @@
-import { createStore } from '../strux/strux';
+import { createStore, implicitStore } from '../strux/strux';
 import Home from '../components/home';
 import Navigation from '../layout/navigation';
 
-function reducer(state = {}, action) {
-  switch (action.type) {
+// function reducer(state = {}, action) {
+//   switch (action.type) {
+//
+//     case 'ACTION_TYPE_1':
+//       console.log('REDUCER ACTION_TYPE_1:', action);
+//       return Object.assign({prop: action.prop});
+//
+//     case 'ACTION_TYPE_2':
+//       console.log('REDUCER, ACTION_TYPE_2:', action);
+//       return Object.assign({data: action.data});
+//
+//     default:
+//       return Object.assign({}, state, {});
+//   }
+// }
+// 
+// const store = createStore(reducer);
 
-    case 'ACTION_TYPE_1':
-      console.log('REDUCER ACTION_TYPE_1:', action);
-      return Object.assign({prop: action.prop});
-
-    case 'ACTION_TYPE_2':
-      console.log('REDUCER, ACTION_TYPE_2:', action);
-      return Object.assign({data: action.data});
-
-    default:
-      return Object.assign({}, state, {});
-  }
-}
-
-const store = createStore(reducer);
+implicitStore
+  .reduce('ACTION_TYPE_1', (state, action) => {
+    console.log('REDUCER ACTION_TYPE_1:', action);
+    return Object.assign({prop: action.prop});
+  })
+  .reduce('ACTION_TYPE_2', (state, action) => {
+    console.log('REDUCER, ACTION_TYPE_2:', action);
+    return Object.assign({data: action.data});
+  })
+  .reduce((state, action) => {
+    return Object.assign({}, state, {});
+  });
 
 Home
   .dispatches('ACTION_TYPE_1')
@@ -50,4 +63,4 @@ Navigation
   });
 
 
-export default store;
+export default implicitStore.getStore();

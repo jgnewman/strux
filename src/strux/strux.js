@@ -31,6 +31,20 @@ Home
 
 ```
 
+ALTERNATE STORE MANAGEMENT:
+
+```
+import { implicitStore as store } from 'strux'
+
+store.reduce('MY_ACTION', (curState, action) => {
+  return Object.assign({}, curState, {prop: action.prop});
+});
+
+store.reduce('ANOTHER_ACTION', (curState, action) => {
+  return Object.assign({}, curState, {prop: action.prop});
+});
+```
+
 */
 
 /*
@@ -41,11 +55,14 @@ import { createStore as storeCreator } from 'redux';
 import { Dispatch, runDispatches } from './lib/dispatch';
 import { Pickup, createSubscribers } from './lib/pickup';
 import { Fetch, runFetches } from './lib/fetch';
+import { implicitStore, reduxStore } from './lib/implicitstore';
 
 /*
  * Track a reference to the store created by the user.
+ * By default, we'll assume the user is going to be using
+ * the implicit store. If not, their own store will override this.
  */
-let store = null;
+let store = reduxStore;
 
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
@@ -201,4 +218,4 @@ function createStore(...args) {
  * through all the necessary top level pieces as well as our new component type.
  */
 export { combineReducers, applyMiddleware, bindActionCreators, compose } from 'redux';
-export { createStore, Component };
+export { createStore, implicitStore, Component };
