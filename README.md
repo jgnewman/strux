@@ -197,10 +197,22 @@ Here's how you'd make use of Strux's implicit store:
 ```javascript
 import { implicitStore as store } from 'strux';
 
+store.setInitialState({
+  property1: 'value1',
+  property2: 'value2'
+});
+
 store.reduce('MY_ACTION', (state, action) => something)
      .reduce('ANOTHER_ACTION', (state, action) => something_else)
      .reduce((state, action) => state);
+
+store.getState(); // { ... }
 ```
+
+Every application using Strux contains a single implicit store object. This
+object will allow you to set an initial state (which must take the form of
+an object accepting keys and values), create mini reducers, and retrieve a
+copy of the current application state.
 
 Notice that you can chain `reduce` calls if you want to. Each function passed to
 `reduce` takes a copy of the current state and the dispatched action. Whatever
@@ -248,13 +260,69 @@ Let's walk through the semantics of this function chain.
 3. When the data comes back, the Redux action `MY_ACTION` is triggered.
 4. We'll create the body of the action using the parsed data that was returned as well as the component's state.
 
+## Does Strux contain any other useful tools?
+
+One of the useful tools provided through React Redux is called
+`mapStateToProps`. Following the container-vs-presentational
+pattern, this function allows you to map a portion of your application state
+automatically to props passed down to presentational components.
+
+This doesn't make as much sense when using Strux because Strux eliminates the
+need for the container-vs-presentational pattern. Instead, what makes more
+sense is the ability to map a portion of the application state directly to the
+state of a component. Here's how you'd do that with Strux:
+
+Imagine that your application state looks like this:
+
+```javascript
+{
+  users: {
+    userList: [ ... ],
+    activeUser: 1,
+    activeUserIsAdmin: true
+  },
+  profile: {
+    name: 'Billy',
+    age: 20,
+    userID: 1
+  }
+}
+```
+
+Simultaneously, lets imagine that your application contains a `Users`
+component and a `Profile` component. So the idea is that we have various
+components throughout our application and each one correlates directly with
+a sub-object in our greater application state. With this pattern, we can use
+Strux's built-in `mapStateToState` function to specify that when a dispatch
+occurs and the relevant piece of the application state does not match the
+component's state, the differing pieces will be updated on the component state.
+Like so:
+
+```javascript
+import { mapStateToState } from 'strux';
+import { Profile, Users } from './components';
+
+mapStateToState({
+  profile: Profile,
+  users: Users
+});
+```
+
+The `mapStateToState` function takes an object wherein each key corresponds
+to a key in the application state and each value should be a component in your
+application. You are literally mapping the application state to each component
+state. Now, whenever an action gets dispatched and a reducer modifies the
+`profile` object in our application state, the `Profile` component will
+automatically pick that up, diff the changes, and import those changes into
+its own state object.
+
 ## What is the full Strux API?
 
 Strux is simply a layer sitting on top of Redux. As such, you can import Strux
 _instead of_ Redux and Strux will import Redux as a dependency, passing the full
 Redux API on to you. You can use it to call `createStore`, `combineReducers`,
 and all other Redux functions. Aside from this, Strux gives you a new version
-of React's `Component` and that's it.
+of React's `Component`.
 
 Within Strux's version of `Component`, you can call 3 new static methods, all
 of which have been described here. They are:
@@ -262,6 +330,17 @@ of which have been described here. They are:
 - `Component.dispatches`
 - `Component.fetches`
 - `Component.picksUp`
+
+Strux also provides the implicit store. Its methods are as follows:
+
+- `implicitStore.reduce(String actionType, Function procedure)` - Whenever `actionType` is dispatched, `procedure` will be used as the reducer. Returns `implicitStore`.
+- `implicitStore.getStore()` - Returns the Redux store.
+- `implicitStore.getState()` - Gets a copy of the current application state.
+- `implicitStore.setInitialState(Object initState)` - Can only be called once. Allows you to use `initState` as the initial form of the application state. Returns a copy of the application state after being set.
+
+Lastly, we have `mapStateToState`:
+
+- `mapStateToState(Object mappings)` - Allows you to denote which keys on the application state should map to state objects on individual component classes. Returns undefined.
 
 ## What are the bigger implications?
 

@@ -5,6 +5,7 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {sup: 'hi'};
+    window.homeComponent = this;
   }
   render() {
     return (

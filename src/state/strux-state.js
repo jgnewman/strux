@@ -1,5 +1,6 @@
-import { createStore, implicitStore } from '../strux/strux';
+import { createStore, implicitStore, mapStateToState } from '../strux/strux';
 import Home from '../components/home';
+import Other from '../components/other';
 import Navigation from '../layout/navigation';
 
 // function reducer(state = {}, action) {
@@ -17,36 +18,49 @@ import Navigation from '../layout/navigation';
 //       return Object.assign({}, state, {});
 //   }
 // }
-// 
+//
 // const store = createStore(reducer);
 
+implicitStore.setInitialState({
+  home: {},
+  other: {},
+  navigation: {}
+});
+
+mapStateToState({
+  home: Home,
+  other: Other,
+  navigation: Navigation
+});
+
 implicitStore
-  .reduce('ACTION_TYPE_1', (state, action) => {
-    console.log('REDUCER ACTION_TYPE_1:', action);
-    return Object.assign({prop: action.prop});
+  .reduce('HOME_ACTION', (state, action) => {
+    console.log('Reducing HOME_ACTION:', action);
+    const newHome = Object.assign({}, state.home, { homeProp: action.homeProp });
+    return Object.assign({}, state, { home: newHome });
   })
-  .reduce('ACTION_TYPE_2', (state, action) => {
-    console.log('REDUCER, ACTION_TYPE_2:', action);
-    return Object.assign({data: action.data});
+  .reduce('FETCH_ACTION', (state, action) => {
+    console.log('Reducing FETCH_ACTION:', action);
+    return state;
   })
   .reduce((state, action) => {
-    return Object.assign({}, state, {});
+    return state;
   });
 
 Home
-  .dispatches('ACTION_TYPE_1')
+  .dispatches('HOME_ACTION')
   .when('componentDidMount')
   .as(state => {
-    console.log('HIT USING:', state);
-    return { prop: 'val' };
+    console.log('Home is dispatching HOME_ACTION');
+    return { homeProp: 'homeVal' };
   });
 
 Home
   .fetches('./:file')
   .when('componentDidMount', state => { return {file: 'package'} })
-  .thenDispatches('ACTION_TYPE_2')
+  .thenDispatches('FETCH_ACTION')
   .as(data => {
-    console.log('describer got', data)
+    console.log('Result of fetch was:', data)
     return {data: data}
   })
 
@@ -56,10 +70,9 @@ Home
 //   .using(() => { prop: val })
 
 Navigation
-  .picksUp('ACTION_TYPE_1')
-  .then((appState, nav) => {
-    console.log('HIT THEN:', appState, nav);
-    nav.setState(appState);
+  .picksUp('HOME_ACTION')
+  .then((appState, navigation) => {
+    console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
   });
 
 

@@ -35658,6 +35658,7 @@ var Home = function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
 
     _this.state = { sup: 'hi' };
+    window.homeComponent = _this;
     return _this;
   }
 
@@ -35677,7 +35678,7 @@ var Home = function (_Component) {
 
 exports.default = Home;
 
-},{"../strux/strux":253,"react":229}],245:[function(require,module,exports){
+},{"../strux/strux":254,"react":229}],245:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35725,7 +35726,7 @@ var Other = function (_Component) {
 
 exports.default = Other;
 
-},{"../strux/strux":253,"react":229}],246:[function(require,module,exports){
+},{"../strux/strux":254,"react":229}],246:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35848,7 +35849,7 @@ var Navigation = function (_Component) {
 
 exports.default = Navigation;
 
-},{"../strux/strux":253,"react":229,"react-router":33}],248:[function(require,module,exports){
+},{"../strux/strux":254,"react":229,"react-router":33}],248:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35860,6 +35861,10 @@ var _strux = require('../strux/strux');
 var _home = require('../components/home');
 
 var _home2 = _interopRequireDefault(_home);
+
+var _other = require('../components/other');
+
+var _other2 = _interopRequireDefault(_other);
 
 var _navigation = require('../layout/navigation');
 
@@ -35885,25 +35890,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 // const store = createStore(reducer);
 
-_strux.implicitStore.reduce('ACTION_TYPE_1', function (state, action) {
-  console.log('REDUCER ACTION_TYPE_1:', action);
-  return Object.assign({ prop: action.prop });
-}).reduce('ACTION_TYPE_2', function (state, action) {
-  console.log('REDUCER, ACTION_TYPE_2:', action);
-  return Object.assign({ data: action.data });
-}).reduce(function (state, action) {
-  return Object.assign({}, state, {});
+_strux.implicitStore.setInitialState({
+  home: {},
+  other: {},
+  navigation: {}
 });
 
-_home2.default.dispatches('ACTION_TYPE_1').when('componentDidMount').as(function (state) {
-  console.log('HIT USING:', state);
-  return { prop: 'val' };
+(0, _strux.mapStateToState)({
+  home: _home2.default,
+  other: _other2.default,
+  navigation: _navigation2.default
+});
+
+_strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
+  console.log('Reducing HOME_ACTION:', action);
+  var newHome = Object.assign({}, state.home, { homeProp: action.homeProp });
+  return Object.assign({}, state, { home: newHome });
+}).reduce('FETCH_ACTION', function (state, action) {
+  console.log('Reducing FETCH_ACTION:', action);
+  return state;
+}).reduce(function (state, action) {
+  return state;
+});
+
+_home2.default.dispatches('HOME_ACTION').when('componentDidMount').as(function (state) {
+  console.log('Home is dispatching HOME_ACTION');
+  return { homeProp: 'homeVal' };
 });
 
 _home2.default.fetches('./:file').when('componentDidMount', function (state) {
   return { file: 'package' };
-}).thenDispatches('ACTION_TYPE_2').as(function (data) {
-  console.log('describer got', data);
+}).thenDispatches('FETCH_ACTION').as(function (data) {
+  console.log('Result of fetch was:', data);
   return { data: data };
 });
 
@@ -35912,14 +35930,13 @@ _home2.default.fetches('./:file').when('componentDidMount', function (state) {
 //   .when('compnentDidMount')
 //   .using(() => { prop: val })
 
-_navigation2.default.picksUp('ACTION_TYPE_1').then(function (appState, nav) {
-  console.log('HIT THEN:', appState, nav);
-  nav.setState(appState);
+_navigation2.default.picksUp('HOME_ACTION').then(function (appState, navigation) {
+  console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
 });
 
 exports.default = _strux.implicitStore.getStore();
 
-},{"../components/home":244,"../layout/navigation":247,"../strux/strux":253}],249:[function(require,module,exports){
+},{"../components/home":244,"../components/other":245,"../layout/navigation":247,"../strux/strux":254}],249:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36428,7 +36445,11 @@ exports.reduxStore = exports.implicitStore = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _redux = require('redux');
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
                                                                                                                                                           
@@ -36437,12 +36458,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                                                                                                                                                           ```
                                                                                                                                                           import { implicitStore as store } from 'strux'
                                                                                                                                                           
+                                                                                                                                                          store.setInitialState({
+                                                                                                                                                            property1: 'value1',
+                                                                                                                                                            property2: 'value2'
+                                                                                                                                                          });
+                                                                                                                                                          
                                                                                                                                                           store.reduce('MY_ACTION', (curState, action) => {
-                                                                                                                                                            return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                            return Object.assign({}, curState, { property1: action.prop });
                                                                                                                                                           });
                                                                                                                                                           
                                                                                                                                                           store.reduce('ANOTHER_ACTION', (curState, action) => {
-                                                                                                                                                            return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                            return Object.assign({}, curState, { property2: action.prop });
                                                                                                                                                           });
                                                                                                                                                           ```
                                                                                                                                                           
@@ -36455,52 +36481,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 /*
- * Create a place to hold all reduce procedures the user gives us.
+ * Set the initial state as an object.
+ * We're going to require that the state always
+ * take the form of an object.
  */
-var registeredReducers = [];
+var initialState = {};
+var initialStateManuallySet = false;
 
 /*
- * Create a defaultReducer to run when the action doesn't match any
- * provided actions. It will simply return the state.
+ * A value to be used internally for calling the reducer with the
+ * purpose of resetting the application state back to a default.
  */
-var defaultReducer = function defaultReducer(state, action) {
-  return state;
-};
-
-/**
- * The implicitReducer will be the only reducer passed to redux's
- * `createStore` function. It will loop over each of the procedures
- * in the `registeredReducers` array and call the one whose associated
- * action matches the action dispatched through redux. It will return
- * the result of calling that procedure.
- *
- * @param  {Object} state  The application state. Assumed to be an object.
- * @param  {Object} action The action object handed to us by redux.
- *
- * @return {Object} The new form of the application state.
- */
-function implicitReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  var output = void 0;
-  var reducerRan = false;
-  registeredReducers.some(function (reducerObject) {
-    if (reducerObject.action === action.type) {
-      output = reducerObject.procedure(Object.assign({}, state), action);
-      return reducerRan = true;
-    }
-  });
-  if (!reducerRan) {
-    return defaultReducer(Object.assign({}, state), action);
-  }
-  return output;
-}
-
-/*
- * Create a redux store.
- */
-var reduxStore = (0, _redux.createStore)(implicitReducer);
+var reset = Symbol();
 
 /**
  * @class
@@ -36530,13 +36522,82 @@ function ReducerObject(action, procedure) {
   this.procedure = procedure;
 };
 
+/*
+ * Create a place to hold all reduce procedures the user gives us.
+ */
+
+
+var registeredReducers = _defineProperty({}, reset, new ReducerObject(reset, function () {
+  return initialState;
+}));
+
+/*
+ * Create a defaultReducer to run when the action doesn't match any
+ * provided actions. It will simply return the state.
+ */
+var defaultReducer = function defaultReducer(state, action) {
+  return state;
+};
+
+/**
+ * The implicitReducer will be the only reducer passed to redux's
+ * `createStore` function. It will loop over each of the procedures
+ * in the `registeredReducers` array and call the one whose associated
+ * action matches the action dispatched through redux. It will return
+ * the result of calling that procedure.
+ *
+ * @param  {Object} state  The application state. Assumed to be an object.
+ * @param  {Object} action The action object handed to us by redux.
+ *
+ * @return {Object} The new form of the application state.
+ */
+function implicitReducer() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+  var action = arguments[1];
+
+  var output = void 0;
+
+  /*
+   * Find a reducer in `registeredReducers` matching our incoming action type.
+   */
+  if (Object.prototype.hasOwnProperty.call(registeredReducers, action.type)) {
+
+    /*
+     * Run the reducer procedure with a copy of the current state and the
+     * incoming action. Set its result to be the output value.
+     */
+    var procedure = registeredReducers[action.type].procedure;
+    output = procedure(Object.assign({}, state), action);
+
+    /*
+     * If action.type does not match a registered reducer, run the
+     * default reducer instead.
+     */
+  } else {
+      output = defaultReducer(Object.assign({}, state), action);
+    }
+
+  /*
+   * Do a sanity check to make sure the intended form of the new state
+   * is still an object. If so, return it.
+   */
+  if ((typeof output === 'undefined' ? 'undefined' : _typeof(output)) !== 'object') {
+    throw new Error('Your application state must always take the form of an object accepting keys and values when using the implicit store.');
+  }
+  return output;
+}
+
+/*
+ * Create a redux store.
+ */
+var reduxStore = (0, _redux.createStore)(implicitReducer);
+
 /**
  * @class
  *
  * Builds an object that allows the user to add reducers to the
  * `registeredReducers` array.
  */
-
 
 var ImplicitStore = function () {
   function ImplicitStore() {
@@ -36567,7 +36628,7 @@ var ImplicitStore = function () {
       if (arguments.length === 1 && typeof action === 'function') {
         defaultReducer = procedure;
       } else {
-        registeredReducers.push(new ReducerObject(action, procedure));
+        registeredReducers[action] = new ReducerObject(action, procedure);
       }
       return this;
     }
@@ -36582,6 +36643,41 @@ var ImplicitStore = function () {
     key: 'getStore',
     value: function getStore() {
       return reduxStore;
+    }
+
+    /**
+     * Allow the user to retrieve a copy of the current state.
+     *
+     * @return The current application state.
+     */
+
+  }, {
+    key: 'getState',
+    value: function getState() {
+      return Object.assign({}, reduxStore.getState());
+    }
+
+    /**
+     * Allow the user a single opportunity to set the initial application state.
+     *
+     * @param {Object} stateObject Any type of object accepting keys and values.
+     *
+     * @return {Object} A copy of the current state.
+     */
+
+  }, {
+    key: 'setInitialState',
+    value: function setInitialState(stateObject) {
+      if ((typeof stateObject === 'undefined' ? 'undefined' : _typeof(stateObject)) !== 'object') {
+        throw new Error('Initial state must take the form of an object that accepts keys and values.');
+      } else if (initialStateManuallySet) {
+        throw new Error('You can not set the initial state more than once.');
+      } else {
+        initialStateManuallySet = true;
+        initialState = stateObject;
+        reduxStore.dispatch({ type: reset });
+        return this.getState();
+      }
     }
   }]);
 
@@ -36602,6 +36698,118 @@ exports.implicitStore = implicitStore;
 exports.reduxStore = reduxStore;
 
 },{"redux":235}],252:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+/*
+
+Allows syntax such as:
+
+```
+mapStateToState({
+  applicationPropName: Component
+});
+```
+
+*/
+
+/*
+ * Takes the form: {
+ *   ComponentClassName: 'appStateProp'
+ * }
+ */
+var mappings = {};
+
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
+
+/**
+ * A shortcut for checking if an object owns a key.
+ *
+ * @param  {Object} object The object to search in.
+ * @param  {String} key    The key to try to find in the object.
+ *
+ * @return {Boolean}
+ */
+function owns(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key);
+}
+
+/**
+ * Collects differences between a piece of the application state and
+ * a component state and returns them in the form of an object.
+ *
+ * @param  {Object} appStateChunk A piece of the application state.
+ * @param  {Object} instanceState The state property on a component instance.
+ *
+ * @return {Object|false}
+ */
+function isolateUpdates(appStateChunk, instanceState) {
+  var output = {};
+  var counter = 0;
+
+  /*
+   * We'll collect a difference when there is a key on the app state that
+   * doesn't exist on the component state or when the value on the app state
+   * doesn't match the value on the component state.
+   */
+  Object.keys(appStateChunk).forEach(function (key) {
+    var val = appStateChunk[key];
+    if (!owns(instanceState, key) || val !== instanceState[key]) {
+      counter += 1;
+      output[key] = val;
+    }
+  });
+  return counter ? output : false;
+}
+
+/**
+ * Creates implicit subscriptions to Redux actions for updating a
+ * component state.
+ *
+ * @param  {Object} store    A redux store.
+ * @param  {Object} instance An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+function createMappingSubscribers(store, instance) {
+  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
+    var className = instance.constructor.name;
+    var relevantStateValue = store.getState()[mappings[className]];
+    if (relevantStateValue && (typeof relevantStateValue === 'undefined' ? 'undefined' : _typeof(relevantStateValue)) === 'object') {
+      var changes = isolateUpdates(relevantStateValue, instance.state);
+      changes && instance.setState(changes);
+    }
+  }));
+}
+
+/**
+ * Allows the user to set specify that when a certain key on the application
+ * state changes, the values on that key will be mapped to the state object
+ * on the component.
+ *
+ * @param  {Object} userMappings Takes the form `{appStateProp: ComponentClass}`
+ *
+ * @return {undefined}
+ */
+function mapStateToState(userMappings) {
+  Object.keys(userMappings).forEach(function (key) {
+    var componentClass = userMappings[key];
+    mappings[componentClass.name] = key;
+  });
+}
+
+exports.mapStateToState = mapStateToState;
+exports.createMappingSubscribers = createMappingSubscribers;
+
+},{}],253:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36640,7 +36848,7 @@ var pickups = {};
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /**
  * @class
@@ -36694,14 +36902,14 @@ var Pickup = function () {
  *
  * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
  * @param  {Object} store          A redux store.
- * @param  {Object} instance An instance of an XComponent extended class.
+ * @param  {Object} instance       An instance of an XComponent extended class.
  *
  * @return {undefined}
  */
 
 
-function createSubscribers(incomingAction, store, instance) {
-  instance[UNSUBSCRIBE] = store.subscribe(function () {
+function createPickupSubscribers(incomingAction, store, instance) {
+  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
     var relevantPickups = pickups[instance.constructor.name];
     if (relevantPickups) {
       relevantPickups = relevantPickups[incomingAction.get()];
@@ -36714,19 +36922,19 @@ function createSubscribers(incomingAction, store, instance) {
         });
       })();
     }
-  });
+  }));
 }
 
 exports.Pickup = Pickup;
-exports.createSubscribers = createSubscribers;
+exports.createPickupSubscribers = createPickupSubscribers;
 
-},{}],253:[function(require,module,exports){
+},{}],254:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Component = exports.implicitStore = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
+exports.Component = exports.mapStateToState = exports.implicitStore = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
@@ -36775,6 +36983,20 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      });
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ```
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     You can also create automatic state-to-state mappings such that a property
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     in your application state will be kept in sync with your component state.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     When the application state changes, a subscriber will automatically pick up
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     on that set the component state as necessary.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { mapStateToState } from 'strux';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     mapStateToState({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp1: Home,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp2: Profile
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 /*
@@ -36819,6 +37041,8 @@ var _fetch = require('./lib/fetch');
 
 var _implicitstore = require('./lib/implicitstore');
 
+var _mappings = require('./lib/mappings');
+
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -36835,7 +37059,7 @@ var store = _implicitstore.reduxStore;
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that
@@ -36903,7 +37127,7 @@ var Component = function (_ReactComponent) {
 
     var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
 
-    _this[UNSUBSCRIBE] = null;
+    _this[UNSUBSCRIBERS] = [];
 
     /*
      * Make sure we have an existing method for each life cycle method name.
@@ -36914,31 +37138,51 @@ var Component = function (_ReactComponent) {
       var orig = _this[methodName];
 
       /*
-       * For each method we create, we'll grab the result of calling the
-       * original method if there was one.
-       *
-       * If this is componentDidMount, we'll create all implicit redux
-       * subscribers automatically.
-       *
-       * Next we run any dispatches that are supposed to occur when this
-       * method is called.
-       *
-       * If this is componentWillUnmount, we unsubscribe our implicit
-       * subscribers.
-       *
-       * Finally we return the result of the original method.
+       * For each method we create, handle subscribers, dispatchers,
+       * and fetchers.
        */
       _this[methodName] = function () {
         for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
           args[_key2] = arguments[_key2];
         }
 
+        /*
+         * Call the original method and trap the result.
+         */
         var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
+
+        /*
+         * If this is `shouldComponentUpdate`, make sure we're returning
+         * a boolean if the result was falsy.
+         */
         methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && (0, _pickup.createSubscribers)(incomingAction, store, _this);
+
+        /*
+         * If this is `componentDidMount`, create subscribers to run
+         * pickup functions.
+         */
+        if (methodName === 'componentDidMount') {
+          (0, _pickup.createPickupSubscribers)(incomingAction, store, _this);
+          (0, _mappings.createMappingSubscribers)(store, _this);
+        }
+
+        /*
+         * Run all dispatches and fetches associated with this method.
+         */
         (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
         (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
-        methodName === 'componentWillUnmount' && typeof _this[UNSUBSCRIBE] === 'function' && _this[UNSUBSCRIBE]();
+
+        /*
+         * If this is `componentWillUnmount`, we unsubscribe our implicit
+         * subscribers.
+         */
+        methodName === 'componentWillUnmount' && _this[UNSUBSCRIBERS].forEach(function (unsubscriber) {
+          return unsubscriber();
+        });
+
+        /*
+         * Return the result of calling the original method.
+         */
         return out;
       };
     });
@@ -37017,6 +37261,7 @@ function createStore() {
  */
 exports.createStore = createStore;
 exports.implicitStore = _implicitstore.implicitStore;
+exports.mapStateToState = _mappings.mapStateToState;
 exports.Component = Component;
 
-},{"./lib/dispatch":249,"./lib/fetch":250,"./lib/implicitstore":251,"./lib/pickup":252,"react":229,"redux":235}]},{},[243]);
+},{"./lib/dispatch":249,"./lib/fetch":250,"./lib/implicitstore":251,"./lib/mappings":252,"./lib/pickup":253,"react":229,"redux":235}]},{},[243]);

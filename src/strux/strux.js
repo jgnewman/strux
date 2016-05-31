@@ -45,6 +45,20 @@ store.reduce('ANOTHER_ACTION', (curState, action) => {
 });
 ```
 
+You can also create automatic state-to-state mappings such that a property
+in your application state will be kept in sync with your component state.
+When the application state changes, a subscriber will automatically pick up
+on that set the component state as necessary.
+
+```
+import { mapStateToState } from 'strux';
+
+mapStateToState({
+  stateProp1: Home,
+  stateProp2: Profile
+});
+```
+
 */
 
 /*
@@ -53,9 +67,10 @@ store.reduce('ANOTHER_ACTION', (curState, action) => {
 import { Component as ReactComponent } from 'react';
 import { createStore as storeCreator } from 'redux';
 import { Dispatch, runDispatches } from './lib/dispatch';
-import { Pickup, createSubscribers } from './lib/pickup';
+import { Pickup, createPickupSubscribers } from './lib/pickup';
 import { Fetch, runFetches } from './lib/fetch';
 import { implicitStore, reduxStore } from './lib/implicitstore';
+import { mapStateToState, createMappingSubscribers } from './lib/mappings';
 
 /*
  * Track a reference to the store created by the user.
@@ -67,7 +82,7 @@ let store = reduxStore;
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-const UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+const UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that
@@ -121,7 +136,7 @@ class Component extends ReactComponent {
    */
   constructor(...args) {
     super(...args);
-    this[UNSUBSCRIBE] = null;
+    this[UNSUBSCRIBERS] = [];
 
     /*
      * Make sure we have an existing method for each life cycle method name.
@@ -132,29 +147,47 @@ class Component extends ReactComponent {
       const orig = this[methodName];
 
       /*
-       * For each method we create, we'll grab the result of calling the
-       * original method if there was one.
-       *
-       * If this is componentDidMount, we'll create all implicit redux
-       * subscribers automatically.
-       *
-       * Next we run any dispatches that are supposed to occur when this
-       * method is called.
-       *
-       * If this is componentWillUnmount, we unsubscribe our implicit
-       * subscribers.
-       *
-       * Finally we return the result of the original method.
+       * For each method we create, handle subscribers, dispatchers,
+       * and fetchers.
        */
       this[methodName] = (...args) => {
+
+        /*
+         * Call the original method and trap the result.
+         */
         let out = orig ? orig.call(this, ...args) : undefined;
+
+        /*
+         * If this is `shouldComponentUpdate`, make sure we're returning
+         * a boolean if the result was falsy.
+         */
         methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && createSubscribers(incomingAction, store, this);
+
+        /*
+         * If this is `componentDidMount`, create subscribers to run
+         * pickup functions.
+         */
+        if (methodName === 'componentDidMount') {
+          createPickupSubscribers(incomingAction, store, this);
+          createMappingSubscribers(store, this);
+        }
+
+        /*
+         * Run all dispatches and fetches associated with this method.
+         */
         runDispatches(methodName, incomingAction, store, this);
         runFetches(methodName, incomingAction, store, this);
+
+        /*
+         * If this is `componentWillUnmount`, we unsubscribe our implicit
+         * subscribers.
+         */
         methodName === 'componentWillUnmount'
-          && typeof this[UNSUBSCRIBE] === 'function'
-          && this[UNSUBSCRIBE]();
+          && this[UNSUBSCRIBERS].forEach(unsubscriber => unsubscriber());
+
+        /*
+         * Return the result of calling the original method.
+         */
         return out;
       };
     });
@@ -218,4 +251,4 @@ function createStore(...args) {
  * through all the necessary top level pieces as well as our new component type.
  */
 export { combineReducers, applyMiddleware, bindActionCreators, compose } from 'redux';
-export { createStore, implicitStore, Component };
+export { createStore, implicitStore, mapStateToState, Component };
