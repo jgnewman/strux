@@ -87,6 +87,7 @@ var Home = function (_Component) {
   _createClass(Home, [{
     key: 'render',
     value: function render() {
+      console.log('rendering home');
       return _react2.default.createElement(
         'div',
         { className: 'home' },
@@ -294,35 +295,17 @@ var _navigation2 = _interopRequireDefault(_navigation);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// function reducer(state = {}, action) {
-//   switch (action.type) {
-//
-//     case 'ACTION_TYPE_1':
-//       console.log('REDUCER ACTION_TYPE_1:', action);
-//       return Object.assign({prop: action.prop});
-//
-//     case 'ACTION_TYPE_2':
-//       console.log('REDUCER, ACTION_TYPE_2:', action);
-//       return Object.assign({data: action.data});
-//
-//     default:
-//       return Object.assign({}, state, {});
-//   }
-// }
-//
-// const store = createStore(reducer);
-
 _strux.implicitStore.setInitialState({
   home: {},
   other: {},
   navigation: {}
 });
 
-(0, _strux.mapStateToState)({
-  home: _home2.default,
-  other: _other2.default,
-  navigation: _navigation2.default
-});
+// mapStateToState({
+//   home: Home,
+//   other: Other,
+//   navigation: Navigation
+// });
 
 _strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
   console.log('Reducing HOME_ACTION:', action);
@@ -332,29 +315,34 @@ _strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
   console.log('Reducing FETCH_ACTION:', action);
   return state;
 }).reduce(function (state, action) {
+  console.log('got default reducer');
   return state;
 });
 
-_home2.default.dispatches('HOME_ACTION').when('componentDidMount').as(function (state) {
-  console.log('Home is dispatching HOME_ACTION');
-  return { homeProp: 'homeVal' };
-});
+window.store = _strux.implicitStore.getStore();
 
-_home2.default.fetches('./:file').when('componentDidMount', function (state) {
-  return { file: 'package' };
-}).thenDispatches('FETCH_ACTION').as(function (data) {
-  console.log('Result of fetch was:', data);
-  return { data: data };
-});
-
-// dispatchFrom(Home)
-//   .type('ACTION_TYPE_1')
-//   .when('compnentDidMount')
-//   .using(() => { prop: val })
-
-_navigation2.default.picksUp('HOME_ACTION').then(function (appState, navigation) {
-  console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
-});
+// Home
+//   .dispatches('HOME_ACTION')
+//   .when('componentDidMount')
+//   .as(state => {
+//     console.log('Home is dispatching HOME_ACTION');
+//     return { homeProp: 'homeVal' };
+//   });
+//
+// Home
+//   .fetches('./:file')
+//   .when('componentDidMount', state => { return {file: 'package'} })
+//   .thenDispatches('FETCH_ACTION')
+//   .as(data => {
+//     console.log('Result of fetch was:', data)
+//     return {data: data}
+//   })
+//
+// Navigation
+//   .picksUp('HOME_ACTION')
+//   .then((appState, navigation) => {
+//     console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
+//   });
 
 exports.default = _strux.implicitStore.getStore();
 
@@ -1048,7 +1036,7 @@ var ImplicitStore = function () {
      */
     value: function reduce(action, procedure) {
       if (arguments.length === 1 && typeof action === 'function') {
-        defaultReducer = procedure;
+        defaultReducer = action;
       } else {
         registeredReducers[action] = new ReducerObject(action, procedure);
       }

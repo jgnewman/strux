@@ -188,7 +188,7 @@ var ImplicitStore = function () {
      */
     value: function reduce(action, procedure) {
       if (arguments.length === 1 && typeof action === 'function') {
-        defaultReducer = procedure;
+        defaultReducer = action;
       } else {
         registeredReducers[action] = new ReducerObject(action, procedure);
       }
