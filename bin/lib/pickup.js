@@ -36,7 +36,7 @@ var pickups = {};
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /**
  * @class
@@ -90,14 +90,14 @@ var Pickup = function () {
  *
  * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
  * @param  {Object} store          A redux store.
- * @param  {Object} instance An instance of an XComponent extended class.
+ * @param  {Object} instance       An instance of an XComponent extended class.
  *
  * @return {undefined}
  */
 
 
-function createSubscribers(incomingAction, store, instance) {
-  instance[UNSUBSCRIBE] = store.subscribe(function () {
+function createPickupSubscribers(incomingAction, store, instance) {
+  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
     var relevantPickups = pickups[instance.constructor.name];
     if (relevantPickups) {
       relevantPickups = relevantPickups[incomingAction.get()];
@@ -110,8 +110,8 @@ function createSubscribers(incomingAction, store, instance) {
         });
       })();
     }
-  });
+  }));
 }
 
 exports.Pickup = Pickup;
-exports.createSubscribers = createSubscribers;
+exports.createPickupSubscribers = createPickupSubscribers;

@@ -1,4 +1,1692 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _reactRouter = require('react-router');
+
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
+var _struxState = require('./state/strux-state');
+
+var _struxState2 = _interopRequireDefault(_struxState);
+
+var _layout = require('./layout/layout');
+
+var _layout2 = _interopRequireDefault(_layout);
+
+var _home = require('./components/home');
+
+var _home2 = _interopRequireDefault(_home);
+
+var _other = require('./components/other');
+
+var _other2 = _interopRequireDefault(_other);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+//import state from './state/state';
+
+
+_reactDom2.default.render(_react2.default.createElement(
+  _reactRouter.Router,
+  { history: _reactRouter.browserHistory },
+  _react2.default.createElement(
+    _reactRouter.Route,
+    { path: '/', component: _layout2.default },
+    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'home' }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: 'other', component: _other2.default })
+  )
+), (0, _jquery2.default)('#app')[0]);
+
+},{"./components/home":2,"./components/other":3,"./layout/layout":4,"./state/strux-state":6,"jquery":14,"react":241,"react-dom":15,"react-router":45}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _strux = require('../strux/strux');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_Component) {
+  _inherits(Home, _Component);
+
+  function Home() {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
+
+    _this.state = { sup: 'hi' };
+    window.homeComponent = _this;
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'home' },
+        'Home View'
+      );
+    }
+  }]);
+
+  return Home;
+}(_strux.Component);
+
+exports.default = Home;
+
+},{"../strux/strux":12,"react":241}],3:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _strux = require('../strux/strux');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Other = function (_Component) {
+  _inherits(Other, _Component);
+
+  function Other() {
+    _classCallCheck(this, Other);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Other).call(this));
+  }
+
+  _createClass(Other, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'other' },
+        'Other View'
+      );
+    }
+  }]);
+
+  return Other;
+}(_strux.Component);
+
+exports.default = Other;
+
+},{"../strux/strux":12,"react":241}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _navigation = require('./navigation');
+
+var _navigation2 = _interopRequireDefault(_navigation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Layout = function (_Component) {
+  _inherits(Layout, _Component);
+
+  function Layout() {
+    _classCallCheck(this, Layout);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Layout).call(this));
+  }
+
+  _createClass(Layout, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'layout' },
+        _react2.default.createElement(_navigation2.default, null),
+        this.props.children
+      );
+    }
+  }]);
+
+  return Layout;
+}(_react.Component);
+
+exports.default = Layout;
+
+},{"./navigation":5,"react":241}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _strux = require('../strux/strux');
+
+var _reactRouter = require('react-router');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Navigation = function (_Component) {
+  _inherits(Navigation, _Component);
+
+  function Navigation() {
+    _classCallCheck(this, Navigation);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Navigation).call(this));
+  }
+
+  _createClass(Navigation, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'navigation' },
+        'Navigation',
+        _react2.default.createElement(
+          'ul',
+          null,
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/', activeClassName: 'active' },
+              'Home'
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/other', activeClassName: 'active' },
+              'Other'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Navigation;
+}(_strux.Component);
+
+exports.default = Navigation;
+
+},{"../strux/strux":12,"react":241,"react-router":45}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _strux = require('../strux/strux');
+
+var _home = require('../components/home');
+
+var _home2 = _interopRequireDefault(_home);
+
+var _other = require('../components/other');
+
+var _other2 = _interopRequireDefault(_other);
+
+var _navigation = require('../layout/navigation');
+
+var _navigation2 = _interopRequireDefault(_navigation);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// function reducer(state = {}, action) {
+//   switch (action.type) {
+//
+//     case 'ACTION_TYPE_1':
+//       console.log('REDUCER ACTION_TYPE_1:', action);
+//       return Object.assign({prop: action.prop});
+//
+//     case 'ACTION_TYPE_2':
+//       console.log('REDUCER, ACTION_TYPE_2:', action);
+//       return Object.assign({data: action.data});
+//
+//     default:
+//       return Object.assign({}, state, {});
+//   }
+// }
+//
+// const store = createStore(reducer);
+
+_strux.implicitStore.setInitialState({
+  home: {},
+  other: {},
+  navigation: {}
+});
+
+(0, _strux.mapStateToState)({
+  home: _home2.default,
+  other: _other2.default,
+  navigation: _navigation2.default
+});
+
+_strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
+  console.log('Reducing HOME_ACTION:', action);
+  var newHome = Object.assign({}, state.home, { homeProp: action.homeProp });
+  return Object.assign({}, state, { home: newHome });
+}).reduce('FETCH_ACTION', function (state, action) {
+  console.log('Reducing FETCH_ACTION:', action);
+  return state;
+}).reduce(function (state, action) {
+  return state;
+});
+
+_home2.default.dispatches('HOME_ACTION').when('componentDidMount').as(function (state) {
+  console.log('Home is dispatching HOME_ACTION');
+  return { homeProp: 'homeVal' };
+});
+
+_home2.default.fetches('./:file').when('componentDidMount', function (state) {
+  return { file: 'package' };
+}).thenDispatches('FETCH_ACTION').as(function (data) {
+  console.log('Result of fetch was:', data);
+  return { data: data };
+});
+
+// dispatchFrom(Home)
+//   .type('ACTION_TYPE_1')
+//   .when('compnentDidMount')
+//   .using(() => { prop: val })
+
+_navigation2.default.picksUp('HOME_ACTION').then(function (appState, navigation) {
+  console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
+});
+
+exports.default = _strux.implicitStore.getStore();
+
+},{"../components/home":2,"../components/other":3,"../layout/navigation":5,"../strux/strux":12}],7:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+Home
+  .dispatches('MY_ACTION')
+  .when('componentDidMount')
+  .as(state => state);
+```
+
+*/
+
+/*
+ * Holds descriptions for all dispatch actions throughout the application.
+ * The tree takes the following form:
+ *   dispatches = {
+ *     componentDidMount: {
+ *       ComponentClassName: [ { type: 'MY_ACTION', transformer: FUNCTION } ]
+ *     }
+ *   }
+ */
+var dispatches = {};
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+var ActionBuilder = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} triggerMethod The name of the method triggering a dispatch.
+   * @param  {String} actionType    A Redux action type.
+   * @param  {String} className    The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function ActionBuilder(triggerMethod, actionType, className) {
+    _classCallCheck(this, ActionBuilder);
+
+    this.triggerMethod = triggerMethod;
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Completes the last level of the dispatches tree so that we will have
+   * the necessary data to actually fire a Redux dispatch.
+   *
+   * @param  {Function} transformer Should return an object that will constitute an action.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(ActionBuilder, [{
+    key: "as",
+    value: function as(transformer) {
+      dispatches[this.triggerMethod][this.className].push({
+        type: this.actionType,
+        transformer: transformer
+      });
+    }
+  }]);
+
+  return ActionBuilder;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+
+var Dispatch = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType A Redux action type.
+   * @param  {String} className  The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Dispatch(actionType, className) {
+    _classCallCheck(this, Dispatch);
+
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Allows the user to specify a component method that will trigger the dispatch.
+   *
+   * @param  {String} triggerMethod The method name.
+   *
+   * @return {ActionBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(Dispatch, [{
+    key: "when",
+    value: function when(triggerMethod) {
+      dispatches[triggerMethod] = dispatches[triggerMethod] || {};
+      dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
+      return new ActionBuilder(triggerMethod, this.actionType, this.className);
+    }
+  }]);
+
+  return Dispatch;
+}();
+
+/**
+ * Locates the proper dispatch functions to fire for a given
+ * class and method name, and fires them.
+ *
+ * @param  {String} event          Such as 'componentDidMount'.
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance       An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function runDispatches(event, incomingAction, store, instance) {
+
+  /*
+   * Make sure we have an array of actions to loop over.
+   */
+  var actions = dispatches[event];
+  if (actions) {
+    actions = actions[instance.constructor.name];
+  }
+
+  /*
+   * Each object in the array will take the form {type: type, transformer: Fn}.
+   * We'll call the function with the state of the class instance.
+   *
+   * Next we reset the incoming action so subscribers will know what triggered
+   * them within redux.
+   *
+   * Lastly, we fire a true redux dispatch. NOTE: this assumes the transformer
+   * will return a plain object.
+   */
+  actions && actions.forEach(function (item) {
+    var action = item.transformer(instance.state);
+    incomingAction.set(item.type);
+    store.dispatch(Object.assign(_extends({}, action, { type: item.type })));
+  });
+}
+
+exports.Dispatch = Dispatch;
+exports.runDispatches = runDispatches;
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+Home
+  .fetches('/api/v2/users/:id')
+  .when('componentDidMount', state => { return {id: 1} })
+  .thenDispatches('MY_ACTION')
+  .as(data => data);
+```
+
+*/
+
+/*
+ * Holds descriptions for all data fetching throughout the application.
+ * The tree takes the following form:
+ *   fetches = {
+ *     componentDidMount: {
+ *       ComponentClassName: [ { url: '/example', config: {...} } ]
+ *     }
+ *   }
+ */
+var fetches = {};
+
+/**
+ * An empty function we can reuse.
+ *
+ * @return {undefined}
+ */
+function emptyFn() {
+  return {};
+}
+
+/**
+ * Recursively replaces all instances of a single placeholder value in a URL
+ * with its actual value.
+ *
+ * @param  {String} url   A string such as '/api/v1/users/:id'.
+ * @param  {String} key   The placeholder value to look for such as 'id'.
+ * @param  {Any}    value A serializable value to swap in for the placheholder.
+ *
+ * @return {String}       The translated string such as '/api/v1/users/1'.
+ */
+function replaceValue(url, key, value) {
+  var colonKey = ':' + key;
+  var val = typeof value === 'string' ? value : JSON.stringify(value);
+  if (url.indexOf(colonKey) > -1) {
+    url = url.replace(colonKey, val);
+    return replaceValue(url, key, val);
+  } else {
+    return url;
+  }
+}
+
+/**
+ * Replaces placeholder URL values with their actual equivalents.
+ *
+ * @param  {String} url     A string such as '/api/v1/users/:id'.
+ * @param  {Object} valsObj Contains values such as {id: 1}.
+ *
+ * @return {String}         The translated string such as '/api/v1/users/1'.
+ */
+function replaceURLVars(url, valsObj) {
+  var newURL = url;
+  Object.keys(valsObj).forEach(function (key) {
+    var val = valsObj[key];
+    newURL = replaceValue(newURL, key, val);
+  });
+  return newURL;
+}
+
+/**
+ * Attempts to parse an item into JSON. If it doesn't work,
+ * returns the item unmodified.
+ *
+ * @param  {Any} data The data to parse.
+ *
+ * @return {Any}      Either the parsed data or the unmodified data.
+ */
+function tryToParse(data) {
+  try {
+    return JSON.parse(data);
+  } catch (e) {
+    return data;
+  }
+}
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+var FetchDescription = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType  A redux action name.
+   * @param  {Object} config      Stores all the properties we'll need as we build a fetch.
+   *
+   * @return {undefined}
+   */
+
+  function FetchDescription(actionType, config) {
+    _classCallCheck(this, FetchDescription);
+
+    this.config = Object.assign({}, config, {
+      actionType: actionType
+    });
+  }
+
+  /**
+   * Allows the user to specify what to do with the result of the action.
+   *
+   * @param  {Function} transformer Should return an object that will constitute an action.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(FetchDescription, [{
+    key: 'as',
+    value: function as(transformer) {
+      var config = this.config;
+      fetches[config.triggerMethod][config.className].push(Object.assign({}, config, {
+        dataTransformer: transformer
+      }));
+    }
+  }]);
+
+  return FetchDescription;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the dispatches tree.
+ */
+
+
+var DispatchBuilder = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String}   triggerMethod The name of the component method triggering a fetch.
+   * @param  {Function} translator    How to switch out url vars.
+   * @param  {Object}   config        Stores all the properties we'll need as we build a fetch.
+   *
+   * @return {undefined}
+   */
+
+  function DispatchBuilder(triggerMethod, translator, config) {
+    _classCallCheck(this, DispatchBuilder);
+
+    this.config = Object.assign({}, config, {
+      triggerMethod: triggerMethod,
+      translator: translator
+    });
+  }
+
+  /**
+   * Allows the user to specify a redux action associated with the data return.
+   *
+   * @param  {String} actionType A redux action type name.
+   *
+   * @return {ActionBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(DispatchBuilder, [{
+    key: 'thenDispatches',
+    value: function thenDispatches(actionType) {
+      return new FetchDescription(actionType, this.config);
+    }
+  }]);
+
+  return DispatchBuilder;
+}();
+
+/**
+ * @class
+ *
+ * Builds a level of the fetches tree.
+ */
+
+
+var Fetch = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} url        The URL to fetch.
+   * @param  {Object} config     Ajax configuration object for `fetch`.
+   * @param  {String} className  The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Fetch(url, config, className) {
+    _classCallCheck(this, Fetch);
+
+    this.url = url;
+    this.config = config || {};
+    this.className = className;
+  }
+
+  /**
+   * Allows the user to specify a component method that will trigger the fetch.
+   *
+   * @param  {String}   triggerMethod The method name.
+   * @param  {Function} translator    How to modify URL vars.
+   *
+   * @return {DispatchBuilder} Contains more functionality for completing the description.
+   */
+
+
+  _createClass(Fetch, [{
+    key: 'when',
+    value: function when(triggerMethod, translator) {
+      translator = translator || emptyFn;
+      fetches[triggerMethod] = fetches[triggerMethod] || {};
+      fetches[triggerMethod][this.className] = fetches[triggerMethod][this.className] || [];
+      return new DispatchBuilder(triggerMethod, translator, this);
+    }
+  }]);
+
+  return Fetch;
+}();
+
+/**
+ * Locates the proper fetch functions to fire for a given
+ * class and method name, and fires them.
+ *
+ * @param  {String} event          Such as 'componentDidMount'.
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance       An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function runFetches(event, incomingAction, store, instance) {
+
+  /*
+   * Make sure we have an array of actions to loop over.
+   */
+  var actions = fetches[event];
+  if (actions) {
+    actions = actions[instance.constructor.name];
+  }
+
+  /*
+   * Each object in the array will take the form {
+   *   url: '/api/v2/users/:id',
+   *   config: { ... },
+   *   className: 'Foo',
+   *   triggerMethod: 'componentDidMount',
+   *   translator: FUNCTION,
+   *   actionType: 'MY_ACTION',
+   *   dataTransformer: FUNCTION
+   * }.
+   *
+   * For each object, we'll build a clean URL by replacing any url vars
+   * that may exist within the provided url.
+   *
+   * We'll perform a fetch on the clean URL using the user's provided
+   * config data. When the data comes back, we'll run the provided
+   * data transformer on it and dispatch a redux action.
+   */
+  actions && actions.forEach(function (item) {
+    var cleanURL = replaceURLVars(item.url, item.translator(instance.state || {}));
+
+    /*
+     * Perform a fetch. If it's ok resolve it. If not, reject it.
+     */
+    var fetched = fetch(cleanURL, item.config).then(function (response) {
+      return response.ok ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
+    });
+
+    /*
+     * When the fetch resolves, read it to text then pass it
+     * through the user-prived transformer, set the incoing action,
+     * and dispatch an action.
+     */
+    fetched.then(function (data) {
+      return data.text();
+    }).then(function (data) {
+      var action = item.dataTransformer(tryToParse(data), instance.state || {});
+      incomingAction.set(item.actionType);
+      store.dispatch(Object.assign(_extends({}, action, { type: item.actionType })));
+    });
+  });
+}
+
+exports.Fetch = Fetch;
+exports.runFetches = runFetches;
+
+},{}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.reduxStore = exports.implicitStore = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+var _redux = require('redux');
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
+                                                                                                                                                          
+                                                                                                                                                          Allows syntax such as:
+                                                                                                                                                          
+                                                                                                                                                          ```
+                                                                                                                                                          import { implicitStore as store } from 'strux'
+                                                                                                                                                          
+                                                                                                                                                          store.setInitialState({
+                                                                                                                                                            property1: 'value1',
+                                                                                                                                                            property2: 'value2'
+                                                                                                                                                          });
+                                                                                                                                                          
+                                                                                                                                                          store.reduce('MY_ACTION', (curState, action) => {
+                                                                                                                                                            return Object.assign({}, curState, { property1: action.prop });
+                                                                                                                                                          });
+                                                                                                                                                          
+                                                                                                                                                          store.reduce('ANOTHER_ACTION', (curState, action) => {
+                                                                                                                                                            return Object.assign({}, curState, { property2: action.prop });
+                                                                                                                                                          });
+                                                                                                                                                          ```
+                                                                                                                                                          
+                                                                                                                                                          This way the user never has to manually create a store.
+                                                                                                                                                          */
+
+/*
+ * Pull in `createStore` from redux.
+ */
+
+
+/*
+ * Set the initial state as an object.
+ * We're going to require that the state always
+ * take the form of an object.
+ */
+var initialState = {};
+var initialStateManuallySet = false;
+
+/*
+ * A value to be used internally for calling the reducer with the
+ * purpose of resetting the application state back to a default.
+ */
+var reset = Symbol();
+
+/**
+ * @class
+ *
+ * Builds an object that will be placed into the
+ * `registeredReducers` array.
+ */
+
+var ReducerObject =
+
+/**
+ * @constructor
+ *
+ * Sets initial properties on the object.
+ *
+ * @param  {String}   action    The type of redux action associated with this
+ *                              reduction procedure.
+ * @param  {Function} procedure The procedure to run when this action is
+ *                              dispatched through redux.
+ *
+ * @return {undefined}
+ */
+function ReducerObject(action, procedure) {
+  _classCallCheck(this, ReducerObject);
+
+  this.action = action;
+  this.procedure = procedure;
+};
+
+/*
+ * Create a place to hold all reduce procedures the user gives us.
+ */
+
+
+var registeredReducers = _defineProperty({}, reset, new ReducerObject(reset, function () {
+  return initialState;
+}));
+
+/*
+ * Create a defaultReducer to run when the action doesn't match any
+ * provided actions. It will simply return the state.
+ */
+var defaultReducer = function defaultReducer(state, action) {
+  return state;
+};
+
+/**
+ * The implicitReducer will be the only reducer passed to redux's
+ * `createStore` function. It will loop over each of the procedures
+ * in the `registeredReducers` array and call the one whose associated
+ * action matches the action dispatched through redux. It will return
+ * the result of calling that procedure.
+ *
+ * @param  {Object} state  The application state. Assumed to be an object.
+ * @param  {Object} action The action object handed to us by redux.
+ *
+ * @return {Object} The new form of the application state.
+ */
+function implicitReducer() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+  var action = arguments[1];
+
+  var output = void 0;
+
+  /*
+   * Find a reducer in `registeredReducers` matching our incoming action type.
+   */
+  if (Object.prototype.hasOwnProperty.call(registeredReducers, action.type)) {
+
+    /*
+     * Run the reducer procedure with a copy of the current state and the
+     * incoming action. Set its result to be the output value.
+     */
+    var procedure = registeredReducers[action.type].procedure;
+    output = procedure(Object.assign({}, state), action);
+
+    /*
+     * If action.type does not match a registered reducer, run the
+     * default reducer instead.
+     */
+  } else {
+      output = defaultReducer(Object.assign({}, state), action);
+    }
+
+  /*
+   * Do a sanity check to make sure the intended form of the new state
+   * is still an object. If so, return it.
+   */
+  if ((typeof output === 'undefined' ? 'undefined' : _typeof(output)) !== 'object') {
+    throw new Error('Your application state must always take the form of an object accepting keys and values when using the implicit store.');
+  }
+  return output;
+}
+
+/*
+ * Create a redux store.
+ */
+var reduxStore = (0, _redux.createStore)(implicitReducer);
+
+/**
+ * @class
+ *
+ * Builds an object that allows the user to add reducers to the
+ * `registeredReducers` array.
+ */
+
+var ImplicitStore = function () {
+  function ImplicitStore() {
+    _classCallCheck(this, ImplicitStore);
+  }
+
+  _createClass(ImplicitStore, [{
+    key: 'reduce',
+
+
+    /**
+     * Allows the user to associate a procedure with a redux action
+     * such that, when the action is dispatched, only the provided
+     * function will run.
+     *
+     * @param  {String}   action    Optional. The type of redux action associated
+     *                              with this reduction procedure. If this
+     *                              argument is not supplied, the provided
+     *                              reducer will become the `defaultReducer`,
+     *                              which will run when the dispatched action
+     *                              doesn't match any registered reducers.
+     * @param  {Function} procedure The procedure to run when this action is
+     *                              dispatched through redux.
+     *
+     * @return {ImplicitStore} This object.
+     */
+    value: function reduce(action, procedure) {
+      if (arguments.length === 1 && typeof action === 'function') {
+        defaultReducer = procedure;
+      } else {
+        registeredReducers[action] = new ReducerObject(action, procedure);
+      }
+      return this;
+    }
+
+    /**
+     * Allow the user to retrieve the redux store.
+     *
+     * @return The redux store.
+     */
+
+  }, {
+    key: 'getStore',
+    value: function getStore() {
+      return reduxStore;
+    }
+
+    /**
+     * Allow the user to retrieve a copy of the current state.
+     *
+     * @return The current application state.
+     */
+
+  }, {
+    key: 'getState',
+    value: function getState() {
+      return Object.assign({}, reduxStore.getState());
+    }
+
+    /**
+     * Allow the user a single opportunity to set the initial application state.
+     *
+     * @param {Object} stateObject Any type of object accepting keys and values.
+     *
+     * @return {Object} A copy of the current state.
+     */
+
+  }, {
+    key: 'setInitialState',
+    value: function setInitialState(stateObject) {
+      if ((typeof stateObject === 'undefined' ? 'undefined' : _typeof(stateObject)) !== 'object') {
+        throw new Error('Initial state must take the form of an object that accepts keys and values.');
+      } else if (initialStateManuallySet) {
+        throw new Error('You can not set the initial state more than once.');
+      } else {
+        initialStateManuallySet = true;
+        initialState = stateObject;
+        reduxStore.dispatch({ type: reset });
+        return this.getState();
+      }
+    }
+  }]);
+
+  return ImplicitStore;
+}();
+
+/*
+ * Create an `ImplicitStore` object to export.
+ */
+
+
+var implicitStore = new ImplicitStore();
+
+/*
+ * Export the object.
+ */
+exports.implicitStore = implicitStore;
+exports.reduxStore = reduxStore;
+
+},{"redux":247}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+/*
+
+Allows syntax such as:
+
+```
+mapStateToState({
+  applicationPropName: Component
+});
+```
+
+*/
+
+/*
+ * Takes the form: {
+ *   ComponentClassName: 'appStateProp'
+ * }
+ */
+var mappings = {};
+
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
+
+/**
+ * A shortcut for checking if an object owns a key.
+ *
+ * @param  {Object} object The object to search in.
+ * @param  {String} key    The key to try to find in the object.
+ *
+ * @return {Boolean}
+ */
+function owns(object, key) {
+  return Object.prototype.hasOwnProperty.call(object, key);
+}
+
+/**
+ * Collects differences between a piece of the application state and
+ * a component state and returns them in the form of an object.
+ *
+ * @param  {Object} appStateChunk A piece of the application state.
+ * @param  {Object} instanceState The state property on a component instance.
+ *
+ * @return {Object|false}
+ */
+function isolateUpdates(appStateChunk, instanceState) {
+  var output = {};
+  var counter = 0;
+
+  /*
+   * We'll collect a difference when there is a key on the app state that
+   * doesn't exist on the component state or when the value on the app state
+   * doesn't match the value on the component state.
+   */
+  Object.keys(appStateChunk).forEach(function (key) {
+    var val = appStateChunk[key];
+    if (!owns(instanceState, key) || val !== instanceState[key]) {
+      counter += 1;
+      output[key] = val;
+    }
+  });
+  return counter ? output : false;
+}
+
+/**
+ * Creates implicit subscriptions to Redux actions for updating a
+ * component state.
+ *
+ * @param  {Object} store    A redux store.
+ * @param  {Object} instance An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+function createMappingSubscribers(store, instance) {
+  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
+    var className = instance.constructor.name;
+    var relevantStateValue = store.getState()[mappings[className]];
+    if (relevantStateValue && (typeof relevantStateValue === 'undefined' ? 'undefined' : _typeof(relevantStateValue)) === 'object') {
+      var changes = isolateUpdates(relevantStateValue, instance.state);
+      changes && instance.setState(changes);
+    }
+  }));
+}
+
+/**
+ * Allows the user to set specify that when a certain key on the application
+ * state changes, the values on that key will be mapped to the state object
+ * on the component.
+ *
+ * @param  {Object} userMappings Takes the form `{appStateProp: ComponentClass}`
+ *
+ * @return {undefined}
+ */
+function mapStateToState(userMappings) {
+  Object.keys(userMappings).forEach(function (key) {
+    var componentClass = userMappings[key];
+    mappings[componentClass.name] = key;
+  });
+}
+
+exports.mapStateToState = mapStateToState;
+exports.createMappingSubscribers = createMappingSubscribers;
+
+},{}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+
+Allows syntax such as:
+
+```
+MyComponent
+  .picksUp('MY_ACTION')
+  .then((appState, other) => {
+    other.setState(appState);
+  });
+```
+
+*/
+
+/*
+ * Holds descriptions for all pickup actions throughout the application.
+ * The tree takes the following form:
+ *   pickups = {
+ *     componentClassName: {
+ *       'MY_ACTION': [FUNCTION, FUNCTION, FUNCTION]
+ *     }
+ *   }
+ */
+var pickups = {};
+
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
+
+/**
+ * @class
+ *
+ * Builds a level of the pickups tree.
+ */
+
+var Pickup = function () {
+
+  /**
+   * @constructor
+   *
+   * Sets up important properties on the instance.
+   *
+   * @param  {String} actionType    A Redux action type.
+   * @param  {String} className    The name of the class that brought us here.
+   *
+   * @return {undefined}
+   */
+
+  function Pickup(actionType, className) {
+    _classCallCheck(this, Pickup);
+
+    this.actionType = actionType;
+    this.className = className;
+  }
+
+  /**
+   * Associates a handler with an action type in context of a Redux subscription.
+   *
+   * @param  {Function} handler Called with the new state and a component instance.
+   *
+   * @return {undefined}
+   */
+
+
+  _createClass(Pickup, [{
+    key: 'then',
+    value: function then(handler) {
+      pickups[this.className] = pickups[this.className] || {};
+      pickups[this.className][this.actionType] = pickups[this.className][this.actionType] || [];
+      pickups[this.className][this.actionType].push(handler);
+    }
+  }]);
+
+  return Pickup;
+}();
+
+/**
+ * Creates implicit subscriptions to Redux actions for a rendered component.
+ *
+ * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
+ * @param  {Object} store          A redux store.
+ * @param  {Object} instance       An instance of an XComponent extended class.
+ *
+ * @return {undefined}
+ */
+
+
+function createPickupSubscribers(incomingAction, store, instance) {
+  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
+    var relevantPickups = pickups[instance.constructor.name];
+    if (relevantPickups) {
+      relevantPickups = relevantPickups[incomingAction.get()];
+    }
+    if (relevantPickups) {
+      (function () {
+        var state = store.getState();
+        relevantPickups.forEach(function (handler) {
+          return handler(state, instance);
+        });
+      })();
+    }
+  }));
+}
+
+exports.Pickup = Pickup;
+exports.createPickupSubscribers = createPickupSubscribers;
+
+},{}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Component = exports.mapStateToState = exports.implicitStore = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     CONCEPT:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Describe redux communications across your app all in one place. This will
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     eliminate the need to hunt down dispatches and subscriptions.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     EXAMPLE:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import Home from './home';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { createStore } from 'strux';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     const store = createStore(function reducer() { ... });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .dispatches('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(state => state);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Other
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .picksUp('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .then((appState, other) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         other.setState(appState);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users/:id')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount', state => { return {id: 1} })
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .thenDispatches('MY_ACTION')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(data => data);
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ALTERNATE STORE MANAGEMENT:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { implicitStore as store } from 'strux'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('MY_ACTION', (curState, action) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('ANOTHER_ACTION', (curState, action) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     You can also create automatic state-to-state mappings such that a property
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     in your application state will be kept in sync with your component state.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     When the application state changes, a subscriber will automatically pick up
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     on that set the component state as necessary.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { mapStateToState } from 'strux';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     mapStateToState({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp1: Home,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp2: Profile
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
+
+/*
+ * Import the necessary items from React and Redux.
+ */
+
+
+var _redux = require('redux');
+
+Object.defineProperty(exports, 'combineReducers', {
+  enumerable: true,
+  get: function get() {
+    return _redux.combineReducers;
+  }
+});
+Object.defineProperty(exports, 'applyMiddleware', {
+  enumerable: true,
+  get: function get() {
+    return _redux.applyMiddleware;
+  }
+});
+Object.defineProperty(exports, 'bindActionCreators', {
+  enumerable: true,
+  get: function get() {
+    return _redux.bindActionCreators;
+  }
+});
+Object.defineProperty(exports, 'compose', {
+  enumerable: true,
+  get: function get() {
+    return _redux.compose;
+  }
+});
+
+var _react = require('react');
+
+var _dispatch = require('./lib/dispatch');
+
+var _pickup = require('./lib/pickup');
+
+var _fetch = require('./lib/fetch');
+
+var _implicitstore = require('./lib/implicitstore');
+
+var _mappings = require('./lib/mappings');
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/*
+ * Track a reference to the store created by the user.
+ * By default, we'll assume the user is going to be using
+ * the implicit store. If not, their own store will override this.
+ */
+var store = _implicitstore.reduxStore;
+
+/*
+ * A symbol allowing us to hide Redux store subscriptions from the user.
+ */
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
+
+/*
+ * Every time a dispatch occurs, we'll reset this variable first so that
+ * when subscribers fire, they'll be able to know which action type
+ * triggered the handler.
+ */
+var incomingAction = new (function () {
+  function _class() {
+    _classCallCheck(this, _class);
+
+    this.action = null;
+  }
+
+  _createClass(_class, [{
+    key: 'get',
+    value: function get() {
+      return this.action;
+    }
+  }, {
+    key: 'set',
+    value: function set(val) {
+      this.action = val;
+    }
+  }]);
+
+  return _class;
+}())();
+
+/*
+ * We'll need to generate methods for each of these lifeCycle method names.
+ */
+var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
+
+/**
+ * @class
+ *
+ * Adds a layer to React's Component class for smoother Redux
+ * work.
+ */
+
+var Component = function (_ReactComponent) {
+  _inherits(Component, _ReactComponent);
+
+  /**
+   * @constructor
+   *
+   * Runs the super constructor, sets up an place for us to
+   * store subscriptions, and makes sure implicit methods exist for this
+   * instance. We have to create those methods in the constructor because
+   * they are not methods on the Component prototype.
+   *
+   * @param  {Arguments} ...args Any arguments passed to the constructor.
+   *
+   * @return {undefined}
+   */
+
+  function Component() {
+    var _Object$getPrototypeO;
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _classCallCheck(this, Component);
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    _this[UNSUBSCRIBERS] = [];
+
+    /*
+     * Make sure we have an existing method for each life cycle method name.
+     * We'll begin by getting a reference to the original method if the user
+     * has already attached one.
+     */
+    lifeCycle.forEach(function (methodName) {
+      var orig = _this[methodName];
+
+      /*
+       * For each method we create, handle subscribers, dispatchers,
+       * and fetchers.
+       */
+      _this[methodName] = function () {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+          args[_key2] = arguments[_key2];
+        }
+
+        /*
+         * Call the original method and trap the result.
+         */
+        var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
+
+        /*
+         * If this is `shouldComponentUpdate`, make sure we're returning
+         * a boolean if the result was falsy.
+         */
+        methodName === 'shouldComponentUpdate' && !out && (out = false);
+
+        /*
+         * If this is `componentDidMount`, create subscribers to run
+         * pickup functions.
+         */
+        if (methodName === 'componentDidMount') {
+          (0, _pickup.createPickupSubscribers)(incomingAction, store, _this);
+          (0, _mappings.createMappingSubscribers)(store, _this);
+        }
+
+        /*
+         * Run all dispatches and fetches associated with this method.
+         */
+        (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
+        (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
+
+        /*
+         * If this is `componentWillUnmount`, we unsubscribe our implicit
+         * subscribers.
+         */
+        methodName === 'componentWillUnmount' && _this[UNSUBSCRIBERS].forEach(function (unsubscriber) {
+          return unsubscriber();
+        });
+
+        /*
+         * Return the result of calling the original method.
+         */
+        return out;
+      };
+    });
+    return _this;
+  }
+
+  /**
+   * A new static method that allows us to begin describing circumstances that
+   * will cause instances of this component to trigger Redux dispatches.
+   *
+   * @param  {String} actionType A redux action type name.
+   *
+   * @return {Dispatch} Contains more methods for completing the description.
+   */
+
+
+  _createClass(Component, null, [{
+    key: 'dispatches',
+    value: function dispatches(actionType) {
+      return new _dispatch.Dispatch(actionType, this.name);
+    }
+
+    /**
+     * A new static method that allows us to begin describing that instances
+     * of this component will subscribe to certain Redux action types.
+     *
+     * @param  {String} actionType A redux action type name.
+     *
+     * @return {Pickup} Contains more methods for completing the description.
+     */
+
+  }, {
+    key: 'picksUp',
+    value: function picksUp(actionType) {
+      return new _pickup.Pickup(actionType, this.name);
+    }
+
+    /**
+     * A new static method that allows us to begin describing circumstances that
+     * will cause a data fetch within the application.
+     *
+     * @param  {String} url    The datapoint.
+     * @param  {Object} config An object modifying the call made _a la_ the fetch api.
+     *
+     * @return {Pickup} Contains more methods for completing the description.
+     */
+
+  }, {
+    key: 'fetches',
+    value: function fetches(url, config) {
+      return new _fetch.Fetch(url, config, this.name);
+    }
+  }]);
+
+  return Component;
+}(_react.Component);
+
+/**
+ * Override Redux's createStore with a version that allows us to keep
+ * track of the store the user creates.
+ *
+ * @param  {Arguments} ...args Usually a reducer function.
+ *
+ * @return A Redux store.
+ */
+
+
+function createStore() {
+  store = _redux.createStore.apply(undefined, arguments);
+  return store;
+}
+
+/*
+ * Users will be able to use this module INSTEAD of Redux as it passes
+ * through all the necessary top level pieces as well as our new component type.
+ */
+exports.createStore = createStore;
+exports.implicitStore = _implicitstore.implicitStore;
+exports.mapStateToState = _mappings.mapStateToState;
+exports.Component = Component;
+
+},{"./lib/dispatch":7,"./lib/fetch":8,"./lib/implicitstore":9,"./lib/mappings":10,"./lib/pickup":11,"react":241,"redux":247}],13:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -94,7 +1782,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],2:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.2.4
  * http://jquery.com/
@@ -9910,12 +11598,12 @@ if ( !noGlobal ) {
 return jQuery;
 }));
 
-},{}],3:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 'use strict';
 
 module.exports = require('react/lib/ReactDOM');
 
-},{"react/lib/ReactDOM":101}],4:[function(require,module,exports){
+},{"react/lib/ReactDOM":113}],16:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -10004,7 +11692,7 @@ function mapAsync(array, work, callback) {
     });
   });
 }
-},{}],5:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10036,7 +11724,7 @@ var History = {
 exports.default = History;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./routerWarning":37,"_process":1}],6:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./routerWarning":49,"_process":13}],18:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10065,7 +11753,7 @@ var IndexLink = _react2.default.createClass({
 
 exports.default = IndexLink;
 module.exports = exports['default'];
-},{"./Link":11,"react":229}],7:[function(require,module,exports){
+},{"./Link":23,"react":241}],19:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10131,7 +11819,7 @@ var IndexRedirect = _react2.default.createClass({
 exports.default = IndexRedirect;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./Redirect":14,"./routerWarning":37,"_process":1,"invariant":63,"react":229}],8:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./Redirect":26,"./routerWarning":49,"_process":13,"invariant":75,"react":241}],20:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10194,7 +11882,7 @@ var IndexRoute = _react2.default.createClass({
 exports.default = IndexRoute;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./RouteUtils":17,"./routerWarning":37,"_process":1,"invariant":63,"react":229}],9:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./RouteUtils":29,"./routerWarning":49,"_process":13,"invariant":75,"react":241}],21:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -10227,7 +11915,7 @@ var component = exports.component = oneOfType([func, string]);
 var components = exports.components = oneOfType([component, object]);
 var route = exports.route = oneOfType([object, element]);
 var routes = exports.routes = oneOfType([route, arrayOf(route)]);
-},{"react":229}],10:[function(require,module,exports){
+},{"react":241}],22:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10298,7 +11986,7 @@ var Lifecycle = {
 exports.default = Lifecycle;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./routerWarning":37,"_process":1,"invariant":63,"react":229}],11:[function(require,module,exports){
+},{"./routerWarning":49,"_process":13,"invariant":75,"react":241}],23:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10474,7 +12162,7 @@ var Link = _react2.default.createClass({
 exports.default = Link;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./PropTypes":13,"./routerWarning":37,"_process":1,"react":229}],12:[function(require,module,exports){
+},{"./PropTypes":25,"./routerWarning":49,"_process":13,"react":241}],24:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10689,7 +12377,7 @@ function formatPattern(pattern, params) {
   return pathname.replace(/\/+/g, '/');
 }
 }).call(this,require('_process'))
-},{"_process":1,"invariant":63}],13:[function(require,module,exports){
+},{"_process":13,"invariant":75}],25:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10793,7 +12481,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 exports.default = defaultExport;
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./deprecateObjectProperties":29,"./routerWarning":37,"_process":1,"react":229}],14:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./deprecateObjectProperties":41,"./routerWarning":49,"_process":13,"react":241}],26:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10898,7 +12586,7 @@ var Redirect = _react2.default.createClass({
 exports.default = Redirect;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./PatternUtils":12,"./RouteUtils":17,"_process":1,"invariant":63,"react":229}],15:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./PatternUtils":24,"./RouteUtils":29,"_process":13,"invariant":75,"react":241}],27:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -10958,7 +12646,7 @@ var Route = _react2.default.createClass({
 exports.default = Route;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./RouteUtils":17,"_process":1,"invariant":63,"react":229}],16:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./RouteUtils":29,"_process":13,"invariant":75,"react":241}],28:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11006,7 +12694,7 @@ var RouteContext = {
 exports.default = RouteContext;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./routerWarning":37,"_process":1,"react":229}],17:[function(require,module,exports){
+},{"./routerWarning":49,"_process":13,"react":241}],29:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11121,7 +12809,7 @@ function createRoutes(routes) {
   return routes;
 }
 }).call(this,require('_process'))
-},{"./routerWarning":37,"_process":1,"react":229}],18:[function(require,module,exports){
+},{"./routerWarning":49,"_process":13,"react":241}],30:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11332,7 +13020,7 @@ var Router = _react2.default.createClass({
 exports.default = Router;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./InternalPropTypes":9,"./RouteUtils":17,"./RouterContext":19,"./RouterUtils":20,"./createTransitionManager":28,"./routerWarning":37,"_process":1,"history/lib/createHashHistory":49,"history/lib/useQueries":56,"react":229}],19:[function(require,module,exports){
+},{"./InternalPropTypes":21,"./RouteUtils":29,"./RouterContext":31,"./RouterUtils":32,"./createTransitionManager":40,"./routerWarning":49,"_process":13,"history/lib/createHashHistory":61,"history/lib/useQueries":68,"react":241}],31:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11491,7 +13179,7 @@ var RouterContext = _react2.default.createClass({
 exports.default = RouterContext;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./RouteUtils":17,"./deprecateObjectProperties":29,"./getRouteParams":31,"./routerWarning":37,"_process":1,"invariant":63,"react":229}],20:[function(require,module,exports){
+},{"./RouteUtils":29,"./deprecateObjectProperties":41,"./getRouteParams":43,"./routerWarning":49,"_process":13,"invariant":75,"react":241}],32:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11526,7 +13214,7 @@ function createRoutingHistory(history, transitionManager) {
   return history;
 }
 }).call(this,require('_process'))
-},{"./deprecateObjectProperties":29,"_process":1}],21:[function(require,module,exports){
+},{"./deprecateObjectProperties":41,"_process":13}],33:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11559,7 +13247,7 @@ var RoutingContext = _react2.default.createClass({
 exports.default = RoutingContext;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./RouterContext":19,"./routerWarning":37,"_process":1,"react":229}],22:[function(require,module,exports){
+},{"./RouterContext":31,"./routerWarning":49,"_process":13,"react":241}],34:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -11684,7 +13372,7 @@ function runLeaveHooks(routes) {
   }
 }
 }).call(this,require('_process'))
-},{"./AsyncUtils":4,"./routerWarning":37,"_process":1}],23:[function(require,module,exports){
+},{"./AsyncUtils":16,"./routerWarning":49,"_process":13}],35:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11735,7 +13423,7 @@ exports.default = function () {
 };
 
 module.exports = exports['default'];
-},{"./RouterContext":19,"react":229}],24:[function(require,module,exports){
+},{"./RouterContext":31,"react":241}],36:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11752,7 +13440,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _createRouterHistory2.default)(_createBrowserHistory2.default);
 module.exports = exports['default'];
-},{"./createRouterHistory":27,"history/lib/createBrowserHistory":47}],25:[function(require,module,exports){
+},{"./createRouterHistory":39,"history/lib/createBrowserHistory":59}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11830,7 +13518,7 @@ function computeChangedRoutes(prevState, nextState) {
 
 exports.default = computeChangedRoutes;
 module.exports = exports['default'];
-},{"./PatternUtils":12}],26:[function(require,module,exports){
+},{"./PatternUtils":24}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11863,7 +13551,7 @@ function createMemoryHistory(options) {
   return history;
 }
 module.exports = exports['default'];
-},{"history/lib/createMemoryHistory":52,"history/lib/useBasename":55,"history/lib/useQueries":56}],27:[function(require,module,exports){
+},{"history/lib/createMemoryHistory":64,"history/lib/useBasename":67,"history/lib/useQueries":68}],39:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -11883,7 +13571,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 
 module.exports = exports['default'];
-},{"./useRouterHistory":38}],28:[function(require,module,exports){
+},{"./useRouterHistory":50}],40:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -12193,7 +13881,7 @@ function createTransitionManager(history, routes) {
 //export default useRoutes
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./TransitionUtils":22,"./computeChangedRoutes":25,"./getComponents":30,"./isActive":34,"./matchRoutes":36,"./routerWarning":37,"_process":1,"history/lib/Actions":41}],29:[function(require,module,exports){
+},{"./TransitionUtils":34,"./computeChangedRoutes":37,"./getComponents":42,"./isActive":46,"./matchRoutes":48,"./routerWarning":49,"_process":13,"history/lib/Actions":53}],41:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -12271,7 +13959,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 exports.default = deprecateObjectProperties;
 }).call(this,require('_process'))
-},{"./routerWarning":37,"_process":1}],30:[function(require,module,exports){
+},{"./routerWarning":49,"_process":13}],42:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -12353,7 +14041,7 @@ function getComponents(nextState, callback) {
 exports.default = getComponents;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./AsyncUtils":4,"./deprecateObjectProperties":29,"./routerWarning":37,"_process":1}],31:[function(require,module,exports){
+},{"./AsyncUtils":16,"./deprecateObjectProperties":41,"./routerWarning":49,"_process":13}],43:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12382,7 +14070,7 @@ function getRouteParams(route, params) {
 
 exports.default = getRouteParams;
 module.exports = exports['default'];
-},{"./PatternUtils":12}],32:[function(require,module,exports){
+},{"./PatternUtils":24}],44:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12399,7 +14087,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = (0, _createRouterHistory2.default)(_createHashHistory2.default);
 module.exports = exports['default'];
-},{"./createRouterHistory":27,"history/lib/createHashHistory":49}],33:[function(require,module,exports){
+},{"./createRouterHistory":39,"history/lib/createHashHistory":61}],45:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12556,7 +14244,7 @@ exports.applyRouterMiddleware = _applyRouterMiddleware3.default;
 exports.browserHistory = _browserHistory3.default;
 exports.hashHistory = _hashHistory3.default;
 exports.createMemoryHistory = _createMemoryHistory3.default;
-},{"./History":5,"./IndexLink":6,"./IndexRedirect":7,"./IndexRoute":8,"./Lifecycle":10,"./Link":11,"./PatternUtils":12,"./PropTypes":13,"./Redirect":14,"./Route":15,"./RouteContext":16,"./RouteUtils":17,"./Router":18,"./RouterContext":19,"./RoutingContext":21,"./applyRouterMiddleware":23,"./browserHistory":24,"./createMemoryHistory":26,"./hashHistory":32,"./match":35,"./useRouterHistory":38,"./useRoutes":39,"./withRouter":40}],34:[function(require,module,exports){
+},{"./History":17,"./IndexLink":18,"./IndexRedirect":19,"./IndexRoute":20,"./Lifecycle":22,"./Link":23,"./PatternUtils":24,"./PropTypes":25,"./Redirect":26,"./Route":27,"./RouteContext":28,"./RouteUtils":29,"./Router":30,"./RouterContext":31,"./RoutingContext":33,"./applyRouterMiddleware":35,"./browserHistory":36,"./createMemoryHistory":38,"./hashHistory":44,"./match":47,"./useRouterHistory":50,"./useRoutes":51,"./withRouter":52}],46:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -12709,7 +14397,7 @@ function isActive(_ref, indexOnly, currentLocation, routes, params) {
   return queryIsActive(query, currentLocation.query);
 }
 module.exports = exports['default'];
-},{"./PatternUtils":12}],35:[function(require,module,exports){
+},{"./PatternUtils":24}],47:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -12793,7 +14481,7 @@ function match(_ref, callback) {
 exports.default = match;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./RouteUtils":17,"./RouterUtils":20,"./createMemoryHistory":26,"./createTransitionManager":28,"_process":1,"invariant":63}],36:[function(require,module,exports){
+},{"./RouteUtils":29,"./RouterUtils":32,"./createMemoryHistory":38,"./createTransitionManager":40,"_process":13,"invariant":75}],48:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13029,7 +14717,7 @@ function matchRoutes(routes, location, callback, remainingPathname) {
 }
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./AsyncUtils":4,"./PatternUtils":12,"./RouteUtils":17,"./routerWarning":37,"_process":1}],37:[function(require,module,exports){
+},{"./AsyncUtils":16,"./PatternUtils":24,"./RouteUtils":29,"./routerWarning":49,"_process":13}],49:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13066,7 +14754,7 @@ function routerWarning(falseToWarn, message) {
 function _resetWarned() {
   warned = {};
 }
-},{"warning":64}],38:[function(require,module,exports){
+},{"warning":76}],50:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13090,7 +14778,7 @@ function useRouterHistory(createHistory) {
   };
 }
 module.exports = exports['default'];
-},{"history/lib/useBasename":55,"history/lib/useQueries":56}],39:[function(require,module,exports){
+},{"history/lib/useBasename":67,"history/lib/useQueries":68}],51:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13144,7 +14832,7 @@ function useRoutes(createHistory) {
 exports.default = useRoutes;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./createTransitionManager":28,"./routerWarning":37,"_process":1,"history/lib/useQueries":56}],40:[function(require,module,exports){
+},{"./createTransitionManager":40,"./routerWarning":49,"_process":13,"history/lib/useQueries":68}],52:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13185,7 +14873,7 @@ function withRouter(WrappedComponent) {
   return (0, _hoistNonReactStatics2.default)(WithRouter, WrappedComponent);
 }
 module.exports = exports['default'];
-},{"./PropTypes":13,"hoist-non-react-statics":62,"react":229}],41:[function(require,module,exports){
+},{"./PropTypes":25,"hoist-non-react-statics":74,"react":241}],53:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -13217,7 +14905,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],42:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -13276,7 +14964,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],43:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -13352,7 +15040,7 @@ function readState(key) {
   return null;
 }
 }).call(this,require('_process'))
-},{"_process":1,"warning":64}],44:[function(require,module,exports){
+},{"_process":13,"warning":76}],56:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -13428,13 +15116,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],45:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],46:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13484,7 +15172,7 @@ function parsePath(path) {
   };
 }
 }).call(this,require('_process'))
-},{"_process":1,"warning":64}],47:[function(require,module,exports){
+},{"_process":13,"warning":76}],59:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13663,7 +15351,7 @@ function createBrowserHistory() {
 exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":41,"./DOMStateStorage":43,"./DOMUtils":44,"./ExecutionEnvironment":45,"./PathUtils":46,"./createDOMHistory":48,"_process":1,"invariant":63}],48:[function(require,module,exports){
+},{"./Actions":53,"./DOMStateStorage":55,"./DOMUtils":56,"./ExecutionEnvironment":57,"./PathUtils":58,"./createDOMHistory":60,"_process":13,"invariant":75}],60:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13706,7 +15394,7 @@ function createDOMHistory(options) {
 exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./DOMUtils":44,"./ExecutionEnvironment":45,"./createHistory":50,"_process":1,"invariant":63}],49:[function(require,module,exports){
+},{"./DOMUtils":56,"./ExecutionEnvironment":57,"./createHistory":62,"_process":13,"invariant":75}],61:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -13955,7 +15643,7 @@ function createHashHistory() {
 exports['default'] = createHashHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":41,"./DOMStateStorage":43,"./DOMUtils":44,"./ExecutionEnvironment":45,"./PathUtils":46,"./createDOMHistory":48,"_process":1,"invariant":63,"warning":64}],50:[function(require,module,exports){
+},{"./Actions":53,"./DOMStateStorage":55,"./DOMUtils":56,"./ExecutionEnvironment":57,"./PathUtils":58,"./createDOMHistory":60,"_process":13,"invariant":75,"warning":76}],62:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14246,7 +15934,7 @@ function createHistory() {
 exports['default'] = createHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":41,"./AsyncUtils":42,"./PathUtils":46,"./createLocation":51,"./deprecate":53,"./runTransitionHook":54,"_process":1,"deep-equal":57,"warning":64}],51:[function(require,module,exports){
+},{"./Actions":53,"./AsyncUtils":54,"./PathUtils":58,"./createLocation":63,"./deprecate":65,"./runTransitionHook":66,"_process":13,"deep-equal":69,"warning":76}],63:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14300,7 +15988,7 @@ function createLocation() {
 exports['default'] = createLocation;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":41,"./PathUtils":46,"_process":1,"warning":64}],52:[function(require,module,exports){
+},{"./Actions":53,"./PathUtils":58,"_process":13,"warning":76}],64:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14457,7 +16145,7 @@ function createMemoryHistory() {
 exports['default'] = createMemoryHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./Actions":41,"./PathUtils":46,"./createHistory":50,"_process":1,"invariant":63,"warning":64}],53:[function(require,module,exports){
+},{"./Actions":53,"./PathUtils":58,"./createHistory":62,"_process":13,"invariant":75,"warning":76}],65:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14479,7 +16167,7 @@ function deprecate(fn, message) {
 exports['default'] = deprecate;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"_process":1,"warning":64}],54:[function(require,module,exports){
+},{"_process":13,"warning":76}],66:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14506,7 +16194,7 @@ function runTransitionHook(hook, location, callback) {
 exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"_process":1,"warning":64}],55:[function(require,module,exports){
+},{"_process":13,"warning":76}],67:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14667,7 +16355,7 @@ function useBasename(createHistory) {
 exports['default'] = useBasename;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":45,"./PathUtils":46,"./deprecate":53,"./runTransitionHook":54,"_process":1,"warning":64}],56:[function(require,module,exports){
+},{"./ExecutionEnvironment":57,"./PathUtils":58,"./deprecate":65,"./runTransitionHook":66,"_process":13,"warning":76}],68:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -14846,7 +16534,7 @@ function useQueries(createHistory) {
 exports['default'] = useQueries;
 module.exports = exports['default'];
 }).call(this,require('_process'))
-},{"./PathUtils":46,"./deprecate":53,"./runTransitionHook":54,"_process":1,"query-string":60,"warning":64}],57:[function(require,module,exports){
+},{"./PathUtils":58,"./deprecate":65,"./runTransitionHook":66,"_process":13,"query-string":72,"warning":76}],69:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -14942,7 +16630,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":58,"./lib/keys.js":59}],58:[function(require,module,exports){
+},{"./lib/is_arguments.js":70,"./lib/keys.js":71}],70:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -14964,7 +16652,7 @@ function unsupported(object){
     false;
 };
 
-},{}],59:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -14975,7 +16663,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],60:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 'use strict';
 var strictUriEncode = require('strict-uri-encode');
 
@@ -15043,7 +16731,7 @@ exports.stringify = function (obj) {
 	}).join('&') : '';
 };
 
-},{"strict-uri-encode":61}],61:[function(require,module,exports){
+},{"strict-uri-encode":73}],73:[function(require,module,exports){
 'use strict';
 module.exports = function (str) {
 	return encodeURIComponent(str).replace(/[!'()*]/g, function (c) {
@@ -15051,7 +16739,7 @@ module.exports = function (str) {
 	});
 };
 
-},{}],62:[function(require,module,exports){
+},{}],74:[function(require,module,exports){
 /**
  * Copyright 2015, Yahoo! Inc.
  * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
@@ -15095,7 +16783,7 @@ module.exports = function hoistNonReactStatics(targetComponent, sourceComponent)
     return targetComponent;
 };
 
-},{}],63:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -15150,7 +16838,7 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 module.exports = invariant;
 
 }).call(this,require('_process'))
-},{"_process":1}],64:[function(require,module,exports){
+},{"_process":13}],76:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -15214,7 +16902,7 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = warning;
 
 }).call(this,require('_process'))
-},{"_process":1}],65:[function(require,module,exports){
+},{"_process":13}],77:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -15239,7 +16927,7 @@ var AutoFocusUtils = {
 };
 
 module.exports = AutoFocusUtils;
-},{"./ReactDOMComponentTree":105,"fbjs/lib/focusNode":211}],66:[function(require,module,exports){
+},{"./ReactDOMComponentTree":117,"fbjs/lib/focusNode":223}],78:[function(require,module,exports){
 /**
  * Copyright 2013-present Facebook, Inc.
  * All rights reserved.
@@ -15628,7 +17316,7 @@ var BeforeInputEventPlugin = {
 };
 
 module.exports = BeforeInputEventPlugin;
-},{"./EventConstants":80,"./EventPropagators":84,"./FallbackCompositionState":85,"./SyntheticCompositionEvent":160,"./SyntheticInputEvent":164,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/keyOf":221}],67:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPropagators":96,"./FallbackCompositionState":97,"./SyntheticCompositionEvent":172,"./SyntheticInputEvent":176,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/keyOf":233}],79:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -15777,7 +17465,7 @@ var CSSProperty = {
 };
 
 module.exports = CSSProperty;
-},{}],68:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -15985,7 +17673,7 @@ var CSSPropertyOperations = {
 
 module.exports = CSSPropertyOperations;
 }).call(this,require('_process'))
-},{"./CSSProperty":67,"./ReactInstrumentation":134,"./dangerousStyleValue":177,"_process":1,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/camelizeStyleName":205,"fbjs/lib/hyphenateStyleName":216,"fbjs/lib/memoizeStringOnly":223,"fbjs/lib/warning":227}],69:[function(require,module,exports){
+},{"./CSSProperty":79,"./ReactInstrumentation":146,"./dangerousStyleValue":189,"_process":13,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/camelizeStyleName":217,"fbjs/lib/hyphenateStyleName":228,"fbjs/lib/memoizeStringOnly":235,"fbjs/lib/warning":239}],81:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -16093,7 +17781,7 @@ PooledClass.addPoolingTo(CallbackQueue);
 
 module.exports = CallbackQueue;
 }).call(this,require('_process'))
-},{"./PooledClass":89,"_process":1,"fbjs/lib/invariant":217,"object-assign":228}],70:[function(require,module,exports){
+},{"./PooledClass":101,"_process":13,"fbjs/lib/invariant":229,"object-assign":240}],82:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -16419,7 +18107,7 @@ var ChangeEventPlugin = {
 };
 
 module.exports = ChangeEventPlugin;
-},{"./EventConstants":80,"./EventPluginHub":81,"./EventPropagators":84,"./ReactDOMComponentTree":105,"./ReactUpdates":153,"./SyntheticEvent":162,"./getEventTarget":185,"./isEventSupported":192,"./isTextInputElement":193,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/keyOf":221}],71:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPluginHub":93,"./EventPropagators":96,"./ReactDOMComponentTree":117,"./ReactUpdates":165,"./SyntheticEvent":174,"./getEventTarget":197,"./isEventSupported":204,"./isTextInputElement":205,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/keyOf":233}],83:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -16616,7 +18304,7 @@ var DOMChildrenOperations = {
 
 module.exports = DOMChildrenOperations;
 }).call(this,require('_process'))
-},{"./DOMLazyTree":72,"./Danger":76,"./ReactDOMComponentTree":105,"./ReactInstrumentation":134,"./ReactMultiChildUpdateTypes":139,"./createMicrosoftUnsafeLocalFunction":176,"./setInnerHTML":197,"./setTextContent":198,"_process":1}],72:[function(require,module,exports){
+},{"./DOMLazyTree":84,"./Danger":88,"./ReactDOMComponentTree":117,"./ReactInstrumentation":146,"./ReactMultiChildUpdateTypes":151,"./createMicrosoftUnsafeLocalFunction":188,"./setInnerHTML":209,"./setTextContent":210,"_process":13}],84:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -16734,7 +18422,7 @@ DOMLazyTree.queueHTML = queueHTML;
 DOMLazyTree.queueText = queueText;
 
 module.exports = DOMLazyTree;
-},{"./DOMNamespaces":73,"./createMicrosoftUnsafeLocalFunction":176,"./setTextContent":198}],73:[function(require,module,exports){
+},{"./DOMNamespaces":85,"./createMicrosoftUnsafeLocalFunction":188,"./setTextContent":210}],85:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -16755,7 +18443,7 @@ var DOMNamespaces = {
 };
 
 module.exports = DOMNamespaces;
-},{}],74:[function(require,module,exports){
+},{}],86:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -16971,7 +18659,7 @@ var DOMProperty = {
 
 module.exports = DOMProperty;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],75:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],87:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17196,7 +18884,7 @@ var DOMPropertyOperations = {
 
 module.exports = DOMPropertyOperations;
 }).call(this,require('_process'))
-},{"./DOMProperty":74,"./ReactDOMComponentTree":105,"./ReactDOMInstrumentation":113,"./ReactInstrumentation":134,"./quoteAttributeValueForBrowser":195,"_process":1,"fbjs/lib/warning":227}],76:[function(require,module,exports){
+},{"./DOMProperty":86,"./ReactDOMComponentTree":117,"./ReactDOMInstrumentation":125,"./ReactInstrumentation":146,"./quoteAttributeValueForBrowser":207,"_process":13,"fbjs/lib/warning":239}],88:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17343,7 +19031,7 @@ var Danger = {
 
 module.exports = Danger;
 }).call(this,require('_process'))
-},{"./DOMLazyTree":72,"_process":1,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/createNodesFromMarkup":208,"fbjs/lib/emptyFunction":209,"fbjs/lib/getMarkupWrap":213,"fbjs/lib/invariant":217}],77:[function(require,module,exports){
+},{"./DOMLazyTree":84,"_process":13,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/createNodesFromMarkup":220,"fbjs/lib/emptyFunction":221,"fbjs/lib/getMarkupWrap":225,"fbjs/lib/invariant":229}],89:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17371,7 +19059,7 @@ var keyOf = require('fbjs/lib/keyOf');
 var DefaultEventPluginOrder = [keyOf({ ResponderEventPlugin: null }), keyOf({ SimpleEventPlugin: null }), keyOf({ TapEventPlugin: null }), keyOf({ EnterLeaveEventPlugin: null }), keyOf({ ChangeEventPlugin: null }), keyOf({ SelectEventPlugin: null }), keyOf({ BeforeInputEventPlugin: null })];
 
 module.exports = DefaultEventPluginOrder;
-},{"fbjs/lib/keyOf":221}],78:[function(require,module,exports){
+},{"fbjs/lib/keyOf":233}],90:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17422,7 +19110,7 @@ var DisabledInputUtils = {
 };
 
 module.exports = DisabledInputUtils;
-},{}],79:[function(require,module,exports){
+},{}],91:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17528,7 +19216,7 @@ var EnterLeaveEventPlugin = {
 };
 
 module.exports = EnterLeaveEventPlugin;
-},{"./EventConstants":80,"./EventPropagators":84,"./ReactDOMComponentTree":105,"./SyntheticMouseEvent":166,"fbjs/lib/keyOf":221}],80:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPropagators":96,"./ReactDOMComponentTree":117,"./SyntheticMouseEvent":178,"fbjs/lib/keyOf":233}],92:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -17626,7 +19314,7 @@ var EventConstants = {
 };
 
 module.exports = EventConstants;
-},{"fbjs/lib/keyMirror":220}],81:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":232}],93:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -17864,7 +19552,7 @@ var EventPluginHub = {
 
 module.exports = EventPluginHub;
 }).call(this,require('_process'))
-},{"./EventPluginRegistry":82,"./EventPluginUtils":83,"./ReactErrorUtils":127,"./accumulateInto":173,"./forEachAccumulated":181,"_process":1,"fbjs/lib/invariant":217}],82:[function(require,module,exports){
+},{"./EventPluginRegistry":94,"./EventPluginUtils":95,"./ReactErrorUtils":139,"./accumulateInto":185,"./forEachAccumulated":193,"_process":13,"fbjs/lib/invariant":229}],94:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18108,7 +19796,7 @@ var EventPluginRegistry = {
 
 module.exports = EventPluginRegistry;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],83:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],95:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18338,7 +20026,7 @@ var EventPluginUtils = {
 
 module.exports = EventPluginUtils;
 }).call(this,require('_process'))
-},{"./EventConstants":80,"./ReactErrorUtils":127,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],84:[function(require,module,exports){
+},{"./EventConstants":92,"./ReactErrorUtils":139,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],96:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18478,7 +20166,7 @@ var EventPropagators = {
 
 module.exports = EventPropagators;
 }).call(this,require('_process'))
-},{"./EventConstants":80,"./EventPluginHub":81,"./EventPluginUtils":83,"./accumulateInto":173,"./forEachAccumulated":181,"_process":1,"fbjs/lib/warning":227}],85:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPluginHub":93,"./EventPluginUtils":95,"./accumulateInto":185,"./forEachAccumulated":193,"_process":13,"fbjs/lib/warning":239}],97:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18574,7 +20262,7 @@ _assign(FallbackCompositionState.prototype, {
 PooledClass.addPoolingTo(FallbackCompositionState);
 
 module.exports = FallbackCompositionState;
-},{"./PooledClass":89,"./getTextContentAccessor":189,"object-assign":228}],86:[function(require,module,exports){
+},{"./PooledClass":101,"./getTextContentAccessor":201,"object-assign":240}],98:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18784,7 +20472,7 @@ var HTMLDOMPropertyConfig = {
 };
 
 module.exports = HTMLDOMPropertyConfig;
-},{"./DOMProperty":74}],87:[function(require,module,exports){
+},{"./DOMProperty":86}],99:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -18843,7 +20531,7 @@ var KeyEscapeUtils = {
 };
 
 module.exports = KeyEscapeUtils;
-},{}],88:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -18979,7 +20667,7 @@ var LinkedValueUtils = {
 
 module.exports = LinkedValueUtils;
 }).call(this,require('_process'))
-},{"./ReactPropTypeLocations":146,"./ReactPropTypes":147,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],89:[function(require,module,exports){
+},{"./ReactPropTypeLocations":158,"./ReactPropTypes":159,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],101:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19101,7 +20789,7 @@ var PooledClass = {
 
 module.exports = PooledClass;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],90:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],102:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -19191,7 +20879,7 @@ var React = {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactChildren":93,"./ReactClass":94,"./ReactComponent":95,"./ReactDOMFactories":109,"./ReactElement":124,"./ReactElementValidator":125,"./ReactPropTypes":147,"./ReactVersion":154,"./onlyChild":194,"_process":1,"fbjs/lib/warning":227,"object-assign":228}],91:[function(require,module,exports){
+},{"./ReactChildren":105,"./ReactClass":106,"./ReactComponent":107,"./ReactDOMFactories":121,"./ReactElement":136,"./ReactElementValidator":137,"./ReactPropTypes":159,"./ReactVersion":166,"./onlyChild":206,"_process":13,"fbjs/lib/warning":239,"object-assign":240}],103:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19509,7 +21197,7 @@ var ReactBrowserEventEmitter = _assign({}, ReactEventEmitterMixin, {
 });
 
 module.exports = ReactBrowserEventEmitter;
-},{"./EventConstants":80,"./EventPluginRegistry":82,"./ReactEventEmitterMixin":128,"./ViewportMetrics":172,"./getVendorPrefixedEventName":190,"./isEventSupported":192,"object-assign":228}],92:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPluginRegistry":94,"./ReactEventEmitterMixin":140,"./ViewportMetrics":184,"./getVendorPrefixedEventName":202,"./isEventSupported":204,"object-assign":240}],104:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -19637,7 +21325,7 @@ var ReactChildReconciler = {
 
 module.exports = ReactChildReconciler;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":87,"./ReactReconciler":149,"./instantiateReactComponent":191,"./shouldUpdateReactComponent":199,"./traverseAllChildren":200,"_process":1,"fbjs/lib/warning":227}],93:[function(require,module,exports){
+},{"./KeyEscapeUtils":99,"./ReactReconciler":161,"./instantiateReactComponent":203,"./shouldUpdateReactComponent":211,"./traverseAllChildren":212,"_process":13,"fbjs/lib/warning":239}],105:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -19829,7 +21517,7 @@ var ReactChildren = {
 };
 
 module.exports = ReactChildren;
-},{"./PooledClass":89,"./ReactElement":124,"./traverseAllChildren":200,"fbjs/lib/emptyFunction":209}],94:[function(require,module,exports){
+},{"./PooledClass":101,"./ReactElement":136,"./traverseAllChildren":212,"fbjs/lib/emptyFunction":221}],106:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20556,7 +22244,7 @@ var ReactClass = {
 
 module.exports = ReactClass;
 }).call(this,require('_process'))
-},{"./ReactComponent":95,"./ReactElement":124,"./ReactNoopUpdateQueue":143,"./ReactPropTypeLocationNames":145,"./ReactPropTypeLocations":146,"_process":1,"fbjs/lib/emptyObject":210,"fbjs/lib/invariant":217,"fbjs/lib/keyMirror":220,"fbjs/lib/keyOf":221,"fbjs/lib/warning":227,"object-assign":228}],95:[function(require,module,exports){
+},{"./ReactComponent":107,"./ReactElement":136,"./ReactNoopUpdateQueue":155,"./ReactPropTypeLocationNames":157,"./ReactPropTypeLocations":158,"_process":13,"fbjs/lib/emptyObject":222,"fbjs/lib/invariant":229,"fbjs/lib/keyMirror":232,"fbjs/lib/keyOf":233,"fbjs/lib/warning":239,"object-assign":240}],107:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -20680,7 +22368,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactComponent;
 }).call(this,require('_process'))
-},{"./ReactInstrumentation":134,"./ReactNoopUpdateQueue":143,"./canDefineProperty":175,"_process":1,"fbjs/lib/emptyObject":210,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],96:[function(require,module,exports){
+},{"./ReactInstrumentation":146,"./ReactNoopUpdateQueue":155,"./canDefineProperty":187,"_process":13,"fbjs/lib/emptyObject":222,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],108:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -20720,7 +22408,7 @@ var ReactComponentBrowserEnvironment = {
 };
 
 module.exports = ReactComponentBrowserEnvironment;
-},{"./DOMChildrenOperations":71,"./ReactDOMIDOperations":111}],97:[function(require,module,exports){
+},{"./DOMChildrenOperations":83,"./ReactDOMIDOperations":123}],109:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -20774,7 +22462,7 @@ var ReactComponentEnvironment = {
 
 module.exports = ReactComponentEnvironment;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],98:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],110:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -20922,7 +22610,7 @@ var ReactComponentTreeDevtool = {
 
 module.exports = ReactComponentTreeDevtool;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],99:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],111:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21848,7 +23536,7 @@ var ReactCompositeComponent = {
 
 module.exports = ReactCompositeComponent;
 }).call(this,require('_process'))
-},{"./ReactComponentEnvironment":97,"./ReactCurrentOwner":100,"./ReactElement":124,"./ReactErrorUtils":127,"./ReactInstanceMap":133,"./ReactInstrumentation":134,"./ReactNodeTypes":142,"./ReactPropTypeLocationNames":145,"./ReactPropTypeLocations":146,"./ReactReconciler":149,"./ReactUpdateQueue":152,"./shouldUpdateReactComponent":199,"_process":1,"fbjs/lib/emptyObject":210,"fbjs/lib/invariant":217,"fbjs/lib/warning":227,"object-assign":228}],100:[function(require,module,exports){
+},{"./ReactComponentEnvironment":109,"./ReactCurrentOwner":112,"./ReactElement":136,"./ReactErrorUtils":139,"./ReactInstanceMap":145,"./ReactInstrumentation":146,"./ReactNodeTypes":154,"./ReactPropTypeLocationNames":157,"./ReactPropTypeLocations":158,"./ReactReconciler":161,"./ReactUpdateQueue":164,"./shouldUpdateReactComponent":211,"_process":13,"fbjs/lib/emptyObject":222,"fbjs/lib/invariant":229,"fbjs/lib/warning":239,"object-assign":240}],112:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -21880,7 +23568,7 @@ var ReactCurrentOwner = {
 };
 
 module.exports = ReactCurrentOwner;
-},{}],101:[function(require,module,exports){
+},{}],113:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -21984,7 +23672,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = React;
 }).call(this,require('_process'))
-},{"./ReactDOMComponentTree":105,"./ReactDefaultInjection":123,"./ReactMount":137,"./ReactReconciler":149,"./ReactUpdates":153,"./ReactVersion":154,"./findDOMNode":179,"./getNativeComponentFromComposite":187,"./renderSubtreeIntoContainer":196,"_process":1,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/warning":227}],102:[function(require,module,exports){
+},{"./ReactDOMComponentTree":117,"./ReactDefaultInjection":135,"./ReactMount":149,"./ReactReconciler":161,"./ReactUpdates":165,"./ReactVersion":166,"./findDOMNode":191,"./getNativeComponentFromComposite":199,"./renderSubtreeIntoContainer":208,"_process":13,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/warning":239}],114:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -22009,7 +23697,7 @@ var ReactDOMButton = {
 };
 
 module.exports = ReactDOMButton;
-},{"./DisabledInputUtils":78}],103:[function(require,module,exports){
+},{"./DisabledInputUtils":90}],115:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -22961,7 +24649,7 @@ _assign(ReactDOMComponent.prototype, ReactDOMComponent.Mixin, ReactMultiChild.Mi
 
 module.exports = ReactDOMComponent;
 }).call(this,require('_process'))
-},{"./AutoFocusUtils":65,"./CSSPropertyOperations":68,"./DOMLazyTree":72,"./DOMNamespaces":73,"./DOMProperty":74,"./DOMPropertyOperations":75,"./EventConstants":80,"./EventPluginHub":81,"./EventPluginRegistry":82,"./ReactBrowserEventEmitter":91,"./ReactComponentBrowserEnvironment":96,"./ReactDOMButton":102,"./ReactDOMComponentFlags":104,"./ReactDOMComponentTree":105,"./ReactDOMInput":112,"./ReactDOMOption":114,"./ReactDOMSelect":115,"./ReactDOMTextarea":118,"./ReactInstrumentation":134,"./ReactMultiChild":138,"./ReactServerRenderingTransaction":151,"./escapeTextContentForBrowser":178,"./isEventSupported":192,"./validateDOMNesting":201,"_process":1,"fbjs/lib/emptyFunction":209,"fbjs/lib/invariant":217,"fbjs/lib/keyOf":221,"fbjs/lib/shallowEqual":226,"fbjs/lib/warning":227,"object-assign":228}],104:[function(require,module,exports){
+},{"./AutoFocusUtils":77,"./CSSPropertyOperations":80,"./DOMLazyTree":84,"./DOMNamespaces":85,"./DOMProperty":86,"./DOMPropertyOperations":87,"./EventConstants":92,"./EventPluginHub":93,"./EventPluginRegistry":94,"./ReactBrowserEventEmitter":103,"./ReactComponentBrowserEnvironment":108,"./ReactDOMButton":114,"./ReactDOMComponentFlags":116,"./ReactDOMComponentTree":117,"./ReactDOMInput":124,"./ReactDOMOption":126,"./ReactDOMSelect":127,"./ReactDOMTextarea":130,"./ReactInstrumentation":146,"./ReactMultiChild":150,"./ReactServerRenderingTransaction":163,"./escapeTextContentForBrowser":190,"./isEventSupported":204,"./validateDOMNesting":213,"_process":13,"fbjs/lib/emptyFunction":221,"fbjs/lib/invariant":229,"fbjs/lib/keyOf":233,"fbjs/lib/shallowEqual":238,"fbjs/lib/warning":239,"object-assign":240}],116:[function(require,module,exports){
 /**
  * Copyright 2015-present, Facebook, Inc.
  * All rights reserved.
@@ -22980,7 +24668,7 @@ var ReactDOMComponentFlags = {
 };
 
 module.exports = ReactDOMComponentFlags;
-},{}],105:[function(require,module,exports){
+},{}],117:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23169,7 +24857,7 @@ var ReactDOMComponentTree = {
 
 module.exports = ReactDOMComponentTree;
 }).call(this,require('_process'))
-},{"./DOMProperty":74,"./ReactDOMComponentFlags":104,"_process":1,"fbjs/lib/invariant":217}],106:[function(require,module,exports){
+},{"./DOMProperty":86,"./ReactDOMComponentFlags":116,"_process":13,"fbjs/lib/invariant":229}],118:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23205,7 +24893,7 @@ function ReactDOMContainerInfo(topLevelWrapper, node) {
 
 module.exports = ReactDOMContainerInfo;
 }).call(this,require('_process'))
-},{"./validateDOMNesting":201,"_process":1}],107:[function(require,module,exports){
+},{"./validateDOMNesting":213,"_process":13}],119:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23269,7 +24957,7 @@ ReactDOMDebugTool.addDevtool(ReactDOMUnknownPropertyDevtool);
 
 module.exports = ReactDOMDebugTool;
 }).call(this,require('_process'))
-},{"./ReactDOMUnknownPropertyDevtool":120,"_process":1,"fbjs/lib/warning":227}],108:[function(require,module,exports){
+},{"./ReactDOMUnknownPropertyDevtool":132,"_process":13,"fbjs/lib/warning":239}],120:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -23330,7 +25018,7 @@ _assign(ReactDOMEmptyComponent.prototype, {
 });
 
 module.exports = ReactDOMEmptyComponent;
-},{"./DOMLazyTree":72,"./ReactDOMComponentTree":105,"object-assign":228}],109:[function(require,module,exports){
+},{"./DOMLazyTree":84,"./ReactDOMComponentTree":117,"object-assign":240}],121:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23509,7 +25197,7 @@ var ReactDOMFactories = mapObject({
 
 module.exports = ReactDOMFactories;
 }).call(this,require('_process'))
-},{"./ReactElement":124,"./ReactElementValidator":125,"_process":1,"fbjs/lib/mapObject":222}],110:[function(require,module,exports){
+},{"./ReactElement":136,"./ReactElementValidator":137,"_process":13,"fbjs/lib/mapObject":234}],122:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23528,7 +25216,7 @@ var ReactDOMFeatureFlags = {
 };
 
 module.exports = ReactDOMFeatureFlags;
-},{}],111:[function(require,module,exports){
+},{}],123:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23563,7 +25251,7 @@ var ReactDOMIDOperations = {
 };
 
 module.exports = ReactDOMIDOperations;
-},{"./DOMChildrenOperations":71,"./ReactDOMComponentTree":105}],112:[function(require,module,exports){
+},{"./DOMChildrenOperations":83,"./ReactDOMComponentTree":117}],124:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23772,7 +25460,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMInput;
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":75,"./DisabledInputUtils":78,"./LinkedValueUtils":88,"./ReactDOMComponentTree":105,"./ReactUpdates":153,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227,"object-assign":228}],113:[function(require,module,exports){
+},{"./DOMPropertyOperations":87,"./DisabledInputUtils":90,"./LinkedValueUtils":100,"./ReactDOMComponentTree":117,"./ReactUpdates":165,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239,"object-assign":240}],125:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -23789,7 +25477,7 @@ module.exports = ReactDOMInput;
 var ReactDOMDebugTool = require('./ReactDOMDebugTool');
 
 module.exports = { debugTool: ReactDOMDebugTool };
-},{"./ReactDOMDebugTool":107}],114:[function(require,module,exports){
+},{"./ReactDOMDebugTool":119}],126:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -23901,7 +25589,7 @@ var ReactDOMOption = {
 
 module.exports = ReactDOMOption;
 }).call(this,require('_process'))
-},{"./ReactChildren":93,"./ReactDOMComponentTree":105,"./ReactDOMSelect":115,"_process":1,"fbjs/lib/warning":227,"object-assign":228}],115:[function(require,module,exports){
+},{"./ReactChildren":105,"./ReactDOMComponentTree":117,"./ReactDOMSelect":127,"_process":13,"fbjs/lib/warning":239,"object-assign":240}],127:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -24117,7 +25805,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMSelect;
 }).call(this,require('_process'))
-},{"./DisabledInputUtils":78,"./LinkedValueUtils":88,"./ReactDOMComponentTree":105,"./ReactUpdates":153,"_process":1,"fbjs/lib/warning":227,"object-assign":228}],116:[function(require,module,exports){
+},{"./DisabledInputUtils":90,"./LinkedValueUtils":100,"./ReactDOMComponentTree":117,"./ReactUpdates":165,"_process":13,"fbjs/lib/warning":239,"object-assign":240}],128:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -24330,7 +26018,7 @@ var ReactDOMSelection = {
 };
 
 module.exports = ReactDOMSelection;
-},{"./getNodeForCharacterOffset":188,"./getTextContentAccessor":189,"fbjs/lib/ExecutionEnvironment":203}],117:[function(require,module,exports){
+},{"./getNodeForCharacterOffset":200,"./getTextContentAccessor":201,"fbjs/lib/ExecutionEnvironment":215}],129:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -24503,7 +26191,7 @@ _assign(ReactDOMTextComponent.prototype, {
 
 module.exports = ReactDOMTextComponent;
 }).call(this,require('_process'))
-},{"./DOMChildrenOperations":71,"./DOMLazyTree":72,"./ReactDOMComponentTree":105,"./ReactInstrumentation":134,"./escapeTextContentForBrowser":178,"./validateDOMNesting":201,"_process":1,"fbjs/lib/invariant":217,"object-assign":228}],118:[function(require,module,exports){
+},{"./DOMChildrenOperations":83,"./DOMLazyTree":84,"./ReactDOMComponentTree":117,"./ReactInstrumentation":146,"./escapeTextContentForBrowser":190,"./validateDOMNesting":213,"_process":13,"fbjs/lib/invariant":229,"object-assign":240}],130:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -24648,7 +26336,7 @@ function _handleChange(event) {
 
 module.exports = ReactDOMTextarea;
 }).call(this,require('_process'))
-},{"./DOMPropertyOperations":75,"./DisabledInputUtils":78,"./LinkedValueUtils":88,"./ReactDOMComponentTree":105,"./ReactUpdates":153,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227,"object-assign":228}],119:[function(require,module,exports){
+},{"./DOMPropertyOperations":87,"./DisabledInputUtils":90,"./LinkedValueUtils":100,"./ReactDOMComponentTree":117,"./ReactUpdates":165,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239,"object-assign":240}],131:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -24785,7 +26473,7 @@ module.exports = {
   traverseEnterLeave: traverseEnterLeave
 };
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],120:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],132:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -24852,7 +26540,7 @@ var ReactDOMUnknownPropertyDevtool = {
 
 module.exports = ReactDOMUnknownPropertyDevtool;
 }).call(this,require('_process'))
-},{"./DOMProperty":74,"./EventPluginRegistry":82,"_process":1,"fbjs/lib/warning":227}],121:[function(require,module,exports){
+},{"./DOMProperty":86,"./EventPluginRegistry":94,"_process":13,"fbjs/lib/warning":239}],133:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -25105,7 +26793,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactDebugTool;
 }).call(this,require('_process'))
-},{"./ReactComponentTreeDevtool":98,"./ReactInvalidSetStateWarningDevTool":135,"./ReactNativeOperationHistoryDevtool":141,"_process":1,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/performanceNow":225,"fbjs/lib/warning":227}],122:[function(require,module,exports){
+},{"./ReactComponentTreeDevtool":110,"./ReactInvalidSetStateWarningDevTool":147,"./ReactNativeOperationHistoryDevtool":153,"_process":13,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/performanceNow":237,"fbjs/lib/warning":239}],134:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25174,7 +26862,7 @@ var ReactDefaultBatchingStrategy = {
 };
 
 module.exports = ReactDefaultBatchingStrategy;
-},{"./ReactUpdates":153,"./Transaction":171,"fbjs/lib/emptyFunction":209,"object-assign":228}],123:[function(require,module,exports){
+},{"./ReactUpdates":165,"./Transaction":183,"fbjs/lib/emptyFunction":221,"object-assign":240}],135:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -25259,7 +26947,7 @@ function inject() {
 module.exports = {
   inject: inject
 };
-},{"./BeforeInputEventPlugin":66,"./ChangeEventPlugin":70,"./DefaultEventPluginOrder":77,"./EnterLeaveEventPlugin":79,"./HTMLDOMPropertyConfig":86,"./ReactComponentBrowserEnvironment":96,"./ReactDOMComponent":103,"./ReactDOMComponentTree":105,"./ReactDOMEmptyComponent":108,"./ReactDOMTextComponent":117,"./ReactDOMTreeTraversal":119,"./ReactDefaultBatchingStrategy":122,"./ReactEventListener":129,"./ReactInjection":131,"./ReactReconcileTransaction":148,"./SVGDOMPropertyConfig":155,"./SelectEventPlugin":156,"./SimpleEventPlugin":157}],124:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":78,"./ChangeEventPlugin":82,"./DefaultEventPluginOrder":89,"./EnterLeaveEventPlugin":91,"./HTMLDOMPropertyConfig":98,"./ReactComponentBrowserEnvironment":108,"./ReactDOMComponent":115,"./ReactDOMComponentTree":117,"./ReactDOMEmptyComponent":120,"./ReactDOMTextComponent":129,"./ReactDOMTreeTraversal":131,"./ReactDefaultBatchingStrategy":134,"./ReactEventListener":141,"./ReactInjection":143,"./ReactReconcileTransaction":160,"./SVGDOMPropertyConfig":167,"./SelectEventPlugin":168,"./SimpleEventPlugin":169}],136:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -25575,7 +27263,7 @@ ReactElement.isValidElement = function (object) {
 
 module.exports = ReactElement;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":100,"./canDefineProperty":175,"_process":1,"fbjs/lib/warning":227,"object-assign":228}],125:[function(require,module,exports){
+},{"./ReactCurrentOwner":112,"./canDefineProperty":187,"_process":13,"fbjs/lib/warning":239,"object-assign":240}],137:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -25859,7 +27547,7 @@ var ReactElementValidator = {
 
 module.exports = ReactElementValidator;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":100,"./ReactElement":124,"./ReactPropTypeLocationNames":145,"./ReactPropTypeLocations":146,"./canDefineProperty":175,"./getIteratorFn":186,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],126:[function(require,module,exports){
+},{"./ReactCurrentOwner":112,"./ReactElement":136,"./ReactPropTypeLocationNames":157,"./ReactPropTypeLocations":158,"./canDefineProperty":187,"./getIteratorFn":198,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],138:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -25890,7 +27578,7 @@ var ReactEmptyComponent = {
 ReactEmptyComponent.injection = ReactEmptyComponentInjection;
 
 module.exports = ReactEmptyComponent;
-},{}],127:[function(require,module,exports){
+},{}],139:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -25969,7 +27657,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactErrorUtils;
 }).call(this,require('_process'))
-},{"_process":1}],128:[function(require,module,exports){
+},{"_process":13}],140:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26003,7 +27691,7 @@ var ReactEventEmitterMixin = {
 };
 
 module.exports = ReactEventEmitterMixin;
-},{"./EventPluginHub":81}],129:[function(require,module,exports){
+},{"./EventPluginHub":93}],141:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26161,7 +27849,7 @@ var ReactEventListener = {
 };
 
 module.exports = ReactEventListener;
-},{"./PooledClass":89,"./ReactDOMComponentTree":105,"./ReactUpdates":153,"./getEventTarget":185,"fbjs/lib/EventListener":202,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/getUnboundedScrollPosition":214,"object-assign":228}],130:[function(require,module,exports){
+},{"./PooledClass":101,"./ReactDOMComponentTree":117,"./ReactUpdates":165,"./getEventTarget":197,"fbjs/lib/EventListener":214,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/getUnboundedScrollPosition":226,"object-assign":240}],142:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26183,7 +27871,7 @@ var ReactFeatureFlags = {
 };
 
 module.exports = ReactFeatureFlags;
-},{}],131:[function(require,module,exports){
+},{}],143:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26220,7 +27908,7 @@ var ReactInjection = {
 };
 
 module.exports = ReactInjection;
-},{"./DOMProperty":74,"./EventPluginHub":81,"./EventPluginUtils":83,"./ReactBrowserEventEmitter":91,"./ReactClass":94,"./ReactComponentEnvironment":97,"./ReactEmptyComponent":126,"./ReactNativeComponent":140,"./ReactUpdates":153}],132:[function(require,module,exports){
+},{"./DOMProperty":86,"./EventPluginHub":93,"./EventPluginUtils":95,"./ReactBrowserEventEmitter":103,"./ReactClass":106,"./ReactComponentEnvironment":109,"./ReactEmptyComponent":138,"./ReactNativeComponent":152,"./ReactUpdates":165}],144:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26345,7 +28033,7 @@ var ReactInputSelection = {
 };
 
 module.exports = ReactInputSelection;
-},{"./ReactDOMSelection":116,"fbjs/lib/containsNode":206,"fbjs/lib/focusNode":211,"fbjs/lib/getActiveElement":212}],133:[function(require,module,exports){
+},{"./ReactDOMSelection":128,"fbjs/lib/containsNode":218,"fbjs/lib/focusNode":223,"fbjs/lib/getActiveElement":224}],145:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26394,7 +28082,7 @@ var ReactInstanceMap = {
 };
 
 module.exports = ReactInstanceMap;
-},{}],134:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 /**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -26411,7 +28099,7 @@ module.exports = ReactInstanceMap;
 var ReactDebugTool = require('./ReactDebugTool');
 
 module.exports = { debugTool: ReactDebugTool };
-},{"./ReactDebugTool":121}],135:[function(require,module,exports){
+},{"./ReactDebugTool":133}],147:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2016-present, Facebook, Inc.
@@ -26450,7 +28138,7 @@ var ReactInvalidSetStateWarningDevTool = {
 
 module.exports = ReactInvalidSetStateWarningDevTool;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/warning":227}],136:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/warning":239}],148:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -26501,7 +28189,7 @@ var ReactMarkupChecksum = {
 };
 
 module.exports = ReactMarkupChecksum;
-},{"./adler32":174}],137:[function(require,module,exports){
+},{"./adler32":186}],149:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -26997,7 +28685,7 @@ var ReactMount = {
 
 module.exports = ReactMount;
 }).call(this,require('_process'))
-},{"./DOMLazyTree":72,"./DOMProperty":74,"./ReactBrowserEventEmitter":91,"./ReactCurrentOwner":100,"./ReactDOMComponentTree":105,"./ReactDOMContainerInfo":106,"./ReactDOMFeatureFlags":110,"./ReactElement":124,"./ReactFeatureFlags":130,"./ReactInstrumentation":134,"./ReactMarkupChecksum":136,"./ReactReconciler":149,"./ReactUpdateQueue":152,"./ReactUpdates":153,"./instantiateReactComponent":191,"./setInnerHTML":197,"./shouldUpdateReactComponent":199,"_process":1,"fbjs/lib/emptyObject":210,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],138:[function(require,module,exports){
+},{"./DOMLazyTree":84,"./DOMProperty":86,"./ReactBrowserEventEmitter":103,"./ReactCurrentOwner":112,"./ReactDOMComponentTree":117,"./ReactDOMContainerInfo":118,"./ReactDOMFeatureFlags":122,"./ReactElement":136,"./ReactFeatureFlags":142,"./ReactInstrumentation":146,"./ReactMarkupChecksum":148,"./ReactReconciler":161,"./ReactUpdateQueue":164,"./ReactUpdates":165,"./instantiateReactComponent":203,"./setInnerHTML":209,"./shouldUpdateReactComponent":211,"_process":13,"fbjs/lib/emptyObject":222,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],150:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27423,7 +29111,7 @@ var ReactMultiChild = {
 
 module.exports = ReactMultiChild;
 }).call(this,require('_process'))
-},{"./ReactChildReconciler":92,"./ReactComponentEnvironment":97,"./ReactCurrentOwner":100,"./ReactInstrumentation":134,"./ReactMultiChildUpdateTypes":139,"./ReactReconciler":149,"./flattenChildren":180,"_process":1,"fbjs/lib/emptyFunction":209,"fbjs/lib/invariant":217}],139:[function(require,module,exports){
+},{"./ReactChildReconciler":104,"./ReactComponentEnvironment":109,"./ReactCurrentOwner":112,"./ReactInstrumentation":146,"./ReactMultiChildUpdateTypes":151,"./ReactReconciler":161,"./flattenChildren":192,"_process":13,"fbjs/lib/emptyFunction":221,"fbjs/lib/invariant":229}],151:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27456,7 +29144,7 @@ var ReactMultiChildUpdateTypes = keyMirror({
 });
 
 module.exports = ReactMultiChildUpdateTypes;
-},{"fbjs/lib/keyMirror":220}],140:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":232}],152:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -27554,7 +29242,7 @@ var ReactNativeComponent = {
 
 module.exports = ReactNativeComponent;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217,"object-assign":228}],141:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229,"object-assign":240}],153:[function(require,module,exports){
 /**
  * Copyright 2016-present, Facebook, Inc.
  * All rights reserved.
@@ -27592,7 +29280,7 @@ var ReactNativeOperationHistoryDevtool = {
 };
 
 module.exports = ReactNativeOperationHistoryDevtool;
-},{}],142:[function(require,module,exports){
+},{}],154:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27632,7 +29320,7 @@ var ReactNodeTypes = {
 
 module.exports = ReactNodeTypes;
 }).call(this,require('_process'))
-},{"./ReactElement":124,"_process":1,"fbjs/lib/invariant":217}],143:[function(require,module,exports){
+},{"./ReactElement":136,"_process":13,"fbjs/lib/invariant":229}],155:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -27730,7 +29418,7 @@ var ReactNoopUpdateQueue = {
 
 module.exports = ReactNoopUpdateQueue;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/warning":227}],144:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/warning":239}],156:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27825,7 +29513,7 @@ var ReactOwner = {
 
 module.exports = ReactOwner;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],145:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],157:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -27852,7 +29540,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = ReactPropTypeLocationNames;
 }).call(this,require('_process'))
-},{"_process":1}],146:[function(require,module,exports){
+},{"_process":13}],158:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -27875,7 +29563,7 @@ var ReactPropTypeLocations = keyMirror({
 });
 
 module.exports = ReactPropTypeLocations;
-},{"fbjs/lib/keyMirror":220}],147:[function(require,module,exports){
+},{"fbjs/lib/keyMirror":232}],159:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -28256,7 +29944,7 @@ function getClassName(propValue) {
 }
 
 module.exports = ReactPropTypes;
-},{"./ReactElement":124,"./ReactPropTypeLocationNames":145,"./getIteratorFn":186,"fbjs/lib/emptyFunction":209}],148:[function(require,module,exports){
+},{"./ReactElement":136,"./ReactPropTypeLocationNames":157,"./getIteratorFn":198,"fbjs/lib/emptyFunction":221}],160:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -28419,7 +30107,7 @@ _assign(ReactReconcileTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactReconcileTransaction);
 
 module.exports = ReactReconcileTransaction;
-},{"./CallbackQueue":69,"./PooledClass":89,"./ReactBrowserEventEmitter":91,"./ReactInputSelection":132,"./Transaction":171,"object-assign":228}],149:[function(require,module,exports){
+},{"./CallbackQueue":81,"./PooledClass":101,"./ReactBrowserEventEmitter":103,"./ReactInputSelection":144,"./Transaction":183,"object-assign":240}],161:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -28593,7 +30281,7 @@ var ReactReconciler = {
 
 module.exports = ReactReconciler;
 }).call(this,require('_process'))
-},{"./ReactInstrumentation":134,"./ReactRef":150,"_process":1,"fbjs/lib/invariant":217}],150:[function(require,module,exports){
+},{"./ReactInstrumentation":146,"./ReactRef":162,"_process":13,"fbjs/lib/invariant":229}],162:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -28672,7 +30360,7 @@ ReactRef.detachRefs = function (instance, element) {
 };
 
 module.exports = ReactRef;
-},{"./ReactOwner":144}],151:[function(require,module,exports){
+},{"./ReactOwner":156}],163:[function(require,module,exports){
 /**
  * Copyright 2014-present, Facebook, Inc.
  * All rights reserved.
@@ -28746,7 +30434,7 @@ _assign(ReactServerRenderingTransaction.prototype, Transaction.Mixin, Mixin);
 PooledClass.addPoolingTo(ReactServerRenderingTransaction);
 
 module.exports = ReactServerRenderingTransaction;
-},{"./PooledClass":89,"./Transaction":171,"object-assign":228}],152:[function(require,module,exports){
+},{"./PooledClass":101,"./Transaction":183,"object-assign":240}],164:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -28964,7 +30652,7 @@ var ReactUpdateQueue = {
 
 module.exports = ReactUpdateQueue;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":100,"./ReactInstanceMap":133,"./ReactUpdates":153,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],153:[function(require,module,exports){
+},{"./ReactCurrentOwner":112,"./ReactInstanceMap":145,"./ReactUpdates":165,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],165:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -29226,7 +30914,7 @@ var ReactUpdates = {
 
 module.exports = ReactUpdates;
 }).call(this,require('_process'))
-},{"./CallbackQueue":69,"./PooledClass":89,"./ReactFeatureFlags":130,"./ReactInstrumentation":134,"./ReactReconciler":149,"./Transaction":171,"_process":1,"fbjs/lib/invariant":217,"object-assign":228}],154:[function(require,module,exports){
+},{"./CallbackQueue":81,"./PooledClass":101,"./ReactFeatureFlags":142,"./ReactInstrumentation":146,"./ReactReconciler":161,"./Transaction":183,"_process":13,"fbjs/lib/invariant":229,"object-assign":240}],166:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -29241,7 +30929,7 @@ module.exports = ReactUpdates;
 'use strict';
 
 module.exports = '15.1.0';
-},{}],155:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -29542,7 +31230,7 @@ Object.keys(ATTRS).forEach(function (key) {
 });
 
 module.exports = SVGDOMPropertyConfig;
-},{}],156:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -29739,7 +31427,7 @@ var SelectEventPlugin = {
 };
 
 module.exports = SelectEventPlugin;
-},{"./EventConstants":80,"./EventPropagators":84,"./ReactDOMComponentTree":105,"./ReactInputSelection":132,"./SyntheticEvent":162,"./isTextInputElement":193,"fbjs/lib/ExecutionEnvironment":203,"fbjs/lib/getActiveElement":212,"fbjs/lib/keyOf":221,"fbjs/lib/shallowEqual":226}],157:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPropagators":96,"./ReactDOMComponentTree":117,"./ReactInputSelection":144,"./SyntheticEvent":174,"./isTextInputElement":205,"fbjs/lib/ExecutionEnvironment":215,"fbjs/lib/getActiveElement":224,"fbjs/lib/keyOf":233,"fbjs/lib/shallowEqual":238}],169:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -30369,7 +32057,7 @@ var SimpleEventPlugin = {
 
 module.exports = SimpleEventPlugin;
 }).call(this,require('_process'))
-},{"./EventConstants":80,"./EventPropagators":84,"./ReactDOMComponentTree":105,"./SyntheticAnimationEvent":158,"./SyntheticClipboardEvent":159,"./SyntheticDragEvent":161,"./SyntheticEvent":162,"./SyntheticFocusEvent":163,"./SyntheticKeyboardEvent":165,"./SyntheticMouseEvent":166,"./SyntheticTouchEvent":167,"./SyntheticTransitionEvent":168,"./SyntheticUIEvent":169,"./SyntheticWheelEvent":170,"./getEventCharCode":182,"_process":1,"fbjs/lib/EventListener":202,"fbjs/lib/emptyFunction":209,"fbjs/lib/invariant":217,"fbjs/lib/keyOf":221}],158:[function(require,module,exports){
+},{"./EventConstants":92,"./EventPropagators":96,"./ReactDOMComponentTree":117,"./SyntheticAnimationEvent":170,"./SyntheticClipboardEvent":171,"./SyntheticDragEvent":173,"./SyntheticEvent":174,"./SyntheticFocusEvent":175,"./SyntheticKeyboardEvent":177,"./SyntheticMouseEvent":178,"./SyntheticTouchEvent":179,"./SyntheticTransitionEvent":180,"./SyntheticUIEvent":181,"./SyntheticWheelEvent":182,"./getEventCharCode":194,"_process":13,"fbjs/lib/EventListener":214,"fbjs/lib/emptyFunction":221,"fbjs/lib/invariant":229,"fbjs/lib/keyOf":233}],170:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30409,7 +32097,7 @@ function SyntheticAnimationEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticAnimationEvent, AnimationEventInterface);
 
 module.exports = SyntheticAnimationEvent;
-},{"./SyntheticEvent":162}],159:[function(require,module,exports){
+},{"./SyntheticEvent":174}],171:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30448,7 +32136,7 @@ function SyntheticClipboardEvent(dispatchConfig, dispatchMarker, nativeEvent, na
 SyntheticEvent.augmentClass(SyntheticClipboardEvent, ClipboardEventInterface);
 
 module.exports = SyntheticClipboardEvent;
-},{"./SyntheticEvent":162}],160:[function(require,module,exports){
+},{"./SyntheticEvent":174}],172:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30485,7 +32173,7 @@ function SyntheticCompositionEvent(dispatchConfig, dispatchMarker, nativeEvent, 
 SyntheticEvent.augmentClass(SyntheticCompositionEvent, CompositionEventInterface);
 
 module.exports = SyntheticCompositionEvent;
-},{"./SyntheticEvent":162}],161:[function(require,module,exports){
+},{"./SyntheticEvent":174}],173:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30522,7 +32210,7 @@ function SyntheticDragEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeE
 SyntheticMouseEvent.augmentClass(SyntheticDragEvent, DragEventInterface);
 
 module.exports = SyntheticDragEvent;
-},{"./SyntheticMouseEvent":166}],162:[function(require,module,exports){
+},{"./SyntheticMouseEvent":178}],174:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -30786,7 +32474,7 @@ function getPooledWarningPropertyDefinition(propName, getVal) {
   }
 }
 }).call(this,require('_process'))
-},{"./PooledClass":89,"_process":1,"fbjs/lib/emptyFunction":209,"fbjs/lib/warning":227,"object-assign":228}],163:[function(require,module,exports){
+},{"./PooledClass":101,"_process":13,"fbjs/lib/emptyFunction":221,"fbjs/lib/warning":239,"object-assign":240}],175:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30823,7 +32511,7 @@ function SyntheticFocusEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticFocusEvent, FocusEventInterface);
 
 module.exports = SyntheticFocusEvent;
-},{"./SyntheticUIEvent":169}],164:[function(require,module,exports){
+},{"./SyntheticUIEvent":181}],176:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30861,7 +32549,7 @@ function SyntheticInputEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticEvent.augmentClass(SyntheticInputEvent, InputEventInterface);
 
 module.exports = SyntheticInputEvent;
-},{"./SyntheticEvent":162}],165:[function(require,module,exports){
+},{"./SyntheticEvent":174}],177:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -30946,7 +32634,7 @@ function SyntheticKeyboardEvent(dispatchConfig, dispatchMarker, nativeEvent, nat
 SyntheticUIEvent.augmentClass(SyntheticKeyboardEvent, KeyboardEventInterface);
 
 module.exports = SyntheticKeyboardEvent;
-},{"./SyntheticUIEvent":169,"./getEventCharCode":182,"./getEventKey":183,"./getEventModifierState":184}],166:[function(require,module,exports){
+},{"./SyntheticUIEvent":181,"./getEventCharCode":194,"./getEventKey":195,"./getEventModifierState":196}],178:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31019,7 +32707,7 @@ function SyntheticMouseEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticMouseEvent, MouseEventInterface);
 
 module.exports = SyntheticMouseEvent;
-},{"./SyntheticUIEvent":169,"./ViewportMetrics":172,"./getEventModifierState":184}],167:[function(require,module,exports){
+},{"./SyntheticUIEvent":181,"./ViewportMetrics":184,"./getEventModifierState":196}],179:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31065,7 +32753,7 @@ function SyntheticTouchEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticUIEvent.augmentClass(SyntheticTouchEvent, TouchEventInterface);
 
 module.exports = SyntheticTouchEvent;
-},{"./SyntheticUIEvent":169,"./getEventModifierState":184}],168:[function(require,module,exports){
+},{"./SyntheticUIEvent":181,"./getEventModifierState":196}],180:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31105,7 +32793,7 @@ function SyntheticTransitionEvent(dispatchConfig, dispatchMarker, nativeEvent, n
 SyntheticEvent.augmentClass(SyntheticTransitionEvent, TransitionEventInterface);
 
 module.exports = SyntheticTransitionEvent;
-},{"./SyntheticEvent":162}],169:[function(require,module,exports){
+},{"./SyntheticEvent":174}],181:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31165,7 +32853,7 @@ function SyntheticUIEvent(dispatchConfig, dispatchMarker, nativeEvent, nativeEve
 SyntheticEvent.augmentClass(SyntheticUIEvent, UIEventInterface);
 
 module.exports = SyntheticUIEvent;
-},{"./SyntheticEvent":162,"./getEventTarget":185}],170:[function(require,module,exports){
+},{"./SyntheticEvent":174,"./getEventTarget":197}],182:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31220,7 +32908,7 @@ function SyntheticWheelEvent(dispatchConfig, dispatchMarker, nativeEvent, native
 SyntheticMouseEvent.augmentClass(SyntheticWheelEvent, WheelEventInterface);
 
 module.exports = SyntheticWheelEvent;
-},{"./SyntheticMouseEvent":166}],171:[function(require,module,exports){
+},{"./SyntheticMouseEvent":178}],183:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -31454,7 +33142,7 @@ var Transaction = {
 
 module.exports = Transaction;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],172:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],184:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31482,7 +33170,7 @@ var ViewportMetrics = {
 };
 
 module.exports = ViewportMetrics;
-},{}],173:[function(require,module,exports){
+},{}],185:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-present, Facebook, Inc.
@@ -31544,7 +33232,7 @@ function accumulateInto(current, next) {
 
 module.exports = accumulateInto;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/invariant":217}],174:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/invariant":229}],186:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31588,7 +33276,7 @@ function adler32(data) {
 }
 
 module.exports = adler32;
-},{}],175:[function(require,module,exports){
+},{}],187:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -31615,7 +33303,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = canDefineProperty;
 }).call(this,require('_process'))
-},{"_process":1}],176:[function(require,module,exports){
+},{"_process":13}],188:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31648,7 +33336,7 @@ var createMicrosoftUnsafeLocalFunction = function (func) {
 };
 
 module.exports = createMicrosoftUnsafeLocalFunction;
-},{}],177:[function(require,module,exports){
+},{}],189:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -31728,7 +33416,7 @@ function dangerousStyleValue(name, value, component) {
 
 module.exports = dangerousStyleValue;
 }).call(this,require('_process'))
-},{"./CSSProperty":67,"_process":1,"fbjs/lib/warning":227}],178:[function(require,module,exports){
+},{"./CSSProperty":79,"_process":13,"fbjs/lib/warning":239}],190:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31767,7 +33455,7 @@ function escapeTextContentForBrowser(text) {
 }
 
 module.exports = escapeTextContentForBrowser;
-},{}],179:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -31828,7 +33516,7 @@ function findDOMNode(componentOrElement) {
 
 module.exports = findDOMNode;
 }).call(this,require('_process'))
-},{"./ReactCurrentOwner":100,"./ReactDOMComponentTree":105,"./ReactInstanceMap":133,"./getNativeComponentFromComposite":187,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],180:[function(require,module,exports){
+},{"./ReactCurrentOwner":112,"./ReactDOMComponentTree":117,"./ReactInstanceMap":145,"./getNativeComponentFromComposite":199,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],192:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -31880,7 +33568,7 @@ function flattenChildren(children) {
 
 module.exports = flattenChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":87,"./traverseAllChildren":200,"_process":1,"fbjs/lib/warning":227}],181:[function(require,module,exports){
+},{"./KeyEscapeUtils":99,"./traverseAllChildren":212,"_process":13,"fbjs/lib/warning":239}],193:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31911,7 +33599,7 @@ var forEachAccumulated = function (arr, cb, scope) {
 };
 
 module.exports = forEachAccumulated;
-},{}],182:[function(require,module,exports){
+},{}],194:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -31962,7 +33650,7 @@ function getEventCharCode(nativeEvent) {
 }
 
 module.exports = getEventCharCode;
-},{}],183:[function(require,module,exports){
+},{}],195:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32065,7 +33753,7 @@ function getEventKey(nativeEvent) {
 }
 
 module.exports = getEventKey;
-},{"./getEventCharCode":182}],184:[function(require,module,exports){
+},{"./getEventCharCode":194}],196:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32109,7 +33797,7 @@ function getEventModifierState(nativeEvent) {
 }
 
 module.exports = getEventModifierState;
-},{}],185:[function(require,module,exports){
+},{}],197:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32145,7 +33833,7 @@ function getEventTarget(nativeEvent) {
 }
 
 module.exports = getEventTarget;
-},{}],186:[function(require,module,exports){
+},{}],198:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32186,7 +33874,7 @@ function getIteratorFn(maybeIterable) {
 }
 
 module.exports = getIteratorFn;
-},{}],187:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32217,7 +33905,7 @@ function getNativeComponentFromComposite(inst) {
 }
 
 module.exports = getNativeComponentFromComposite;
-},{"./ReactNodeTypes":142}],188:[function(require,module,exports){
+},{"./ReactNodeTypes":154}],200:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32292,7 +33980,7 @@ function getNodeForCharacterOffset(root, offset) {
 }
 
 module.exports = getNodeForCharacterOffset;
-},{}],189:[function(require,module,exports){
+},{}],201:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32326,7 +34014,7 @@ function getTextContentAccessor() {
 }
 
 module.exports = getTextContentAccessor;
-},{"fbjs/lib/ExecutionEnvironment":203}],190:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":215}],202:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32428,7 +34116,7 @@ function getVendorPrefixedEventName(eventName) {
 }
 
 module.exports = getVendorPrefixedEventName;
-},{"fbjs/lib/ExecutionEnvironment":203}],191:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":215}],203:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -32575,7 +34263,7 @@ function instantiateReactComponent(node) {
 
 module.exports = instantiateReactComponent;
 }).call(this,require('_process'))
-},{"./ReactCompositeComponent":99,"./ReactEmptyComponent":126,"./ReactInstrumentation":134,"./ReactNativeComponent":140,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227,"object-assign":228}],192:[function(require,module,exports){
+},{"./ReactCompositeComponent":111,"./ReactEmptyComponent":138,"./ReactInstrumentation":146,"./ReactNativeComponent":152,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239,"object-assign":240}],204:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32636,7 +34324,7 @@ function isEventSupported(eventNameSuffix, capture) {
 }
 
 module.exports = isEventSupported;
-},{"fbjs/lib/ExecutionEnvironment":203}],193:[function(require,module,exports){
+},{"fbjs/lib/ExecutionEnvironment":215}],205:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32678,7 +34366,7 @@ function isTextInputElement(elem) {
 }
 
 module.exports = isTextInputElement;
-},{}],194:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -32717,7 +34405,7 @@ function onlyChild(children) {
 
 module.exports = onlyChild;
 }).call(this,require('_process'))
-},{"./ReactElement":124,"_process":1,"fbjs/lib/invariant":217}],195:[function(require,module,exports){
+},{"./ReactElement":136,"_process":13,"fbjs/lib/invariant":229}],207:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32744,7 +34432,7 @@ function quoteAttributeValueForBrowser(value) {
 }
 
 module.exports = quoteAttributeValueForBrowser;
-},{"./escapeTextContentForBrowser":178}],196:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":190}],208:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32761,7 +34449,7 @@ module.exports = quoteAttributeValueForBrowser;
 var ReactMount = require('./ReactMount');
 
 module.exports = ReactMount.renderSubtreeIntoContainer;
-},{"./ReactMount":137}],197:[function(require,module,exports){
+},{"./ReactMount":149}],209:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32844,7 +34532,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setInnerHTML;
-},{"./createMicrosoftUnsafeLocalFunction":176,"fbjs/lib/ExecutionEnvironment":203}],198:[function(require,module,exports){
+},{"./createMicrosoftUnsafeLocalFunction":188,"fbjs/lib/ExecutionEnvironment":215}],210:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32885,7 +34573,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = setTextContent;
-},{"./escapeTextContentForBrowser":178,"./setInnerHTML":197,"fbjs/lib/ExecutionEnvironment":203}],199:[function(require,module,exports){
+},{"./escapeTextContentForBrowser":190,"./setInnerHTML":209,"fbjs/lib/ExecutionEnvironment":215}],211:[function(require,module,exports){
 /**
  * Copyright 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -32928,7 +34616,7 @@ function shouldUpdateReactComponent(prevElement, nextElement) {
 }
 
 module.exports = shouldUpdateReactComponent;
-},{}],200:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-present, Facebook, Inc.
@@ -33089,7 +34777,7 @@ function traverseAllChildren(children, callback, traverseContext) {
 
 module.exports = traverseAllChildren;
 }).call(this,require('_process'))
-},{"./KeyEscapeUtils":87,"./ReactCurrentOwner":100,"./ReactElement":124,"./getIteratorFn":186,"_process":1,"fbjs/lib/invariant":217,"fbjs/lib/warning":227}],201:[function(require,module,exports){
+},{"./KeyEscapeUtils":99,"./ReactCurrentOwner":112,"./ReactElement":136,"./getIteratorFn":198,"_process":13,"fbjs/lib/invariant":229,"fbjs/lib/warning":239}],213:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2015-present, Facebook, Inc.
@@ -33461,7 +35149,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = validateDOMNesting;
 }).call(this,require('_process'))
-},{"_process":1,"fbjs/lib/emptyFunction":209,"fbjs/lib/warning":227,"object-assign":228}],202:[function(require,module,exports){
+},{"_process":13,"fbjs/lib/emptyFunction":221,"fbjs/lib/warning":239,"object-assign":240}],214:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -33547,7 +35235,7 @@ var EventListener = {
 
 module.exports = EventListener;
 }).call(this,require('_process'))
-},{"./emptyFunction":209,"_process":1}],203:[function(require,module,exports){
+},{"./emptyFunction":221,"_process":13}],215:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -33583,7 +35271,7 @@ var ExecutionEnvironment = {
 };
 
 module.exports = ExecutionEnvironment;
-},{}],204:[function(require,module,exports){
+},{}],216:[function(require,module,exports){
 "use strict";
 
 /**
@@ -33615,7 +35303,7 @@ function camelize(string) {
 }
 
 module.exports = camelize;
-},{}],205:[function(require,module,exports){
+},{}],217:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -33655,7 +35343,7 @@ function camelizeStyleName(string) {
 }
 
 module.exports = camelizeStyleName;
-},{"./camelize":204}],206:[function(require,module,exports){
+},{"./camelize":216}],218:[function(require,module,exports){
 'use strict';
 
 /**
@@ -33699,7 +35387,7 @@ function containsNode(outerNode, innerNode) {
 }
 
 module.exports = containsNode;
-},{"./isTextNode":219}],207:[function(require,module,exports){
+},{"./isTextNode":231}],219:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -33828,7 +35516,7 @@ function createArrayFromMixed(obj) {
 
 module.exports = createArrayFromMixed;
 }).call(this,require('_process'))
-},{"./invariant":217,"_process":1}],208:[function(require,module,exports){
+},{"./invariant":229,"_process":13}],220:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -33914,7 +35602,7 @@ function createNodesFromMarkup(markup, handleScript) {
 
 module.exports = createNodesFromMarkup;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":203,"./createArrayFromMixed":207,"./getMarkupWrap":213,"./invariant":217,"_process":1}],209:[function(require,module,exports){
+},{"./ExecutionEnvironment":215,"./createArrayFromMixed":219,"./getMarkupWrap":225,"./invariant":229,"_process":13}],221:[function(require,module,exports){
 "use strict";
 
 /**
@@ -33952,7 +35640,7 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-},{}],210:[function(require,module,exports){
+},{}],222:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -33974,7 +35662,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = emptyObject;
 }).call(this,require('_process'))
-},{"_process":1}],211:[function(require,module,exports){
+},{"_process":13}],223:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34001,7 +35689,7 @@ function focusNode(node) {
 }
 
 module.exports = focusNode;
-},{}],212:[function(require,module,exports){
+},{}],224:[function(require,module,exports){
 'use strict';
 
 /**
@@ -34036,7 +35724,7 @@ function getActiveElement() /*?DOMElement*/{
 }
 
 module.exports = getActiveElement;
-},{}],213:[function(require,module,exports){
+},{}],225:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -34133,7 +35821,7 @@ function getMarkupWrap(nodeName) {
 
 module.exports = getMarkupWrap;
 }).call(this,require('_process'))
-},{"./ExecutionEnvironment":203,"./invariant":217,"_process":1}],214:[function(require,module,exports){
+},{"./ExecutionEnvironment":215,"./invariant":229,"_process":13}],226:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34172,7 +35860,7 @@ function getUnboundedScrollPosition(scrollable) {
 }
 
 module.exports = getUnboundedScrollPosition;
-},{}],215:[function(require,module,exports){
+},{}],227:[function(require,module,exports){
 'use strict';
 
 /**
@@ -34205,7 +35893,7 @@ function hyphenate(string) {
 }
 
 module.exports = hyphenate;
-},{}],216:[function(require,module,exports){
+},{}],228:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34244,7 +35932,7 @@ function hyphenateStyleName(string) {
 }
 
 module.exports = hyphenateStyleName;
-},{"./hyphenate":215}],217:[function(require,module,exports){
+},{"./hyphenate":227}],229:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -34296,7 +35984,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 
 module.exports = invariant;
 }).call(this,require('_process'))
-},{"_process":1}],218:[function(require,module,exports){
+},{"_process":13}],230:[function(require,module,exports){
 'use strict';
 
 /**
@@ -34319,7 +36007,7 @@ function isNode(object) {
 }
 
 module.exports = isNode;
-},{}],219:[function(require,module,exports){
+},{}],231:[function(require,module,exports){
 'use strict';
 
 /**
@@ -34344,7 +36032,7 @@ function isTextNode(object) {
 }
 
 module.exports = isTextNode;
-},{"./isNode":218}],220:[function(require,module,exports){
+},{"./isNode":230}],232:[function(require,module,exports){
 (function (process){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
@@ -34394,7 +36082,7 @@ var keyMirror = function (obj) {
 
 module.exports = keyMirror;
 }).call(this,require('_process'))
-},{"./invariant":217,"_process":1}],221:[function(require,module,exports){
+},{"./invariant":229,"_process":13}],233:[function(require,module,exports){
 "use strict";
 
 /**
@@ -34429,7 +36117,7 @@ var keyOf = function (oneKeyObj) {
 };
 
 module.exports = keyOf;
-},{}],222:[function(require,module,exports){
+},{}],234:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34480,7 +36168,7 @@ function mapObject(object, callback, context) {
 }
 
 module.exports = mapObject;
-},{}],223:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34512,7 +36200,7 @@ function memoizeStringOnly(callback) {
 }
 
 module.exports = memoizeStringOnly;
-},{}],224:[function(require,module,exports){
+},{}],236:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34535,7 +36223,7 @@ if (ExecutionEnvironment.canUseDOM) {
 }
 
 module.exports = performance || {};
-},{"./ExecutionEnvironment":203}],225:[function(require,module,exports){
+},{"./ExecutionEnvironment":215}],237:[function(require,module,exports){
 'use strict';
 
 /**
@@ -34569,7 +36257,7 @@ if (performance.now) {
 }
 
 module.exports = performanceNow;
-},{"./performance":224}],226:[function(require,module,exports){
+},{"./performance":236}],238:[function(require,module,exports){
 /**
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -34636,7 +36324,7 @@ function shallowEqual(objA, objB) {
 }
 
 module.exports = shallowEqual;
-},{}],227:[function(require,module,exports){
+},{}],239:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -34695,7 +36383,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 module.exports = warning;
 }).call(this,require('_process'))
-},{"./emptyFunction":209,"_process":1}],228:[function(require,module,exports){
+},{"./emptyFunction":221,"_process":13}],240:[function(require,module,exports){
 'use strict';
 /* eslint-disable no-unused-vars */
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -34780,12 +36468,12 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
 	return to;
 };
 
-},{}],229:[function(require,module,exports){
+},{}],241:[function(require,module,exports){
 'use strict';
 
 module.exports = require('./lib/React');
 
-},{"./lib/React":90}],230:[function(require,module,exports){
+},{"./lib/React":102}],242:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -34844,7 +36532,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":233}],231:[function(require,module,exports){
+},{"./compose":245}],243:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -34896,7 +36584,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],232:[function(require,module,exports){
+},{}],244:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -35026,7 +36714,7 @@ function combineReducers(reducers) {
   };
 }
 }).call(this,require('_process'))
-},{"./createStore":234,"./utils/warning":236,"_process":1,"lodash/isPlainObject":240}],233:[function(require,module,exports){
+},{"./createStore":246,"./utils/warning":248,"_process":13,"lodash/isPlainObject":252}],245:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -35067,7 +36755,7 @@ function compose() {
     if (typeof _ret === "object") return _ret.v;
   }
 }
-},{}],234:[function(require,module,exports){
+},{}],246:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -35330,7 +37018,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
 }
-},{"lodash/isPlainObject":240,"symbol-observable":241}],235:[function(require,module,exports){
+},{"lodash/isPlainObject":252,"symbol-observable":253}],247:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -35379,7 +37067,7 @@ exports.bindActionCreators = _bindActionCreators2["default"];
 exports.applyMiddleware = _applyMiddleware2["default"];
 exports.compose = _compose2["default"];
 }).call(this,require('_process'))
-},{"./applyMiddleware":230,"./bindActionCreators":231,"./combineReducers":232,"./compose":233,"./createStore":234,"./utils/warning":236,"_process":1}],236:[function(require,module,exports){
+},{"./applyMiddleware":242,"./bindActionCreators":243,"./combineReducers":244,"./compose":245,"./createStore":246,"./utils/warning":248,"_process":13}],248:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -35405,7 +37093,7 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],237:[function(require,module,exports){
+},{}],249:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetPrototype = Object.getPrototypeOf;
 
@@ -35422,7 +37110,7 @@ function getPrototype(value) {
 
 module.exports = getPrototype;
 
-},{}],238:[function(require,module,exports){
+},{}],250:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -35444,7 +37132,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],239:[function(require,module,exports){
+},{}],251:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -35475,7 +37163,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],240:[function(require,module,exports){
+},{}],252:[function(require,module,exports){
 var getPrototype = require('./_getPrototype'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -35547,7 +37235,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_getPrototype":237,"./_isHostObject":238,"./isObjectLike":239}],241:[function(require,module,exports){
+},{"./_getPrototype":249,"./_isHostObject":250,"./isObjectLike":251}],253:[function(require,module,exports){
 (function (global){
 /* global window */
 'use strict';
@@ -35555,7 +37243,7 @@ module.exports = isPlainObject;
 module.exports = require('./ponyfill')(global || window || this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./ponyfill":242}],242:[function(require,module,exports){
+},{"./ponyfill":254}],254:[function(require,module,exports){
 'use strict';
 
 module.exports = function symbolObservablePonyfill(root) {
@@ -35576,1692 +37264,4 @@ module.exports = function symbolObservablePonyfill(root) {
 	return result;
 };
 
-},{}],243:[function(require,module,exports){
-'use strict';
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactRouter = require('react-router');
-
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
-var _struxState = require('./state/strux-state');
-
-var _struxState2 = _interopRequireDefault(_struxState);
-
-var _layout = require('./layout/layout');
-
-var _layout2 = _interopRequireDefault(_layout);
-
-var _home = require('./components/home');
-
-var _home2 = _interopRequireDefault(_home);
-
-var _other = require('./components/other');
-
-var _other2 = _interopRequireDefault(_other);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-//import state from './state/state';
-
-
-_reactDom2.default.render(_react2.default.createElement(
-  _reactRouter.Router,
-  { history: _reactRouter.browserHistory },
-  _react2.default.createElement(
-    _reactRouter.Route,
-    { path: '/', component: _layout2.default },
-    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'home' }),
-    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: _home2.default }),
-    _react2.default.createElement(_reactRouter.Route, { path: 'other', component: _other2.default })
-  )
-), (0, _jquery2.default)('#app')[0]);
-
-},{"./components/home":244,"./components/other":245,"./layout/layout":246,"./state/strux-state":248,"jquery":2,"react":229,"react-dom":3,"react-router":33}],244:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _strux = require('../strux/strux');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Home = function (_Component) {
-  _inherits(Home, _Component);
-
-  function Home() {
-    _classCallCheck(this, Home);
-
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this));
-
-    _this.state = { sup: 'hi' };
-    window.homeComponent = _this;
-    return _this;
-  }
-
-  _createClass(Home, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'home' },
-        'Home View'
-      );
-    }
-  }]);
-
-  return Home;
-}(_strux.Component);
-
-exports.default = Home;
-
-},{"../strux/strux":254,"react":229}],245:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _strux = require('../strux/strux');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Other = function (_Component) {
-  _inherits(Other, _Component);
-
-  function Other() {
-    _classCallCheck(this, Other);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Other).call(this));
-  }
-
-  _createClass(Other, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'other' },
-        'Other View'
-      );
-    }
-  }]);
-
-  return Other;
-}(_strux.Component);
-
-exports.default = Other;
-
-},{"../strux/strux":254,"react":229}],246:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _navigation = require('./navigation');
-
-var _navigation2 = _interopRequireDefault(_navigation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Layout = function (_Component) {
-  _inherits(Layout, _Component);
-
-  function Layout() {
-    _classCallCheck(this, Layout);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Layout).call(this));
-  }
-
-  _createClass(Layout, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'layout' },
-        _react2.default.createElement(_navigation2.default, null),
-        this.props.children
-      );
-    }
-  }]);
-
-  return Layout;
-}(_react.Component);
-
-exports.default = Layout;
-
-},{"./navigation":247,"react":229}],247:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _strux = require('../strux/strux');
-
-var _reactRouter = require('react-router');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Navigation = function (_Component) {
-  _inherits(Navigation, _Component);
-
-  function Navigation() {
-    _classCallCheck(this, Navigation);
-
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Navigation).call(this));
-  }
-
-  _createClass(Navigation, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: 'navigation' },
-        'Navigation',
-        _react2.default.createElement(
-          'ul',
-          null,
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/', activeClassName: 'active' },
-              'Home'
-            )
-          ),
-          _react2.default.createElement(
-            'li',
-            null,
-            _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/other', activeClassName: 'active' },
-              'Other'
-            )
-          )
-        )
-      );
-    }
-  }]);
-
-  return Navigation;
-}(_strux.Component);
-
-exports.default = Navigation;
-
-},{"../strux/strux":254,"react":229,"react-router":33}],248:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _strux = require('../strux/strux');
-
-var _home = require('../components/home');
-
-var _home2 = _interopRequireDefault(_home);
-
-var _other = require('../components/other');
-
-var _other2 = _interopRequireDefault(_other);
-
-var _navigation = require('../layout/navigation');
-
-var _navigation2 = _interopRequireDefault(_navigation);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// function reducer(state = {}, action) {
-//   switch (action.type) {
-//
-//     case 'ACTION_TYPE_1':
-//       console.log('REDUCER ACTION_TYPE_1:', action);
-//       return Object.assign({prop: action.prop});
-//
-//     case 'ACTION_TYPE_2':
-//       console.log('REDUCER, ACTION_TYPE_2:', action);
-//       return Object.assign({data: action.data});
-//
-//     default:
-//       return Object.assign({}, state, {});
-//   }
-// }
-//
-// const store = createStore(reducer);
-
-_strux.implicitStore.setInitialState({
-  home: {},
-  other: {},
-  navigation: {}
-});
-
-(0, _strux.mapStateToState)({
-  home: _home2.default,
-  other: _other2.default,
-  navigation: _navigation2.default
-});
-
-_strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
-  console.log('Reducing HOME_ACTION:', action);
-  var newHome = Object.assign({}, state.home, { homeProp: action.homeProp });
-  return Object.assign({}, state, { home: newHome });
-}).reduce('FETCH_ACTION', function (state, action) {
-  console.log('Reducing FETCH_ACTION:', action);
-  return state;
-}).reduce(function (state, action) {
-  return state;
-});
-
-_home2.default.dispatches('HOME_ACTION').when('componentDidMount').as(function (state) {
-  console.log('Home is dispatching HOME_ACTION');
-  return { homeProp: 'homeVal' };
-});
-
-_home2.default.fetches('./:file').when('componentDidMount', function (state) {
-  return { file: 'package' };
-}).thenDispatches('FETCH_ACTION').as(function (data) {
-  console.log('Result of fetch was:', data);
-  return { data: data };
-});
-
-// dispatchFrom(Home)
-//   .type('ACTION_TYPE_1')
-//   .when('compnentDidMount')
-//   .using(() => { prop: val })
-
-_navigation2.default.picksUp('HOME_ACTION').then(function (appState, navigation) {
-  console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
-});
-
-exports.default = _strux.implicitStore.getStore();
-
-},{"../components/home":244,"../components/other":245,"../layout/navigation":247,"../strux/strux":254}],249:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
-
-Allows syntax such as:
-
-```
-Home
-  .dispatches('MY_ACTION')
-  .when('componentDidMount')
-  .as(state => state);
-```
-
-*/
-
-/*
- * Holds descriptions for all dispatch actions throughout the application.
- * The tree takes the following form:
- *   dispatches = {
- *     componentDidMount: {
- *       ComponentClassName: [ { type: 'MY_ACTION', transformer: FUNCTION } ]
- *     }
- *   }
- */
-var dispatches = {};
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-var ActionBuilder = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} triggerMethod The name of the method triggering a dispatch.
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function ActionBuilder(triggerMethod, actionType, className) {
-    _classCallCheck(this, ActionBuilder);
-
-    this.triggerMethod = triggerMethod;
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Completes the last level of the dispatches tree so that we will have
-   * the necessary data to actually fire a Redux dispatch.
-   *
-   * @param  {Function} transformer Should return an object that will constitute an action.
-   *
-   * @return {undefined}
-   */
-
-
-  _createClass(ActionBuilder, [{
-    key: "as",
-    value: function as(transformer) {
-      dispatches[this.triggerMethod][this.className].push({
-        type: this.actionType,
-        transformer: transformer
-      });
-    }
-  }]);
-
-  return ActionBuilder;
-}();
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-
-var Dispatch = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType A Redux action type.
-   * @param  {String} className  The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function Dispatch(actionType, className) {
-    _classCallCheck(this, Dispatch);
-
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Allows the user to specify a component method that will trigger the dispatch.
-   *
-   * @param  {String} triggerMethod The method name.
-   *
-   * @return {ActionBuilder} Contains more functionality for completing the description.
-   */
-
-
-  _createClass(Dispatch, [{
-    key: "when",
-    value: function when(triggerMethod) {
-      dispatches[triggerMethod] = dispatches[triggerMethod] || {};
-      dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
-      return new ActionBuilder(triggerMethod, this.actionType, this.className);
-    }
-  }]);
-
-  return Dispatch;
-}();
-
-/**
- * Locates the proper dispatch functions to fire for a given
- * class and method name, and fires them.
- *
- * @param  {String} event          Such as 'componentDidMount'.
- * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
- * @param  {Object} store          A redux store.
- * @param  {Object} instance       An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-
-
-function runDispatches(event, incomingAction, store, instance) {
-
-  /*
-   * Make sure we have an array of actions to loop over.
-   */
-  var actions = dispatches[event];
-  if (actions) {
-    actions = actions[instance.constructor.name];
-  }
-
-  /*
-   * Each object in the array will take the form {type: type, transformer: Fn}.
-   * We'll call the function with the state of the class instance.
-   *
-   * Next we reset the incoming action so subscribers will know what triggered
-   * them within redux.
-   *
-   * Lastly, we fire a true redux dispatch. NOTE: this assumes the transformer
-   * will return a plain object.
-   */
-  actions && actions.forEach(function (item) {
-    var action = item.transformer(instance.state);
-    incomingAction.set(item.type);
-    store.dispatch(Object.assign(_extends({}, action, { type: item.type })));
-  });
-}
-
-exports.Dispatch = Dispatch;
-exports.runDispatches = runDispatches;
-
-},{}],250:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
-
-Allows syntax such as:
-
-```
-Home
-  .fetches('/api/v2/users/:id')
-  .when('componentDidMount', state => { return {id: 1} })
-  .thenDispatches('MY_ACTION')
-  .as(data => data);
-```
-
-*/
-
-/*
- * Holds descriptions for all data fetching throughout the application.
- * The tree takes the following form:
- *   fetches = {
- *     componentDidMount: {
- *       ComponentClassName: [ { url: '/example', config: {...} } ]
- *     }
- *   }
- */
-var fetches = {};
-
-/**
- * An empty function we can reuse.
- *
- * @return {undefined}
- */
-function emptyFn() {
-  return {};
-}
-
-/**
- * Recursively replaces all instances of a single placeholder value in a URL
- * with its actual value.
- *
- * @param  {String} url   A string such as '/api/v1/users/:id'.
- * @param  {String} key   The placeholder value to look for such as 'id'.
- * @param  {Any}    value A serializable value to swap in for the placheholder.
- *
- * @return {String}       The translated string such as '/api/v1/users/1'.
- */
-function replaceValue(url, key, value) {
-  var colonKey = ':' + key;
-  var val = typeof value === 'string' ? value : JSON.stringify(value);
-  if (url.indexOf(colonKey) > -1) {
-    url = url.replace(colonKey, val);
-    return replaceValue(url, key, val);
-  } else {
-    return url;
-  }
-}
-
-/**
- * Replaces placeholder URL values with their actual equivalents.
- *
- * @param  {String} url     A string such as '/api/v1/users/:id'.
- * @param  {Object} valsObj Contains values such as {id: 1}.
- *
- * @return {String}         The translated string such as '/api/v1/users/1'.
- */
-function replaceURLVars(url, valsObj) {
-  var newURL = url;
-  Object.keys(valsObj).forEach(function (key) {
-    var val = valsObj[key];
-    newURL = replaceValue(newURL, key, val);
-  });
-  return newURL;
-}
-
-/**
- * Attempts to parse an item into JSON. If it doesn't work,
- * returns the item unmodified.
- *
- * @param  {Any} data The data to parse.
- *
- * @return {Any}      Either the parsed data or the unmodified data.
- */
-function tryToParse(data) {
-  try {
-    return JSON.parse(data);
-  } catch (e) {
-    return data;
-  }
-}
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-var FetchDescription = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType  A redux action name.
-   * @param  {Object} config      Stores all the properties we'll need as we build a fetch.
-   *
-   * @return {undefined}
-   */
-
-  function FetchDescription(actionType, config) {
-    _classCallCheck(this, FetchDescription);
-
-    this.config = Object.assign({}, config, {
-      actionType: actionType
-    });
-  }
-
-  /**
-   * Allows the user to specify what to do with the result of the action.
-   *
-   * @param  {Function} transformer Should return an object that will constitute an action.
-   *
-   * @return {undefined}
-   */
-
-
-  _createClass(FetchDescription, [{
-    key: 'as',
-    value: function as(transformer) {
-      var config = this.config;
-      fetches[config.triggerMethod][config.className].push(Object.assign({}, config, {
-        dataTransformer: transformer
-      }));
-    }
-  }]);
-
-  return FetchDescription;
-}();
-
-/**
- * @class
- *
- * Builds a level of the dispatches tree.
- */
-
-
-var DispatchBuilder = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String}   triggerMethod The name of the component method triggering a fetch.
-   * @param  {Function} translator    How to switch out url vars.
-   * @param  {Object}   config        Stores all the properties we'll need as we build a fetch.
-   *
-   * @return {undefined}
-   */
-
-  function DispatchBuilder(triggerMethod, translator, config) {
-    _classCallCheck(this, DispatchBuilder);
-
-    this.config = Object.assign({}, config, {
-      triggerMethod: triggerMethod,
-      translator: translator
-    });
-  }
-
-  /**
-   * Allows the user to specify a redux action associated with the data return.
-   *
-   * @param  {String} actionType A redux action type name.
-   *
-   * @return {ActionBuilder} Contains more functionality for completing the description.
-   */
-
-
-  _createClass(DispatchBuilder, [{
-    key: 'thenDispatches',
-    value: function thenDispatches(actionType) {
-      return new FetchDescription(actionType, this.config);
-    }
-  }]);
-
-  return DispatchBuilder;
-}();
-
-/**
- * @class
- *
- * Builds a level of the fetches tree.
- */
-
-
-var Fetch = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} url        The URL to fetch.
-   * @param  {Object} config     Ajax configuration object for `fetch`.
-   * @param  {String} className  The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function Fetch(url, config, className) {
-    _classCallCheck(this, Fetch);
-
-    this.url = url;
-    this.config = config || {};
-    this.className = className;
-  }
-
-  /**
-   * Allows the user to specify a component method that will trigger the fetch.
-   *
-   * @param  {String}   triggerMethod The method name.
-   * @param  {Function} translator    How to modify URL vars.
-   *
-   * @return {DispatchBuilder} Contains more functionality for completing the description.
-   */
-
-
-  _createClass(Fetch, [{
-    key: 'when',
-    value: function when(triggerMethod, translator) {
-      translator = translator || emptyFn;
-      fetches[triggerMethod] = fetches[triggerMethod] || {};
-      fetches[triggerMethod][this.className] = fetches[triggerMethod][this.className] || [];
-      return new DispatchBuilder(triggerMethod, translator, this);
-    }
-  }]);
-
-  return Fetch;
-}();
-
-/**
- * Locates the proper fetch functions to fire for a given
- * class and method name, and fires them.
- *
- * @param  {String} event          Such as 'componentDidMount'.
- * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
- * @param  {Object} store          A redux store.
- * @param  {Object} instance       An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-
-
-function runFetches(event, incomingAction, store, instance) {
-
-  /*
-   * Make sure we have an array of actions to loop over.
-   */
-  var actions = fetches[event];
-  if (actions) {
-    actions = actions[instance.constructor.name];
-  }
-
-  /*
-   * Each object in the array will take the form {
-   *   url: '/api/v2/users/:id',
-   *   config: { ... },
-   *   className: 'Foo',
-   *   triggerMethod: 'componentDidMount',
-   *   translator: FUNCTION,
-   *   actionType: 'MY_ACTION',
-   *   dataTransformer: FUNCTION
-   * }.
-   *
-   * For each object, we'll build a clean URL by replacing any url vars
-   * that may exist within the provided url.
-   *
-   * We'll perform a fetch on the clean URL using the user's provided
-   * config data. When the data comes back, we'll run the provided
-   * data transformer on it and dispatch a redux action.
-   */
-  actions && actions.forEach(function (item) {
-    var cleanURL = replaceURLVars(item.url, item.translator(instance.state || {}));
-
-    /*
-     * Perform a fetch. If it's ok resolve it. If not, reject it.
-     */
-    var fetched = fetch(cleanURL, item.config).then(function (response) {
-      return response.ok ? Promise.resolve(response) : Promise.reject(new Error(response.statusText));
-    });
-
-    /*
-     * When the fetch resolves, read it to text then pass it
-     * through the user-prived transformer, set the incoing action,
-     * and dispatch an action.
-     */
-    fetched.then(function (data) {
-      return data.text();
-    }).then(function (data) {
-      var action = item.dataTransformer(tryToParse(data), instance.state || {});
-      incomingAction.set(item.actionType);
-      store.dispatch(Object.assign(_extends({}, action, { type: item.actionType })));
-    });
-  });
-}
-
-exports.Fetch = Fetch;
-exports.runFetches = runFetches;
-
-},{}],251:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.reduxStore = exports.implicitStore = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _redux = require('redux');
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } /*
-                                                                                                                                                          
-                                                                                                                                                          Allows syntax such as:
-                                                                                                                                                          
-                                                                                                                                                          ```
-                                                                                                                                                          import { implicitStore as store } from 'strux'
-                                                                                                                                                          
-                                                                                                                                                          store.setInitialState({
-                                                                                                                                                            property1: 'value1',
-                                                                                                                                                            property2: 'value2'
-                                                                                                                                                          });
-                                                                                                                                                          
-                                                                                                                                                          store.reduce('MY_ACTION', (curState, action) => {
-                                                                                                                                                            return Object.assign({}, curState, { property1: action.prop });
-                                                                                                                                                          });
-                                                                                                                                                          
-                                                                                                                                                          store.reduce('ANOTHER_ACTION', (curState, action) => {
-                                                                                                                                                            return Object.assign({}, curState, { property2: action.prop });
-                                                                                                                                                          });
-                                                                                                                                                          ```
-                                                                                                                                                          
-                                                                                                                                                          This way the user never has to manually create a store.
-                                                                                                                                                          */
-
-/*
- * Pull in `createStore` from redux.
- */
-
-
-/*
- * Set the initial state as an object.
- * We're going to require that the state always
- * take the form of an object.
- */
-var initialState = {};
-var initialStateManuallySet = false;
-
-/*
- * A value to be used internally for calling the reducer with the
- * purpose of resetting the application state back to a default.
- */
-var reset = Symbol();
-
-/**
- * @class
- *
- * Builds an object that will be placed into the
- * `registeredReducers` array.
- */
-
-var ReducerObject =
-
-/**
- * @constructor
- *
- * Sets initial properties on the object.
- *
- * @param  {String}   action    The type of redux action associated with this
- *                              reduction procedure.
- * @param  {Function} procedure The procedure to run when this action is
- *                              dispatched through redux.
- *
- * @return {undefined}
- */
-function ReducerObject(action, procedure) {
-  _classCallCheck(this, ReducerObject);
-
-  this.action = action;
-  this.procedure = procedure;
-};
-
-/*
- * Create a place to hold all reduce procedures the user gives us.
- */
-
-
-var registeredReducers = _defineProperty({}, reset, new ReducerObject(reset, function () {
-  return initialState;
-}));
-
-/*
- * Create a defaultReducer to run when the action doesn't match any
- * provided actions. It will simply return the state.
- */
-var defaultReducer = function defaultReducer(state, action) {
-  return state;
-};
-
-/**
- * The implicitReducer will be the only reducer passed to redux's
- * `createStore` function. It will loop over each of the procedures
- * in the `registeredReducers` array and call the one whose associated
- * action matches the action dispatched through redux. It will return
- * the result of calling that procedure.
- *
- * @param  {Object} state  The application state. Assumed to be an object.
- * @param  {Object} action The action object handed to us by redux.
- *
- * @return {Object} The new form of the application state.
- */
-function implicitReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-  var action = arguments[1];
-
-  var output = void 0;
-
-  /*
-   * Find a reducer in `registeredReducers` matching our incoming action type.
-   */
-  if (Object.prototype.hasOwnProperty.call(registeredReducers, action.type)) {
-
-    /*
-     * Run the reducer procedure with a copy of the current state and the
-     * incoming action. Set its result to be the output value.
-     */
-    var procedure = registeredReducers[action.type].procedure;
-    output = procedure(Object.assign({}, state), action);
-
-    /*
-     * If action.type does not match a registered reducer, run the
-     * default reducer instead.
-     */
-  } else {
-      output = defaultReducer(Object.assign({}, state), action);
-    }
-
-  /*
-   * Do a sanity check to make sure the intended form of the new state
-   * is still an object. If so, return it.
-   */
-  if ((typeof output === 'undefined' ? 'undefined' : _typeof(output)) !== 'object') {
-    throw new Error('Your application state must always take the form of an object accepting keys and values when using the implicit store.');
-  }
-  return output;
-}
-
-/*
- * Create a redux store.
- */
-var reduxStore = (0, _redux.createStore)(implicitReducer);
-
-/**
- * @class
- *
- * Builds an object that allows the user to add reducers to the
- * `registeredReducers` array.
- */
-
-var ImplicitStore = function () {
-  function ImplicitStore() {
-    _classCallCheck(this, ImplicitStore);
-  }
-
-  _createClass(ImplicitStore, [{
-    key: 'reduce',
-
-
-    /**
-     * Allows the user to associate a procedure with a redux action
-     * such that, when the action is dispatched, only the provided
-     * function will run.
-     *
-     * @param  {String}   action    Optional. The type of redux action associated
-     *                              with this reduction procedure. If this
-     *                              argument is not supplied, the provided
-     *                              reducer will become the `defaultReducer`,
-     *                              which will run when the dispatched action
-     *                              doesn't match any registered reducers.
-     * @param  {Function} procedure The procedure to run when this action is
-     *                              dispatched through redux.
-     *
-     * @return {ImplicitStore} This object.
-     */
-    value: function reduce(action, procedure) {
-      if (arguments.length === 1 && typeof action === 'function') {
-        defaultReducer = procedure;
-      } else {
-        registeredReducers[action] = new ReducerObject(action, procedure);
-      }
-      return this;
-    }
-
-    /**
-     * Allow the user to retrieve the redux store.
-     *
-     * @return The redux store.
-     */
-
-  }, {
-    key: 'getStore',
-    value: function getStore() {
-      return reduxStore;
-    }
-
-    /**
-     * Allow the user to retrieve a copy of the current state.
-     *
-     * @return The current application state.
-     */
-
-  }, {
-    key: 'getState',
-    value: function getState() {
-      return Object.assign({}, reduxStore.getState());
-    }
-
-    /**
-     * Allow the user a single opportunity to set the initial application state.
-     *
-     * @param {Object} stateObject Any type of object accepting keys and values.
-     *
-     * @return {Object} A copy of the current state.
-     */
-
-  }, {
-    key: 'setInitialState',
-    value: function setInitialState(stateObject) {
-      if ((typeof stateObject === 'undefined' ? 'undefined' : _typeof(stateObject)) !== 'object') {
-        throw new Error('Initial state must take the form of an object that accepts keys and values.');
-      } else if (initialStateManuallySet) {
-        throw new Error('You can not set the initial state more than once.');
-      } else {
-        initialStateManuallySet = true;
-        initialState = stateObject;
-        reduxStore.dispatch({ type: reset });
-        return this.getState();
-      }
-    }
-  }]);
-
-  return ImplicitStore;
-}();
-
-/*
- * Create an `ImplicitStore` object to export.
- */
-
-
-var implicitStore = new ImplicitStore();
-
-/*
- * Export the object.
- */
-exports.implicitStore = implicitStore;
-exports.reduxStore = reduxStore;
-
-},{"redux":235}],252:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-/*
-
-Allows syntax such as:
-
-```
-mapStateToState({
-  applicationPropName: Component
-});
-```
-
-*/
-
-/*
- * Takes the form: {
- *   ComponentClassName: 'appStateProp'
- * }
- */
-var mappings = {};
-
-/*
- * A symbol allowing us to hide Redux store subscriptions from the user.
- */
-var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
-
-/**
- * A shortcut for checking if an object owns a key.
- *
- * @param  {Object} object The object to search in.
- * @param  {String} key    The key to try to find in the object.
- *
- * @return {Boolean}
- */
-function owns(object, key) {
-  return Object.prototype.hasOwnProperty.call(object, key);
-}
-
-/**
- * Collects differences between a piece of the application state and
- * a component state and returns them in the form of an object.
- *
- * @param  {Object} appStateChunk A piece of the application state.
- * @param  {Object} instanceState The state property on a component instance.
- *
- * @return {Object|false}
- */
-function isolateUpdates(appStateChunk, instanceState) {
-  var output = {};
-  var counter = 0;
-
-  /*
-   * We'll collect a difference when there is a key on the app state that
-   * doesn't exist on the component state or when the value on the app state
-   * doesn't match the value on the component state.
-   */
-  Object.keys(appStateChunk).forEach(function (key) {
-    var val = appStateChunk[key];
-    if (!owns(instanceState, key) || val !== instanceState[key]) {
-      counter += 1;
-      output[key] = val;
-    }
-  });
-  return counter ? output : false;
-}
-
-/**
- * Creates implicit subscriptions to Redux actions for updating a
- * component state.
- *
- * @param  {Object} store    A redux store.
- * @param  {Object} instance An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-function createMappingSubscribers(store, instance) {
-  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
-    var className = instance.constructor.name;
-    var relevantStateValue = store.getState()[mappings[className]];
-    if (relevantStateValue && (typeof relevantStateValue === 'undefined' ? 'undefined' : _typeof(relevantStateValue)) === 'object') {
-      var changes = isolateUpdates(relevantStateValue, instance.state);
-      changes && instance.setState(changes);
-    }
-  }));
-}
-
-/**
- * Allows the user to set specify that when a certain key on the application
- * state changes, the values on that key will be mapped to the state object
- * on the component.
- *
- * @param  {Object} userMappings Takes the form `{appStateProp: ComponentClass}`
- *
- * @return {undefined}
- */
-function mapStateToState(userMappings) {
-  Object.keys(userMappings).forEach(function (key) {
-    var componentClass = userMappings[key];
-    mappings[componentClass.name] = key;
-  });
-}
-
-exports.mapStateToState = mapStateToState;
-exports.createMappingSubscribers = createMappingSubscribers;
-
-},{}],253:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
-
-Allows syntax such as:
-
-```
-MyComponent
-  .picksUp('MY_ACTION')
-  .then((appState, other) => {
-    other.setState(appState);
-  });
-```
-
-*/
-
-/*
- * Holds descriptions for all pickup actions throughout the application.
- * The tree takes the following form:
- *   pickups = {
- *     componentClassName: {
- *       'MY_ACTION': [FUNCTION, FUNCTION, FUNCTION]
- *     }
- *   }
- */
-var pickups = {};
-
-/*
- * A symbol allowing us to hide Redux store subscriptions from the user.
- */
-var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
-
-/**
- * @class
- *
- * Builds a level of the pickups tree.
- */
-
-var Pickup = function () {
-
-  /**
-   * @constructor
-   *
-   * Sets up important properties on the instance.
-   *
-   * @param  {String} actionType    A Redux action type.
-   * @param  {String} className    The name of the class that brought us here.
-   *
-   * @return {undefined}
-   */
-
-  function Pickup(actionType, className) {
-    _classCallCheck(this, Pickup);
-
-    this.actionType = actionType;
-    this.className = className;
-  }
-
-  /**
-   * Associates a handler with an action type in context of a Redux subscription.
-   *
-   * @param  {Function} handler Called with the new state and a component instance.
-   *
-   * @return {undefined}
-   */
-
-
-  _createClass(Pickup, [{
-    key: 'then',
-    value: function then(handler) {
-      pickups[this.className] = pickups[this.className] || {};
-      pickups[this.className][this.actionType] = pickups[this.className][this.actionType] || [];
-      pickups[this.className][this.actionType].push(handler);
-    }
-  }]);
-
-  return Pickup;
-}();
-
-/**
- * Creates implicit subscriptions to Redux actions for a rendered component.
- *
- * @param  {Object} incomingAction Allows us to get and set the incoming Redux action.
- * @param  {Object} store          A redux store.
- * @param  {Object} instance       An instance of an XComponent extended class.
- *
- * @return {undefined}
- */
-
-
-function createPickupSubscribers(incomingAction, store, instance) {
-  instance[UNSUBSCRIBERS].push(store.subscribe(function () {
-    var relevantPickups = pickups[instance.constructor.name];
-    if (relevantPickups) {
-      relevantPickups = relevantPickups[incomingAction.get()];
-    }
-    if (relevantPickups) {
-      (function () {
-        var state = store.getState();
-        relevantPickups.forEach(function (handler) {
-          return handler(state, instance);
-        });
-      })();
-    }
-  }));
-}
-
-exports.Pickup = Pickup;
-exports.createPickupSubscribers = createPickupSubscribers;
-
-},{}],254:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.Component = exports.mapStateToState = exports.implicitStore = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     CONCEPT:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Describe redux communications across your app all in one place. This will
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     eliminate the need to hunt down dispatches and subscriptions.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     EXAMPLE:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import Home from './home';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { createStore } from 'strux';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     const store = createStore(function reducer() { ... });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .dispatches('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(state => state);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Other
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .picksUp('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .then((appState, other) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         other.setState(appState);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Home
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .fetches('/api/v2/users/:id')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .when('componentDidMount', state => { return {id: 1} })
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .thenDispatches('MY_ACTION')
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       .as(data => data);
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ALTERNATE STORE MANAGEMENT:
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { implicitStore as store } from 'strux'
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('MY_ACTION', (curState, action) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('ANOTHER_ACTION', (curState, action) => {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     You can also create automatic state-to-state mappings such that a property
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     in your application state will be kept in sync with your component state.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     When the application state changes, a subscriber will automatically pick up
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     on that set the component state as necessary.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { mapStateToState } from 'strux';
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     mapStateToState({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp1: Home,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp2: Profile
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     */
-
-/*
- * Import the necessary items from React and Redux.
- */
-
-
-var _redux = require('redux');
-
-Object.defineProperty(exports, 'combineReducers', {
-  enumerable: true,
-  get: function get() {
-    return _redux.combineReducers;
-  }
-});
-Object.defineProperty(exports, 'applyMiddleware', {
-  enumerable: true,
-  get: function get() {
-    return _redux.applyMiddleware;
-  }
-});
-Object.defineProperty(exports, 'bindActionCreators', {
-  enumerable: true,
-  get: function get() {
-    return _redux.bindActionCreators;
-  }
-});
-Object.defineProperty(exports, 'compose', {
-  enumerable: true,
-  get: function get() {
-    return _redux.compose;
-  }
-});
-
-var _react = require('react');
-
-var _dispatch = require('./lib/dispatch');
-
-var _pickup = require('./lib/pickup');
-
-var _fetch = require('./lib/fetch');
-
-var _implicitstore = require('./lib/implicitstore');
-
-var _mappings = require('./lib/mappings');
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/*
- * Track a reference to the store created by the user.
- * By default, we'll assume the user is going to be using
- * the implicit store. If not, their own store will override this.
- */
-var store = _implicitstore.reduxStore;
-
-/*
- * A symbol allowing us to hide Redux store subscriptions from the user.
- */
-var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
-
-/*
- * Every time a dispatch occurs, we'll reset this variable first so that
- * when subscribers fire, they'll be able to know which action type
- * triggered the handler.
- */
-var incomingAction = new (function () {
-  function _class() {
-    _classCallCheck(this, _class);
-
-    this.action = null;
-  }
-
-  _createClass(_class, [{
-    key: 'get',
-    value: function get() {
-      return this.action;
-    }
-  }, {
-    key: 'set',
-    value: function set(val) {
-      this.action = val;
-    }
-  }]);
-
-  return _class;
-}())();
-
-/*
- * We'll need to generate methods for each of these lifeCycle method names.
- */
-var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
-
-/**
- * @class
- *
- * Adds a layer to React's Component class for smoother Redux
- * work.
- */
-
-var Component = function (_ReactComponent) {
-  _inherits(Component, _ReactComponent);
-
-  /**
-   * @constructor
-   *
-   * Runs the super constructor, sets up an place for us to
-   * store subscriptions, and makes sure implicit methods exist for this
-   * instance. We have to create those methods in the constructor because
-   * they are not methods on the Component prototype.
-   *
-   * @param  {Arguments} ...args Any arguments passed to the constructor.
-   *
-   * @return {undefined}
-   */
-
-  function Component() {
-    var _Object$getPrototypeO;
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _classCallCheck(this, Component);
-
-    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
-
-    _this[UNSUBSCRIBERS] = [];
-
-    /*
-     * Make sure we have an existing method for each life cycle method name.
-     * We'll begin by getting a reference to the original method if the user
-     * has already attached one.
-     */
-    lifeCycle.forEach(function (methodName) {
-      var orig = _this[methodName];
-
-      /*
-       * For each method we create, handle subscribers, dispatchers,
-       * and fetchers.
-       */
-      _this[methodName] = function () {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        /*
-         * Call the original method and trap the result.
-         */
-        var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
-
-        /*
-         * If this is `shouldComponentUpdate`, make sure we're returning
-         * a boolean if the result was falsy.
-         */
-        methodName === 'shouldComponentUpdate' && !out && (out = false);
-
-        /*
-         * If this is `componentDidMount`, create subscribers to run
-         * pickup functions.
-         */
-        if (methodName === 'componentDidMount') {
-          (0, _pickup.createPickupSubscribers)(incomingAction, store, _this);
-          (0, _mappings.createMappingSubscribers)(store, _this);
-        }
-
-        /*
-         * Run all dispatches and fetches associated with this method.
-         */
-        (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
-        (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
-
-        /*
-         * If this is `componentWillUnmount`, we unsubscribe our implicit
-         * subscribers.
-         */
-        methodName === 'componentWillUnmount' && _this[UNSUBSCRIBERS].forEach(function (unsubscriber) {
-          return unsubscriber();
-        });
-
-        /*
-         * Return the result of calling the original method.
-         */
-        return out;
-      };
-    });
-    return _this;
-  }
-
-  /**
-   * A new static method that allows us to begin describing circumstances that
-   * will cause instances of this component to trigger Redux dispatches.
-   *
-   * @param  {String} actionType A redux action type name.
-   *
-   * @return {Dispatch} Contains more methods for completing the description.
-   */
-
-
-  _createClass(Component, null, [{
-    key: 'dispatches',
-    value: function dispatches(actionType) {
-      return new _dispatch.Dispatch(actionType, this.name);
-    }
-
-    /**
-     * A new static method that allows us to begin describing that instances
-     * of this component will subscribe to certain Redux action types.
-     *
-     * @param  {String} actionType A redux action type name.
-     *
-     * @return {Pickup} Contains more methods for completing the description.
-     */
-
-  }, {
-    key: 'picksUp',
-    value: function picksUp(actionType) {
-      return new _pickup.Pickup(actionType, this.name);
-    }
-
-    /**
-     * A new static method that allows us to begin describing circumstances that
-     * will cause a data fetch within the application.
-     *
-     * @param  {String} url    The datapoint.
-     * @param  {Object} config An object modifying the call made _a la_ the fetch api.
-     *
-     * @return {Pickup} Contains more methods for completing the description.
-     */
-
-  }, {
-    key: 'fetches',
-    value: function fetches(url, config) {
-      return new _fetch.Fetch(url, config, this.name);
-    }
-  }]);
-
-  return Component;
-}(_react.Component);
-
-/**
- * Override Redux's createStore with a version that allows us to keep
- * track of the store the user creates.
- *
- * @param  {Arguments} ...args Usually a reducer function.
- *
- * @return A Redux store.
- */
-
-
-function createStore() {
-  store = _redux.createStore.apply(undefined, arguments);
-  return store;
-}
-
-/*
- * Users will be able to use this module INSTEAD of Redux as it passes
- * through all the necessary top level pieces as well as our new component type.
- */
-exports.createStore = createStore;
-exports.implicitStore = _implicitstore.implicitStore;
-exports.mapStateToState = _mappings.mapStateToState;
-exports.Component = Component;
-
-},{"./lib/dispatch":249,"./lib/fetch":250,"./lib/implicitstore":251,"./lib/mappings":252,"./lib/pickup":253,"react":229,"redux":235}]},{},[243]);
+},{}]},{},[1]);

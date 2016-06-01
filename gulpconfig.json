@@ -1,9 +1,9 @@
 {
   "index": "index.html",
-  "libSrc": "src/strux/**/*.js",
+  "libSrc": "dev/strux/**/*.js",
   "distOutput" : "bin",
-  "appSrc" : "src/**/*.js",
-  "appEntry": "src/app.js",
+  "appSrc" : "dev/**/*.js",
+  "appEntry": "dev/app.js",
   "appOutput": {
     "fileName": "app.js",
     "dest": "assets/js"

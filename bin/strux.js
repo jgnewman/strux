@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Component = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
+exports.Component = exports.mapStateToState = exports.implicitStore = exports.createStore = exports.compose = exports.bindActionCreators = exports.applyMiddleware = exports.combineReducers = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
@@ -36,6 +36,34 @@ var _createClass = function () { function defineProperties(target, props) { for 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .thenDispatches('MY_ACTION')
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        .as(data => data);
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ALTERNATE STORE MANAGEMENT:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { implicitStore as store } from 'strux'
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('MY_ACTION', (curState, action) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     store.reduce('ANOTHER_ACTION', (curState, action) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       return Object.assign({}, curState, {prop: action.prop});
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     You can also create automatic state-to-state mappings such that a property
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     in your application state will be kept in sync with your component state.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     When the application state changes, a subscriber will automatically pick up
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     on that set the component state as necessary.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     ```
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     import { mapStateToState } from 'strux';
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     mapStateToState({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp1: Home,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       stateProp2: Profile
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     });
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ```
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
@@ -80,6 +108,10 @@ var _pickup = require('./lib/pickup');
 
 var _fetch = require('./lib/fetch');
 
+var _implicitstore = require('./lib/implicitstore');
+
+var _mappings = require('./lib/mappings');
+
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -88,13 +120,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 /*
  * Track a reference to the store created by the user.
+ * By default, we'll assume the user is going to be using
+ * the implicit store. If not, their own store will override this.
  */
-var store = null;
+var store = _implicitstore.reduxStore;
 
 /*
  * A symbol allowing us to hide Redux store subscriptions from the user.
  */
-var UNSUBSCRIBE = Symbol.for('STRUX_UNSUBSCRIBE');
+var UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
 
 /*
  * Every time a dispatch occurs, we'll reset this variable first so that
@@ -162,7 +196,7 @@ var Component = function (_ReactComponent) {
 
     var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Component)).call.apply(_Object$getPrototypeO, [this].concat(args)));
 
-    _this[UNSUBSCRIBE] = null;
+    _this[UNSUBSCRIBERS] = [];
 
     /*
      * Make sure we have an existing method for each life cycle method name.
@@ -173,31 +207,51 @@ var Component = function (_ReactComponent) {
       var orig = _this[methodName];
 
       /*
-       * For each method we create, we'll grab the result of calling the
-       * original method if there was one.
-       *
-       * If this is componentDidMount, we'll create all implicit redux
-       * subscribers automatically.
-       *
-       * Next we run any dispatches that are supposed to occur when this
-       * method is called.
-       *
-       * If this is componentWillUnmount, we unsubscribe our implicit
-       * subscribers.
-       *
-       * Finally we return the result of the original method.
+       * For each method we create, handle subscribers, dispatchers,
+       * and fetchers.
        */
       _this[methodName] = function () {
         for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
           args[_key2] = arguments[_key2];
         }
 
+        /*
+         * Call the original method and trap the result.
+         */
         var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
+
+        /*
+         * If this is `shouldComponentUpdate`, make sure we're returning
+         * a boolean if the result was falsy.
+         */
         methodName === 'shouldComponentUpdate' && !out && (out = false);
-        methodName === 'componentDidMount' && (0, _pickup.createSubscribers)(incomingAction, store, _this);
+
+        /*
+         * If this is `componentDidMount`, create subscribers to run
+         * pickup functions.
+         */
+        if (methodName === 'componentDidMount') {
+          (0, _pickup.createPickupSubscribers)(incomingAction, store, _this);
+          (0, _mappings.createMappingSubscribers)(store, _this);
+        }
+
+        /*
+         * Run all dispatches and fetches associated with this method.
+         */
         (0, _dispatch.runDispatches)(methodName, incomingAction, store, _this);
         (0, _fetch.runFetches)(methodName, incomingAction, store, _this);
-        methodName === 'componentWillUnmount' && typeof _this[UNSUBSCRIBE] === 'function' && _this[UNSUBSCRIBE]();
+
+        /*
+         * If this is `componentWillUnmount`, we unsubscribe our implicit
+         * subscribers.
+         */
+        methodName === 'componentWillUnmount' && _this[UNSUBSCRIBERS].forEach(function (unsubscriber) {
+          return unsubscriber();
+        });
+
+        /*
+         * Return the result of calling the original method.
+         */
         return out;
       };
     });
@@ -275,4 +329,6 @@ function createStore() {
  * through all the necessary top level pieces as well as our new component type.
  */
 exports.createStore = createStore;
+exports.implicitStore = _implicitstore.implicitStore;
+exports.mapStateToState = _mappings.mapStateToState;
 exports.Component = Component;
