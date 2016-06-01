@@ -221,10 +221,10 @@ var Component = function (_ReactComponent) {
         var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
 
         /*
-         * If this is `shouldComponentUpdate`, make sure we're returning
-         * a boolean if the result was falsy.
+         * If this is `shouldComponentUpdate`, make sure we allow the component
+         * to update if the user didn't create this method.
          */
-        methodName === 'shouldComponentUpdate' && !out && (out = false);
+        methodName === 'shouldComponentUpdate' && !orig && (out = true);
 
         /*
          * If this is `componentDidMount`, create subscribers to run

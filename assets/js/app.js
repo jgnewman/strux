@@ -87,11 +87,11 @@ var Home = function (_Component) {
   _createClass(Home, [{
     key: 'render',
     value: function render() {
-      console.log('rendering home');
       return _react2.default.createElement(
         'div',
         { className: 'home' },
-        'Home View'
+        this.state.sup,
+        ' this is the Home View'
       );
     }
   }]);
@@ -301,48 +301,49 @@ _strux.implicitStore.setInitialState({
   navigation: {}
 });
 
-// mapStateToState({
-//   home: Home,
-//   other: Other,
-//   navigation: Navigation
-// });
+(0, _strux.mapStateToState)({
+  home: _home2.default,
+  other: _other2.default,
+  navigation: _navigation2.default
+});
 
 _strux.implicitStore.reduce('HOME_ACTION', function (state, action) {
   console.log('Reducing HOME_ACTION:', action);
   var newHome = Object.assign({}, state.home, { homeProp: action.homeProp });
   return Object.assign({}, state, { home: newHome });
+}).reduce('HOMEX', function (state, action) {
+  console.log('Reducing HOMEX:', action);
+  var newHome = Object.assign({}, state.home, { sup: action.sup });
+  return Object.assign({}, state, { home: newHome });
 }).reduce('FETCH_ACTION', function (state, action) {
   console.log('Reducing FETCH_ACTION:', action);
   return state;
 }).reduce(function (state, action) {
-  console.log('got default reducer');
+  console.log('got default reducer', action);
   return state;
 });
 
 window.store = _strux.implicitStore.getStore();
 
-// Home
-//   .dispatches('HOME_ACTION')
-//   .when('componentDidMount')
-//   .as(state => {
-//     console.log('Home is dispatching HOME_ACTION');
-//     return { homeProp: 'homeVal' };
-//   });
-//
-// Home
-//   .fetches('./:file')
-//   .when('componentDidMount', state => { return {file: 'package'} })
-//   .thenDispatches('FETCH_ACTION')
-//   .as(data => {
-//     console.log('Result of fetch was:', data)
-//     return {data: data}
-//   })
-//
-// Navigation
-//   .picksUp('HOME_ACTION')
-//   .then((appState, navigation) => {
-//     console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
-//   });
+_home2.default.dispatches('HOME_ACTION').when('componentDidMount').as(function (state) {
+  console.log('Home is dispatching HOME_ACTION');
+  return { homeProp: 'homeVal' };
+});
+
+_home2.default.picksUp('HOMEX').then(function (appState, home) {
+  console.log('Home picked up', appState, home);
+});
+
+_home2.default.fetches('./:file').when('componentDidMount', function (state) {
+  return { file: 'package' };
+}).thenDispatches('FETCH_ACTION').as(function (data) {
+  console.log('Result of fetch was:', data);
+  return { data: data };
+});
+
+_navigation2.default.picksUp('HOME_ACTION').then(function (appState, navigation) {
+  console.log('Navigation picked up HOME_ACTION with:', appState, navigation);
+});
 
 exports.default = _strux.implicitStore.getStore();
 
@@ -1562,10 +1563,10 @@ var Component = function (_ReactComponent) {
         var out = orig ? orig.call.apply(orig, [_this].concat(args)) : undefined;
 
         /*
-         * If this is `shouldComponentUpdate`, make sure we're returning
-         * a boolean if the result was falsy.
+         * If this is `shouldComponentUpdate`, make sure we allow the component
+         * to update if the user didn't create this method.
          */
-        methodName === 'shouldComponentUpdate' && !out && (out = false);
+        methodName === 'shouldComponentUpdate' && !orig && (out = true);
 
         /*
          * If this is `componentDidMount`, create subscribers to run

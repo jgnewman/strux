@@ -158,10 +158,10 @@ class Component extends ReactComponent {
         let out = orig ? orig.call(this, ...args) : undefined;
 
         /*
-         * If this is `shouldComponentUpdate`, make sure we're returning
-         * a boolean if the result was falsy.
+         * If this is `shouldComponentUpdate`, make sure we allow the component
+         * to update if the user didn't create this method.
          */
-        methodName === 'shouldComponentUpdate' && !out && (out = false);
+        methodName === 'shouldComponentUpdate' && !orig && (out = true);
 
         /*
          * If this is `componentDidMount`, create subscribers to run

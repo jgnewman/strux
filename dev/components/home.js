@@ -8,10 +8,9 @@ class Home extends Component {
     window.homeComponent = this;
   }
   render() {
-    console.log('rendering home')
     return (
       <div className="home">
-        Home View
+        {this.state.sup} this is the Home View
       </div>
     );
   }
