@@ -112,6 +112,10 @@ var _implicitstore = require('./lib/implicitstore');
 
 var _mappings = require('./lib/mappings');
 
+var _triggerlist = require('./lib/triggerlist');
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -157,11 +161,6 @@ var incomingAction = new (function () {
   return _class;
 }())();
 
-/*
- * We'll need to generate methods for each of these lifeCycle method names.
- */
-var lifeCycle = ['componentDidMount', 'componentWillUnmount', 'componentWillMount', 'componentWillReceiveProps', 'shouldComponentUpdate', 'componentWillUpdate', 'componentDidUpdate'];
-
 /**
  * @class
  *
@@ -203,7 +202,7 @@ var Component = function (_ReactComponent) {
      * We'll begin by getting a reference to the original method if the user
      * has already attached one.
      */
-    lifeCycle.forEach(function (methodName) {
+    new Set([].concat(_toConsumableArray(_triggerlist.lifeCycleMethods), _toConsumableArray(_triggerlist.customMethods))).forEach(function (methodName) {
       var orig = _this[methodName];
 
       /*

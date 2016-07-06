@@ -237,8 +237,8 @@ React components. Specifically those are:
 - `componentWillUpdate`
 - `componentDidUpdate`
 
-This, of course, reveals Strux's philosophy that all dispatches should be
-triggered within lifecycle functions.
+You can also pass in the name of any method that you have defined on your class,
+in which case the dispatch will occur after that method is called.
 
 ## Does Strux handle anything asynchronous?
 

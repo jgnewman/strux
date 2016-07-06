@@ -6,6 +6,13 @@ class Home extends Component {
     super();
     this.state = {sup: 'hi'};
     window.homeComponent = this;
+    setTimeout(() => {
+      this.customEvent();
+    }, 3000);
+  }
+  customEvent() {
+    console.log('---custom running');
+    return 4;
   }
   render() {
     return (

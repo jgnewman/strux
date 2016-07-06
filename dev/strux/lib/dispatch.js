@@ -11,6 +11,8 @@ Home
 
 */
 
+import { lifeCycleMethods, customMethods } from './triggerlist';
+
 
 /*
  * Holds descriptions for all dispatch actions throughout the application.
@@ -93,6 +95,9 @@ class Dispatch {
    * @return {ActionBuilder} Contains more functionality for completing the description.
    */
   when(triggerMethod) {
+    if (!lifeCycleMethods.has(triggerMethod)) {
+      customMethods.add(triggerMethod);
+    }
     dispatches[triggerMethod] = dispatches[triggerMethod] || {};
     dispatches[triggerMethod][this.className] = dispatches[triggerMethod][this.className] || [];
     return new ActionBuilder(triggerMethod, this.actionType, this.className);

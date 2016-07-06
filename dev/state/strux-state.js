@@ -46,6 +46,14 @@ Home
   });
 
 Home
+  .dispatches('CUSTOM_HOME_ACTION')
+  .when('customEvent')
+  .as(state => {
+    console.log('Home is dispatching CUSTOM_HOME_ACTION');
+    return { homeProp2: 'homeVal2' };
+  });
+
+Home
   .picksUp('HOMEX')
   .then((appState, home) => {
     console.log('Home picked up', appState, home);

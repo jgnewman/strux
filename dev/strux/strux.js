@@ -71,6 +71,7 @@ import { Pickup, createPickupSubscribers } from './lib/pickup';
 import { Fetch, runFetches } from './lib/fetch';
 import { implicitStore, reduxStore } from './lib/implicitstore';
 import { mapStateToState, createMappingSubscribers } from './lib/mappings';
+import { lifeCycleMethods, customMethods } from './lib/triggerlist';
 
 /*
  * Track a reference to the store created by the user.
@@ -101,19 +102,6 @@ const incomingAction = new class {
   }
 };
 
-/*
- * We'll need to generate methods for each of these lifeCycle method names.
- */
-const lifeCycle = [
-  'componentDidMount',
-  'componentWillUnmount',
-  'componentWillMount',
-  'componentWillReceiveProps',
-  'shouldComponentUpdate',
-  'componentWillUpdate',
-  'componentDidUpdate'
-];
-
 /**
  * @class
  *
@@ -143,7 +131,7 @@ class Component extends ReactComponent {
      * We'll begin by getting a reference to the original method if the user
      * has already attached one.
      */
-    lifeCycle.forEach(methodName => {
+    (new Set([...lifeCycleMethods, ...customMethods])).forEach(methodName => {
       const orig = this[methodName];
 
       /*

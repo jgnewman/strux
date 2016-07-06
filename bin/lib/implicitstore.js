@@ -136,8 +136,8 @@ function implicitReducer() {
      * default reducer instead.
      */
   } else {
-      output = defaultReducer(Object.assign({}, state), action);
-    }
+    output = defaultReducer(Object.assign({}, state), action);
+  }
 
   /*
    * Do a sanity check to make sure the intended form of the new state
