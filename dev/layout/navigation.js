@@ -6,6 +6,9 @@ class Navigation extends Component {
   constructor() {
     super();
   }
+  componentTakesState(appState, classTrigger, diff) {
+    console.debug('Navigation reacted:', appState, classTrigger, diff);
+  }
   render() {
     return (
       <div className="navigation">

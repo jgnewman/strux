@@ -7,236 +7,294 @@ eliminate the need to hunt down dispatches and subscriptions.
 EXAMPLE:
 
 ```
-import Home from './home';
-import { createStore } from 'strux';
+import { Component } from 'strux';
 
-const store = createStore(function reducer() { ... });
+class Comp1 extends Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    this.setState({
+      foo: 1,
+      bar: 2
+    });
+  }
+  componentTakesState(state, className, diff) {
+    doStuff(state);
+  }
+}
 
-Home
-  .dispatches('MY_ACTION')
-  .when('componentDidMount')
-  .as(state => state);
+class Comp2 extends Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    this.setState({
+      baz: 3,
+      qux: 4
+    });
+  }
+  componentTakesState(state, className, diff) {
+    doStuff(state);
+  }
+}
 
-Other
-  .picksUp('MY_ACTION')
-  .then((appState, other) => {
-    other.setState(appState);
-  });
-
-Home
-  .fetches('/api/v2/users/:id')
-  .when('componentDidMount', state => { return {id: 1} })
-  .thenDispatches('MY_ACTION')
-  .as(data => data);
-
-```
-
-ALTERNATE STORE MANAGEMENT:
-
-```
-import { implicitStore as store } from 'strux'
-
-store.reduce('MY_ACTION', (curState, action) => {
-  return Object.assign({}, curState, {prop: action.prop});
+Comp2.reactsWhen({
+  Comp1: {
+    foo: (newVal, oldVal) => newVal > 0,
+    bar: true
+  }
 });
 
-store.reduce('ANOTHER_ACTION', (curState, action) => {
-  return Object.assign({}, curState, {prop: action.prop});
-});
-```
-
-You can also create automatic state-to-state mappings such that a property
-in your application state will be kept in sync with your component state.
-When the application state changes, a subscriber will automatically pick up
-on that set the component state as necessary.
-
-```
-import { mapStateToState } from 'strux';
-
-mapStateToState({
-  stateProp1: Home,
-  stateProp2: Profile
+Comp1.reactsWhen({
+  Comp2: {
+    baz: (newVal, oldVal) => newVal !== oldVal
+  }
 });
 ```
 
 */
 
+
 /*
  * Import the necessary items from React and Redux.
  */
 import { Component as ReactComponent } from 'react';
-import { createStore as storeCreator } from 'redux';
-import { Dispatch, runDispatches } from './lib/dispatch';
-import { Pickup, createPickupSubscribers } from './lib/pickup';
-import { Fetch, runFetches } from './lib/fetch';
-import { implicitStore, reduxStore } from './lib/implicitstore';
-import { mapStateToState, createMappingSubscribers } from './lib/mappings';
-import { lifeCycleMethods, customMethods } from './lib/triggerlist';
+import { createStore } from 'redux';
+
+let store;
+const originalState = {};
+const connections = {};
+const mostRecentChange = { className: null, diff: null };
+
+/**
+ * Performs `forEach` over an object.
+ *
+ * @param  {Object}   object   A key/value collection.
+ * @param  {Function} callback The function to run on each pair.
+ *
+ * @return {undefined}
+ */
+function eachKey(object, callback) {
+  return Object.keys(object).forEach(key => callback(object[key], key));
+}
+
+/**
+ * Determines whether a value is a function.
+ *
+ * @param  {Any}     val Any value.
+ *
+ * @return {Boolean}     Whether or not `val` is a function.
+ */
+function isFn(val) {
+  return typeof val === 'function';
+}
+
+/**
+ * A reducer for our redux store.
+ *
+ * @param  {Object} currentState Defaults to our originalState values.
+ * @param  {Object} actionObject Contains data about the state change.
+ *
+ * @return {Object}              Denotes the new application state.
+ */
+function reducer(currentState = originalState, actionObject) {
+  switch(actionObject.type) {
+
+    /*
+     * When we detect a component state change, we want to make sure its
+     * values are reflected in the global state and that this change is
+     * tracked as our most recent change.
+     */
+    case '_COMPONENT_STATE_CHANGE':
+      const newState = Object.assign({}, currentState);
+      const className = actionObject.className;
+      const newVals = actionObject.newVals;
+      let   diff;
+
+      /*
+       * If the current state is not yet tracking values for the class
+       * in question, add all the values to the new state and mark them
+       * all as diffed.
+       */
+      if (!currentState[className]) {
+        newState[className] = newVals;
+        diff = {};
+        eachKey(newVals, (val, key) => diff[key] = [undefined, val]);
+
+      /*
+       * Otherwise, compare the current state with the new state and
+       * collect all the values that have changed.
+       */
+      } else {
+        const comparison = currentState[className]
+        diff = {};
+        eachKey(newVals, (val, key) => {
+          const oldVal = comparison[key];
+          if (val !== oldVal) {
+            diff[key] = [oldVal, val];
+          }
+        });
+      }
+
+      /*
+       * Mark which class triggered the most recent change.
+       * Also attach the diff to that record.
+       */
+      mostRecentChange.className = className;
+      mostRecentChange.diff = diff;
+
+      /*
+       * Update to the new state.
+       */
+      return newState;
+
+    default:
+      return currentState;
+  }
+}
+
+/**
+ * Determines whether or not an instance of a class cares about any
+ * changes that have recently occurred.
+ *
+ * @param  {String} className    The name of the class instance in question.
+ * @param  {Object} recentChange Contains information about the most recent
+ *                               state change.
+ *
+ * @return {Object|undefined}    The object contains all values that are
+ *                               cared about by the class instance.
+ */
+function caresAboutChange(className, recentChange) {
+  const diff    = recentChange.diff;
+  const mapping = connections[className][recentChange.className];
+  const output  = {};
+
+  /*
+   * If the instance cares about changes coming from this type of class...
+   */
+  if (mapping) {
+
+    /*
+     * Check each of the value names it cares about for that class.
+     */
+    eachKey(mapping, (validator, valueName) => {
+
+      /*
+       * If one of those names is found in the diff, run the validator
+       * and determine whether or not we care about the change that
+       * occurred. If so, add it to the output.
+       */
+      if (diff[valueName]) {
+        const oldVal = diff[valueName][0];
+        const newVal = diff[valueName][1];
+        if (validator === true || validator(newVal, oldVal)) {
+          output[valueName] = newVal;
+        }
+      }
+    });
+  }
+  return Object.keys(output).length ? output : undefined;
+}
 
 /*
- * Track a reference to the store created by the user.
- * By default, we'll assume the user is going to be using
- * the implicit store. If not, their own store will override this.
+ * Create a redux store using our reducer.
  */
-let store = reduxStore;
-
-/*
- * A symbol allowing us to hide Redux store subscriptions from the user.
- */
-const UNSUBSCRIBERS = Symbol.for('STRUX_UNSUBSCRIBE');
-
-/*
- * Every time a dispatch occurs, we'll reset this variable first so that
- * when subscribers fire, they'll be able to know which action type
- * triggered the handler.
- */
-const incomingAction = new class {
-  constructor() {
-    this.action = null;
-  }
-  get() {
-    return this.action;
-  }
-  set(val) {
-    this.action = val;
-  }
-};
+store = createStore(reducer);
 
 /**
  * @class
  *
- * Adds a layer to React's Component class for smoother Redux
- * work.
+ * Extends React's Component to give you a component that ties automatically
+ * into Redux.
  */
 class Component extends ReactComponent {
 
   /**
    * @constructor
    *
-   * Runs the super constructor, sets up an place for us to
-   * store subscriptions, and makes sure implicit methods exist for this
-   * instance. We have to create those methods in the constructor because
-   * they are not methods on the Component prototype.
-   *
-   * @param  {Arguments} ...args Any arguments passed to the constructor.
-   *
-   * @return {undefined}
+   * Builds the class.
    */
   constructor(...args) {
     super(...args);
-    this[UNSUBSCRIBERS] = [];
+
+    const setState = isFn(this.setState)
+                   ? this.setState.bind(this)
+                   : this.setState;
+
+    const didMount = isFn(this.componentDidMount)
+                   ? this.componentDidMount.bind(this)
+                   : this.componentDidMount;
+
+    const willUnmount = isFn(this.componentWillUnmount)
+                      ? this.componentWillUnmount.bind(this)
+                      : this.componentWillUnmount;
+
+    let unsubscribe;
 
     /*
-     * Make sure we have an existing method for each life cycle method name.
-     * We'll begin by getting a reference to the original method if the user
-     * has already attached one.
+     * Overwrite setState such that whenever the state is updated,
+     * we will automatically trigger a corresponding update on the
+     * global state.
      */
-    (new Set([...lifeCycleMethods, ...customMethods])).forEach(methodName => {
-      const orig = this[methodName];
+    this.setState = (values, callback) => {
+      setState(values, (...args) => {
+        store.dispatch({
+          type: '_COMPONENT_STATE_CHANGE',
+          className: this.constructor.name,
+          newVals: this.state
+        });
+        return callback ? callback(...args) : undefined;
+      });
+    };
 
-      /*
-       * For each method we create, handle subscribers, dispatchers,
-       * and fetchers.
-       */
-      this[methodName] = (...args) => {
-
-        /*
-         * Call the original method and trap the result.
-         */
-        let out = orig ? orig.call(this, ...args) : undefined;
-
-        /*
-         * If this is `shouldComponentUpdate`, make sure we allow the component
-         * to update if the user didn't create this method.
-         */
-        methodName === 'shouldComponentUpdate' && !orig && (out = true);
-
-        /*
-         * If this is `componentDidMount`, create subscribers to run
-         * pickup functions.
-         */
-        if (methodName === 'componentDidMount') {
-          createPickupSubscribers(incomingAction, store, this);
-          createMappingSubscribers(store, this);
+    /*
+     * Overwrite componentDidMount to automatically subscribe to state
+     * changes. If this component cares about the changes, and if this
+     * component has a componentTakesState function, call it.
+     */
+    this.componentDidMount = (...args) => {
+      const selfName = this.constructor.name;
+      unsubscribe = store.subscribe(() => {
+        if (typeof this.componentTakesState === 'function') {
+          const instanceCares = caresAboutChange(selfName, mostRecentChange);
+          if (instanceCares) {
+            this.componentTakesState(
+              store.getState(),
+              mostRecentChange.className,
+              instanceCares
+            );
+          }
         }
+      });
+      return didMount ? didMount(...args) : undefined;
+    };
 
-        /*
-         * Run all dispatches and fetches associated with this method.
-         */
-        runDispatches(methodName, incomingAction, store, this);
-        runFetches(methodName, incomingAction, store, this);
+    /*
+     * Overwrite componentWillUnmount to automatically unsubscribe
+     * whenever the component is going to unmount.
+     */
+    this.componentWillUnmount = (...args) => {
+      unsubscribe();
+      return willUnmount ? willUnmount(...args) : undefined;
+    };
 
-        /*
-         * If this is `componentWillUnmount`, we unsubscribe our implicit
-         * subscribers.
-         */
-        methodName === 'componentWillUnmount'
-          && this[UNSUBSCRIBERS].forEach(unsubscriber => unsubscriber());
-
-        /*
-         * Return the result of calling the original method.
-         */
-        return out;
-      };
-    });
   }
 
   /**
-   * A new static method that allows us to begin describing circumstances that
-   * will cause instances of this component to trigger Redux dispatches.
+   * @static
    *
-   * @param  {String} actionType A redux action type name.
+   * A new static method allowing us to describe the conditions that will
+   * trigger redux store dispatches.
    *
-   * @return {Dispatch} Contains more methods for completing the description.
+   * @param  {Object} params A description of class names and their state values
+   *                         we want this class to observe.
+   *
+   * @return {undefined}
    */
-  static dispatches(actionType) {
-    return new Dispatch(actionType, this.name);
+  static reactsWhen(params) {
+    connections[this.name] = params;
   }
-
-  /**
-   * A new static method that allows us to begin describing that instances
-   * of this component will subscribe to certain Redux action types.
-   *
-   * @param  {String} actionType A redux action type name.
-   *
-   * @return {Pickup} Contains more methods for completing the description.
-   */
-  static picksUp(actionType) {
-    return new Pickup(actionType, this.name);
-  }
-
-  /**
-   * A new static method that allows us to begin describing circumstances that
-   * will cause a data fetch within the application.
-   *
-   * @param  {String} url    The datapoint.
-   * @param  {Object} config An object modifying the call made _a la_ the fetch api.
-   *
-   * @return {Pickup} Contains more methods for completing the description.
-   */
-  static fetches(url, config) {
-    return new Fetch(url, config, this.name);
-  }
-
 }
 
-
-/**
- * Override Redux's createStore with a version that allows us to keep
- * track of the store the user creates.
- *
- * @param  {Arguments} ...args Usually a reducer function.
- *
- * @return A Redux store.
- */
-function createStore(...args) {
-  store = storeCreator(...args);
-  return store;
-}
-
-/*
- * Users will be able to use this module INSTEAD of Redux as it passes
- * through all the necessary top level pieces as well as our new component type.
- */
-export { combineReducers, applyMiddleware, bindActionCreators, compose } from 'redux';
-export { createStore, implicitStore, mapStateToState, Component };
+export { Component, store };

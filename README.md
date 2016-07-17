@@ -2,355 +2,247 @@
 
 Cross-component communication _finally_ made simple.
 
+> Watch out! There are breaking changes in version 1.0!
+
 ## What is Strux?
 
 Strux is designed for React.js. It's a layer on top of Redux that allows
 you to describe communication between application components in a revolutionary
-way.
+way – as a separate concern.
 
 ## What problem does it solve?
+
+**In short, you don't write disptaches and subscribes _within_ your components.
+Instead, use Strux to just plug those components together in another file.**
+
+tl;dr; –
 
 Although Redux has solved a big piece of the spaghetti code problem, it can
 still be remarkably difficult to understand the flow of data between
 components at a high level. For example, if component A subscribes to an action,
-there is no good way within component A to tell where in the world that action
+there is no good way within component A to tell where that action
 is coming from or what conditions trigger it.
 
-Strux attempts to provde a paradigm wherein cross-component communication
+Strux attempts to provide a paradigm wherein cross-component communication
 can be fully described in one cohesive place, thus making it extremely easy to
 understand which components are dispatching which actions and which components
 are picking those up.
 
 ## How does it work?
 
-With Strux, you can create a store and write a reducer, just as you
-would with Redux. However, you won't need to pass that store around to any
-components, you won't need to write any manual `dispatch` calls, and you won't
-need to write any manual `subscribe` calls.
+Strux makes working with redux simpler than it's ever been. All you have
+to do is build your components using Strux's `Component` class and all the grunt
+work will be handled for you, allowing you to plug your components together
+however you'd like.
 
-Instead you'll write something like this:
+There is no need to create a store, write a reducer, map state to props,
+dispatch actions, subscribe to dispatches, or anything else.
 
-```javascript
-MyComponent
-  .dispatches('MY_ACTION')
-  .when('componentDidMount')
-  .as(componentState => {
-    return { myProperty: componentState.myProperty }
-  });
-
-AnotherComponent
-  .picksUp('MY_ACTION')
-  .then((newState, component) => {
-    component.handleStateChange(newState);
-  });
-```
-
-The call chains shown in this example are called "structs". Each struct
-describes how a given component class will dispatch a given Redux action in
-response to a specific event with specific data, or how it will respond
-to the triggering of a given action and what it will do with the data that
-comes through.
-
-Notice that components are no longer subscribing to all state changes as they
-would have to with vanilla Redux, but instead they are subscribing only to
-specific actions.
-
-## Can I see a full, working example?
-
-Let's start by getting everything Redux-y and Strux-y out of the way first.
-We can do that all in one file if we want, but of course we have the option
-to break it into separate files as we so choose.
+Here's a full, working example:
 
 ```javascript
-
-// Import createStore from Strux INSTEAD of Redux.
-import { createStore } from 'strux';
-
-// Import a couple of components we've created.
-import { MyComponent, AnotherComponent } from './components';
-
-// Create a standard, run-of-the-mill reducer.
-function reducer(state = {}, action) {
-  switch (action.type) {
-    case 'MY_ACTION':
-      return Object.assign({}, { data: action.data });
-    default:
-      return state;
-  }
-}
-
-// Pass our reducer to createStore in order to
-// create a store.
-createStore(reducer);
-
-// Create a struct describing how MyComponent
-// will dispatch 'MY_ACTION'.
-MyComponent
-  .dispatches('MY_ACTION')
-  .when('componentDidMount')
-  .as(componentState => {
-    return { data: componentState.actionData }
-  });
-
-// Create another struct describing how
-// AnotherComponent will subscribe to state changes
-// triggered by 'MY_ACTION' and what it will do when
-// that data comes through.
-AnotherComponent
-  .picksUp('MY_ACTION')
-  .then((newState, component) => {
-    component.handleStateChange(newState);
-  });
-
-// Notice we don't need to export anything. We just
-// need to make sure this file gets executed at some point.
-```
-
-Now let's actually define those components we used in our previous
-file. We'll create them together as well.
-
-```javascript
-// Import React so our JSX will work.
-import React from 'react';
-
-// Import Component from Strux INSTEAD of from React.
+// Notice we're not importing this from React.
 import { Component } from 'strux';
 
-// Create a standard, run-of-the-mill React component.
-export class MyComponent extends Component {
+// All we're doing here is creating a (mostly) standard class.
+// We'll come back to this.
+class Foo extends Component {
   constructor() {
     super();
-    this.state = {
-      actionData: 'some data'
-    };
   }
-  render() {
-    return <div>Hi</div>
-  }
-}
-
-// Create another basic React component.
-export class AnotherComponent extends Component {
-  constructor() {
-    super();
-    this.state = {
-      receivedData: ''
-    };
-  }
-  handleStateChange(newState) {
+  componentDidMount() {
     this.setState({
-      receivedData: newState.actionData
+      value1: 1,
+      value2: 2
     });
   }
+  componentTakesState(appState, triggerClass, diff) {
+    console.log('Redux application state:', appState);
+    console.log('Name of class that triggered the action:', triggerClass);
+    console.log('Relevant values that changed:', diff);
+  }
   render() {
-    return <div>{ this.state.receivedData }</div>
+    return <div>Hello</div>
   }
 }
-```
 
-We can see in the above example that there is no cross-component communication
-written within the definition for either class. Instead, it is all handled
-together in one place.
+// And let's create another class here, just for fun.
+class Bar extends Component {
+  constructor() {
+    super();
+  }
+  componentDidMount() {
+    this.setState({
+      valueA: 'A',
+      valueB: 'B'
+    });
+  }
+  componentTakesState(appState, triggerClass, diff) {
+    console.log('Redux application state:', appState);
+    console.log('Name of class that triggered the action:', triggerClass);
+    console.log('Relevant values that changed:', diff);
+  }
+  render() {
+    return <div>Goodbye</div>
+  }
+}
 
-Here's how it will work based on our structs:
+// Now we can describe how these components will pass
+// data to each other.
 
-#### From the first struct:
-
-1. An instance of `MyComponent` will mount.
-2. A Redux action called 'MY_ACTION' will be dispatched.
-3. The body of the action will be created from the state of the component.
-
-#### From the second struct:
-
-1. When an instance of `AnotherComponent` has mounted, it will implicitly subscribe to Redux state changes.
-2. Whenever a state change happened because 'MY_ACTION' was dispatched, the `handleStateChange` method will be triggered and handed the new Redux state.
-
-## Why do I have to import `createStore` and `component` from Strux?
-
-In order for Strux to implicitly work with Redux state changes, it needs
-a reference to your Redux store. Strux's version of `createStore` doesn't
-do anything special except pass your reducer straight into Redux's `createStore`
-and then capture a reference to that store to use for itself.
-
-On that note, you actually don't have to use `createStore` if you don't want to.
-We're only talking about `createStore` because it's a familiar flow for most
-redux users. Strux does provide another way.
-
-But first, let's get to the other part of the question:
-
-In order for Strux to implicitly create subscriptions and trigger dispatches
-within component lifecycle functions, it needs access to the component's
-`constructor` function in order to set those things up. Strux's version of
-`Component` doesn't do anything special except extend React's `Component` to
-set up a few handlers for lifecycle functions when the component gets
-instantiated.
-
-## How would I use Strux without calling `createStore`?
-
-The `createStore` function is provided as a pass-through to Redux for users
-who want to maintain a somewhat familiar flow. However, Strux also provides
-an "implicit store" that exists without you having to create it and
-allows you to break out your reducer procedures into independent, mini reducers.
-
-Here's how you'd make use of Strux's implicit store:
-
-```javascript
-import { implicitStore as store } from 'strux';
-
-store.setInitialState({
-  property1: 'value1',
-  property2: 'value2'
+// The Foo class will take new data whenever the `valueA` value
+// changes on the Bar class.
+Foo.reactsWhen({
+  Bar: {
+    valueA: true
+  }
 });
 
-store.reduce('MY_ACTION', (state, action) => something)
-     .reduce('ANOTHER_ACTION', (state, action) => something_else)
-     .reduce((state, action) => state);
-
-store.getState(); // { ... }
+// The Bar class will take new data whenever the `value1` and/or
+// `value2` values change on the Foo class, as long as at least one
+// of the validator functions returns true.
+Bar.reactsWhen({
+  Foo: {
+    value1: newVal => newVal > 0,
+    value2: (newVal, oldVal) => newVal !== oldVal
+  }
+});
 ```
 
-Every application using Strux contains a single implicit store object. This
-object will allow you to set an initial state (which must take the form of
-an object accepting keys and values), create mini reducers, and retrieve a
-copy of the current application state.
+## Can you walk me through what's going on in that example?
 
-Notice that you can chain `reduce` calls if you want to. Each function passed to
-`reduce` takes a copy of the current state and the dispatched action. Whatever
-it returns becomes the new Redux state.
+Sure thing.
 
-In most cases you'll associate one of these mini reducers with an action name.
-Doing this will indicate that your mini reducer should only be called when the
-named action is dispatched. If you don't provide that first argument, your
-mini reducer will be called whenever a dispatched action doesn't match any
-of the actions you've provided a reducer for.
+By using Strux's extension of React's `Component` class, you get access to
+2 new features:
 
-## Getting back to "structs", what are my options for events I can pass to `.when`?
+1. A new static class called `reactsWhen`.
+2. A new lifecycle method called `componentTakesState`.
 
-The `.when` method is prepared to accept any lifecycle method native to
-React components. Specifically those are:
-
-- `componentDidMount`
-- `componentWillUnmount`
-- `componentWillMount`
-- `componentWillReceiveProps`
-- `shouldComponentUpdate`
-- `componentWillUpdate`
-- `componentDidUpdate`
-
-You can also pass in the name of any method that you have defined on your class,
-in which case the dispatch will occur after that method is called.
-
-## Does Strux handle anything asynchronous?
-
-In fact, Strux has ajax built in using the native `fetch` API. Here is an
-example of a fetch-based struct:
-
-```javascript
-MyComponent
-  .fetches('/api/v2/users/:id', { headers: ... })
-  .when('componentDidMount', state => { return {id: state.userID} })
-  .thenDispatches('MY_ACTION')
-  .as((data, componentState) => data);
-```
-
-Let's walk through the semantics of this function chain.
-
-1. `MyComponent` is set up to fetch a particular URL. Notice that the URL has a variable in it because we may want to fetch a different user at a different time and we'd like to be able to reuse this struct. We can also pass in an object for configuring the ajax call if we want.
-2. The fetch occurs when the component has mounted. And when that happens, we use the component's state to return a value for the variable within our URL.
-3. When the data comes back, the Redux action `MY_ACTION` is triggered.
-4. We'll create the body of the action using the parsed data that was returned as well as the component's state.
-
-## Does Strux contain any other useful tools?
-
-One of the useful tools provided through React Redux is called
-`mapStateToProps`. Following the container-vs-presentational
-pattern, this function allows you to map a portion of your application state
-automatically to props passed down to presentational components.
-
-This doesn't make as much sense when using Strux because Strux eliminates the
-need for the container-vs-presentational pattern. Instead, what makes more
-sense is the ability to map a portion of the application state directly to the
-state of a component. Here's how you'd do that with Strux:
-
-Imagine that your application state looks like this:
+In addition to having these new methods exposed, Strux works behind the scenes
+to automatically map each component state to an object within the global
+application state held by Redux. So, for example, if you had 2 Strux
+Components called Foo and Bar, the resulting Redux state would look like this:
 
 ```javascript
 {
-  users: {
-    userList: [ ... ],
-    activeUser: 1,
-    activeUserIsAdmin: true
-  },
-  profile: {
-    name: 'Billy',
-    age: 20,
-    userID: 1
-  }
+  Foo: { ...Foo_component_state },
+  Bar: { ...Bar_component_state }
 }
 ```
 
-Simultaneously, lets imagine that your application contains a `Users`
-component and a `Profile` component. So the idea is that we have various
-components throughout our application and each one correlates directly with
-a sub-object in our greater application state. With this pattern, we can use
-Strux's built-in `mapStateToState` function to specify that when a dispatch
-occurs and the relevant piece of the application state does not match the
-component's state, the differing pieces will be updated on the component state.
-Like so:
+Whenever you call `setState`, Strux will automatically keep your application
+state up-to-date with the newest values. As such, calling `reactsWhen` will
+allow you to describe how a given component will observe those values on
+other components and decide whether or not to react to them when they are
+updated. If the decision to react is made, that data will be passed in to the
+component's `componentTakesState` method automatically.
+
+In the above example we wrote the following:
 
 ```javascript
-import { mapStateToState } from 'strux';
-import { Profile, Users } from './components';
-
-mapStateToState({
-  profile: Profile,
-  users: Users
+Foo.reactsWhen({
+  Bar: {
+    valueA: true
+  }
 });
 ```
 
-The `mapStateToState` function takes an object wherein each key corresponds
-to a key in the application state and each value should be a component in your
-application. You are literally mapping the application state to each component
-state. Now, whenever an action gets dispatched and a reducer modifies the
-`profile` object in our application state, the `Profile` component will
-automatically pick that up, diff the changes, and import those changes into
-its own state object.
+Here, we've passed an object to `reactsWhen` containing the names of all other
+Strux components the Foo class cares about. For each of those (in this case
+only Bar), we write the names of state values on that class we'd like to
+observe. By assigning `true` to one of these names, we're saying that whenever
+the Bar class calls `setState` and updates its `valueA` property, the
+`componentTakesState` method on the Foo class will be called automatically and
+handed that data.
+
+On the other hand, we have some other options for how to handle writing a
+`reactsWhen` call. Take the following example:
+
+```javascript
+Bar.reactsWhen({
+  Foo: {
+    value1: newVal => newVal > 0,
+    value2: (newVal, oldVal) => newVal !== oldVal
+  }
+});
+```
+
+In this case, the only difference is that, instead of assigning `true` to any
+of these values, we've assigned them "validator functions". A validator in this
+sense will be called whenever `setState` updates the component in question.
+It will be handed the updated value and the previous value for the state
+property and will allow you to determine whether or not your observer
+component cares about the update. For example, here we've said that whenever
+the Foo class updates its `value1` property, the Bar class is only going to
+react to that change only if the updated value is greater than 0.
+
+I keep mentioning that the updated data will be passed to a
+`componentTakesState` method. But now let's be a little more specific.
+
+In the previous example, we implemented this method as follows for the
+Bar class:
+
+```javascript
+componentTakesState(appState, triggerClass, diff) {
+  console.log('Redux application state:', appState);
+  console.log('Name of class that triggered the action:', triggerClass);
+  console.log('Relevant values that changed:', diff);
+}
+```
+
+Assuming that the Foo class updates its values to 100 and 200 respectively,
+this method will produce the following result:
+
+```
+Redux application state: { Foo: { ... }, Bar: { ... } }
+Name of class that triggered the action: Foo
+Relevant values that changed: { value1: 100, value2: 200 }
+```
+
+Because both validator functions passed, we end up with both values in our
+`diff` object. If only one of them had passed, or if only one value had been
+updated on the state, then we would only have gotten that value in our `diff`
+object. Pretty simple.
+
+## Why do I have to use a special version of `Component`?
+
+Strux implicitly manages subscriptions and triggers Redux dispatches
+within component lifecycle functions. In order to do that, it needs access to
+the component's `constructor` function so that it can set those things up.
+Strux's version of `Component` doesn't do anything special except extend React's
+`Component` to set up a few handlers for lifecycle functions when the component
+gets instantiated, and exposes the features we talked about.
+
+It's the simplest possible user experience and, overall, you'll be taking less
+of a performance hit than you would if you were to use traditional react-redux
+instead.
+
+## Does Strux handle anything asynchronous?
+
+Strux hooks into the asynchronous callback parameter of the `setState` method,
+making sure that you never end up with an old copy of a component state by
+accident. Beyond that, no. Strux is meant to do one thing well: plug your
+components together. So if you're looking for something else, you're on your
+own.
 
 ## What is the full Strux API?
 
-Strux is simply a layer sitting on top of Redux. As such, you can import Strux
-_instead of_ Redux and Strux will import Redux as a dependency, passing the full
-Redux API on to you. You can use it to call `createStore`, `combineReducers`,
-and all other Redux functions. Aside from this, Strux gives you a new version
-of React's `Component`.
+For the most part, we've already gone through it.
 
-Within Strux's version of `Component`, you can call 3 new static methods, all
-of which have been described here. They are:
+Strux exposes `Component` and `store` from its module. We've already talked
+about how `Component` works. And `store` is just your standard, run-of-the-mill
+Redux store that Strux is using behind the scenes. You likely won't ever need
+it.
 
-- `Component.dispatches`
-- `Component.fetches`
-- `Component.picksUp`
+## Are there any other considerations to keep in mind?
 
-Strux also provides the implicit store. Its methods are as follows:
+Yep, here's a list for you:
 
-- `implicitStore.reduce(String actionType, Function procedure)` - Whenever `actionType` is dispatched, `procedure` will be used as the reducer. Returns `implicitStore`.
-- `implicitStore.getStore()` - Returns the Redux store.
-- `implicitStore.getState()` - Gets a copy of the current application state.
-- `implicitStore.setInitialState(Object initState)` - Can only be called once. Allows you to use `initState` as the initial form of the application state. Returns a copy of the application state after being set.
-
-Lastly, we have `mapStateToState`:
-
-- `mapStateToState(Object mappings)` - Allows you to denote which keys on the application state should map to state objects on individual component classes. Returns undefined.
-
-## What are the bigger implications?
-
-Using Strux completely removes the need for writing React applications using
-the "container vs presentational" pattern. There is no need for classes such as
-React Redux's `Provider` because no state change data needs to be passed from
-parent to child.
-
-**As such, Strux is built on Redux proper and uses Redux as a dependency, NOT React Redux.**
-
-We'll also never need to awkwardly spread ajax calls all over the application either.
-Because Strux wants you to tie Redux actions to all ajax calls, it simply
-becomes another source of cross-component communication.
+1. Strux implicitly uses Redux. You will not need to manually import Redux and
+create your own store. If you do, your store will not play well with the Strux
+store.
+2. _Strux implicitly uses Redux._ In other words, react-redux will not play
+nicely with Strux. You'll need to pick one or the other.
+3. Strux is just a layer on top of Redux. You'll need to make sure Redux is
+added to your project dependencies as well as Strux.

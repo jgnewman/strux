@@ -4,6 +4,12 @@ import Navigation from './navigation';
 class Layout extends Component {
   constructor() {
     super();
+    this.state = {
+      className: 'Navigation',
+      testVala: 'a',
+      testValb: 'b'
+    };
+    window.navComponent = this;
   }
   render() {
     return (

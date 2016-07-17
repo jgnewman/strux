@@ -4,15 +4,24 @@ import { Component } from '../strux/strux';
 class Home extends Component {
   constructor() {
     super();
-    this.state = {sup: 'hi'};
+    this.state = {
+      className: 'Home'
+    };
     window.homeComponent = this;
-    setTimeout(() => {
-      this.customEvent();
-    }, 3000);
   }
-  customEvent() {
-    console.log('---custom running');
-    return 4;
+  componentDidMount() {
+    // Navigation should call componentTakesState and get 2 values in the diff.
+    this.setState({
+      testVal1: 15,
+      testVal2: 3
+    });
+    // Navigation should call componentTakesState and get 1 value in the diff.
+    setTimeout(() => {
+      this.setState({
+        testVal1: 5,
+        testVal2: 2
+      });
+    });
   }
   render() {
     return (
