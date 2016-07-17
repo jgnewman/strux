@@ -57,7 +57,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                                                                                                                                                                                                                                   
                                                                                                                                                                                                                                                   Comp1.reactsWhen({
                                                                                                                                                                                                                                                     Comp2: {
-                                                                                                                                                                                                                                                      baz: (newVal, oldVal) => newVal !== oldVal
+                                                                                                                                                                                                                                                      baz: ['always', (newVal, oldVal) => newVal !== oldVal],
+                                                                                                                                                                                                                                                      qux: ['change', newVal => whatever(newVal)]
                                                                                                                                                                                                                                                     }
                                                                                                                                                                                                                                                   });
                                                                                                                                                                                                                                                   ```
@@ -79,10 +80,19 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var store = void 0;
-var originalState = {};
+/*
+ * connections {
+ *   ObserverClassName: {
+ *     ObservedClassName: {
+ *       observedValueName: [ 'change'|'always', () => {} ]
+ *     }
+ *   }
+ * }
+ */
 var connections = {};
+var originalState = {};
 var mostRecentChange = { className: null, diff: null };
+var store = void 0;
 
 /**
  * Performs `forEach` over an object.
@@ -132,6 +142,7 @@ function reducer() {
       case '_COMPONENT_STATE_CHANGE':
         var newState = Object.assign({}, currentState);
         var className = actionObject.className;
+        var oldVals = actionObject.oldVals;
         var newVals = actionObject.newVals;
         var diff = void 0;
 
@@ -144,7 +155,7 @@ function reducer() {
           newState[className] = newVals;
           diff = {};
           eachKey(newVals, function (val, key) {
-            return diff[key] = [undefined, val];
+            return diff[key] = [oldVals[key], val];
           });
 
           /*
@@ -222,7 +233,13 @@ function caresAboutChange(className, recentChange) {
       if (diff[valueName]) {
         var oldVal = diff[valueName][0];
         var newVal = diff[valueName][1];
-        if (validator === true || validator(newVal, oldVal)) {
+        var validatorEvt = validator[0];
+        var validatorCheck = validator[1];
+        if (validatorEvt === 'change' && oldVal === newVal) return;
+        if (validatorEvt !== 'change' && validatorEvt !== 'always') {
+          throw new Error(validatorEvt + ' is not a valid validator event.');
+        }
+        if (validatorCheck === true || validatorCheck(newVal, oldVal)) {
           output[valueName] = newVal;
         }
       }
@@ -277,10 +294,12 @@ var Component = function (_ReactComponent) {
      * global state.
      */
     _this.setState = function (values, callback) {
+      var curVals = _this.state;
       setState(values, function () {
         store.dispatch({
           type: '_COMPONENT_STATE_CHANGE',
           className: _this.constructor.name,
+          oldVals: curVals,
           newVals: _this.state
         });
         return callback ? callback.apply(undefined, arguments) : undefined;
@@ -333,7 +352,16 @@ var Component = function (_ReactComponent) {
   _createClass(Component, null, [{
     key: 'reactsWhen',
     value: function reactsWhen(params) {
-      connections[this.name] = params;
+      var connection = connections[this.name] = {};
+      eachKey(params, function (options, className) {
+        var values = connection[className] = {};
+        eachKey(options, function (validator, valName) {
+          if (!Array.isArray(validator)) {
+            validator = ['change', validator];
+          }
+          values[valName] = validator;
+        });
+      });
     }
   }]);
 
