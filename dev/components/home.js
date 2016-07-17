@@ -5,7 +5,9 @@ class Home extends Component {
   constructor() {
     super();
     this.state = {
-      className: 'Home'
+      className: 'Home',
+      testVal1: 100,
+      testVal2: 200
     };
     window.homeComponent = this;
   }
@@ -26,7 +28,7 @@ class Home extends Component {
   render() {
     return (
       <div className="home">
-        {this.state.sup} this is the Home View
+        {this.state.testVal1} this is the Home View
       </div>
     );
   }

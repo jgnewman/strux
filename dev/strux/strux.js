@@ -48,7 +48,8 @@ Comp2.reactsWhen({
 
 Comp1.reactsWhen({
   Comp2: {
-    baz: (newVal, oldVal) => newVal !== oldVal
+    baz: ['always', (newVal, oldVal) => newVal !== oldVal],
+    qux: ['change', newVal => whatever(newVal)]
   }
 });
 ```
@@ -62,10 +63,19 @@ Comp1.reactsWhen({
 import { Component as ReactComponent } from 'react';
 import { createStore } from 'redux';
 
-let store;
-const originalState = {};
+/*
+ * connections {
+ *   ObserverClassName: {
+ *     ObservedClassName: {
+ *       observedValueName: [ 'change'|'always', () => {} ]
+ *     }
+ *   }
+ * }
+ */
 const connections = {};
+const originalState = {};
 const mostRecentChange = { className: null, diff: null };
+let store;
 
 /**
  * Performs `forEach` over an object.
@@ -109,6 +119,7 @@ function reducer(currentState = originalState, actionObject) {
     case '_COMPONENT_STATE_CHANGE':
       const newState = Object.assign({}, currentState);
       const className = actionObject.className;
+      const oldVals = actionObject.oldVals;
       const newVals = actionObject.newVals;
       let   diff;
 
@@ -120,7 +131,7 @@ function reducer(currentState = originalState, actionObject) {
       if (!currentState[className]) {
         newState[className] = newVals;
         diff = {};
-        eachKey(newVals, (val, key) => diff[key] = [undefined, val]);
+        eachKey(newVals, (val, key) => diff[key] = [oldVals[key], val]);
 
       /*
        * Otherwise, compare the current state with the new state and
@@ -188,7 +199,13 @@ function caresAboutChange(className, recentChange) {
       if (diff[valueName]) {
         const oldVal = diff[valueName][0];
         const newVal = diff[valueName][1];
-        if (validator === true || validator(newVal, oldVal)) {
+        const validatorEvt   = validator[0];
+        const validatorCheck = validator[1];
+        if (validatorEvt === 'change' && oldVal === newVal) return;
+        if (validatorEvt !== 'change' && validatorEvt !== 'always') {
+          throw new Error(`${validatorEvt} is not a valid validator event.`);
+        }
+        if (validatorCheck === true || validatorCheck(newVal, oldVal)) {
           output[valueName] = newVal;
         }
       }
@@ -238,10 +255,12 @@ class Component extends ReactComponent {
      * global state.
      */
     this.setState = (values, callback) => {
+      const curVals = this.state;
       setState(values, (...args) => {
         store.dispatch({
           type: '_COMPONENT_STATE_CHANGE',
           className: this.constructor.name,
+          oldVals: curVals,
           newVals: this.state
         });
         return callback ? callback(...args) : undefined;
@@ -293,7 +312,16 @@ class Component extends ReactComponent {
    * @return {undefined}
    */
   static reactsWhen(params) {
-    connections[this.name] = params;
+    const connection = connections[this.name] = {};
+    eachKey(params, (options, className) => {
+      const values = connection[className] = {};
+      eachKey(options, (validator, valName) => {
+        if (!Array.isArray(validator)) {
+          validator = ['change', validator];
+        }
+        values[valName] = validator;
+      });
+    });
   }
 }
 

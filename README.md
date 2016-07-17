@@ -205,6 +205,43 @@ Because both validator functions passed, we end up with both values in our
 updated on the state, then we would only have gotten that value in our `diff`
 object. Pretty simple.
 
+## But I'm a power user. I need more than that.
+
+Fair enough.
+
+By default, when we create validator functions in our `reactsWhen` calls, there
+is another implicit check that gets put in place. Specifically, Strux adds a
+check to see whether a new value is _different_ from the old value before it
+even looks at the validator. So if the value didn't change, the observer won't
+pick up the change.
+
+Normally this makes things go a lot faster. But in some cases, it might not
+be exactly what you want. If not, you can add a little extra syntax to your
+`reactsWhen` calls. For example...
+
+```javascript
+Bar.reactsWhen({
+  Foo: {
+    value1: ['change', newVal => newVal > 0],
+    value2: ['always', (newVal, oldVal) => newVal !== oldVal]
+  }
+});
+```
+
+Here, our validators have become arrays. The first item indicates when the
+validator should be called and the second item is the validator itself.
+
+As you can see, your 2 options are "change" and "always". If you use "change",
+the validator function will only be called when the incoming value is different
+from the previous value. If the value hasn't changed, the validator won't be
+called and the observer component will not have its `componentTakesState`
+function called.
+
+If you use "always", the validator will always be called, even if the new
+value and the old value are the same. Note that Strux uses a simple `===`
+check to determine whether values have changed. If you need more than that,
+you'll have to handle it on your own.
+
 ## Why do I have to use a special version of `Component`?
 
 Strux implicitly manages subscriptions and triggers Redux dispatches
@@ -244,5 +281,9 @@ create your own store. If you do, your store will not play well with the Strux
 store.
 2. _Strux implicitly uses Redux._ In other words, react-redux will not play
 nicely with Strux. You'll need to pick one or the other.
-3. Strux is just a layer on top of Redux. You'll need to make sure Redux is
+3. If you call `this.state = ...` inside of a component constructor, Strux will
+not consider that initial state as something that should be communicated
+across components. It will wait until that initial state starts getting
+manipulated before it will start passing data around.
+4. Strux is just a layer on top of Redux. You'll need to make sure Redux is
 added to your project dependencies as well as Strux.
