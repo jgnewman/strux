@@ -138,12 +138,14 @@ function reducer(currentState = originalState, actionObject) {
        * collect all the values that have changed.
        */
       } else {
-        const comparison = currentState[className]
+        const comparison = currentState[className];
+        const subState = newState[className];
         diff = {};
         eachKey(newVals, (val, key) => {
           const oldVal = comparison[key];
           if (val !== oldVal) {
             diff[key] = [oldVal, val];
+            subState[key] = val;
           }
         });
       }

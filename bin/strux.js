@@ -165,11 +165,13 @@ function reducer() {
         } else {
           (function () {
             var comparison = currentState[className];
+            var subState = newState[className];
             diff = {};
             eachKey(newVals, function (val, key) {
               var oldVal = comparison[key];
               if (val !== oldVal) {
                 diff[key] = [oldVal, val];
+                subState[key] = val;
               }
             });
           })();
