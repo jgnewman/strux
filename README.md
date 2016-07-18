@@ -92,7 +92,7 @@ class Bar extends Component {
 
 // The Foo class will take new data whenever the `valueA` value
 // changes on the Bar class.
-Foo.reactsWhen({
+Foo.takesStateWhen({
   Bar: {
     valueA: true
   }
@@ -101,7 +101,7 @@ Foo.reactsWhen({
 // The Bar class will take new data whenever the `value1` and/or
 // `value2` values change on the Foo class, as long as at least one
 // of the validator functions returns true.
-Bar.reactsWhen({
+Bar.takesStateWhen({
   Foo: {
     value1: newVal => newVal > 0,
     value2: (newVal, oldVal) => newVal !== oldVal
@@ -116,7 +116,7 @@ Sure thing.
 By using Strux's extension of React's `Component` class, you get access to
 2 new features:
 
-1. A new static class called `reactsWhen`.
+1. A new static class called `takesStateWhen`.
 2. A new lifecycle method called `componentTakesState`.
 
 In addition to having these new methods exposed, Strux works behind the scenes
@@ -132,7 +132,7 @@ Components called Foo and Bar, the resulting Redux state would look like this:
 ```
 
 Whenever you call `setState`, Strux will automatically keep your application
-state up-to-date with the newest values. As such, calling `reactsWhen` will
+state up-to-date with the newest values. As such, calling `takesStateWhen` will
 allow you to describe how a given component will observe those values on
 other components and decide whether or not to react to them when they are
 updated. If the decision to react is made, that data will be passed in to the
@@ -141,14 +141,14 @@ component's `componentTakesState` method automatically.
 In the above example we wrote the following:
 
 ```javascript
-Foo.reactsWhen({
+Foo.takesStateWhen({
   Bar: {
     valueA: true
   }
 });
 ```
 
-Here, we've passed an object to `reactsWhen` containing the names of all other
+Here, we've passed an object to `takesStateWhen` containing the names of all other
 Strux components the Foo class cares about. For each of those (in this case
 only Bar), we write the names of state values on that class we'd like to
 observe. By assigning `true` to one of these names, we're saying that whenever
@@ -157,10 +157,10 @@ the Bar class calls `setState` and updates its `valueA` property, the
 handed that data.
 
 On the other hand, we have some other options for how to handle writing a
-`reactsWhen` call. Take the following example:
+`takesStateWhen` call. Take the following example:
 
 ```javascript
-Bar.reactsWhen({
+Bar.takesStateWhen({
   Foo: {
     value1: newVal => newVal > 0,
     value2: (newVal, oldVal) => newVal !== oldVal
@@ -209,7 +209,7 @@ object. Pretty simple.
 
 Fair enough.
 
-By default, when we create validator functions in our `reactsWhen` calls, there
+By default, when we create validator functions in our `takesStateWhen` calls, there
 is another implicit check that gets put in place. Specifically, Strux adds a
 check to see whether a new value is _different_ from the old value before it
 even looks at the validator. So if the value didn't change, the observer won't
@@ -217,10 +217,10 @@ pick up the change.
 
 Normally this makes things go a lot faster. But in some cases, it might not
 be exactly what you want. If not, you can add a little extra syntax to your
-`reactsWhen` calls. For example...
+`takesStateWhen` calls. For example...
 
 ```javascript
-Bar.reactsWhen({
+Bar.takesStateWhen({
   Foo: {
     value1: ['change', newVal => newVal > 0],
     value2: ['always', (newVal, oldVal) => newVal !== oldVal]

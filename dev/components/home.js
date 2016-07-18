@@ -13,6 +13,7 @@ class Home extends Component {
   }
   componentDidMount() {
     // Navigation should call componentTakesState and get 2 values in the diff.
+    console.log(this.state);
     this.setState({
       testVal1: 15,
       testVal2: 3
@@ -20,7 +21,7 @@ class Home extends Component {
     // Navigation should call componentTakesState and get 1 value in the diff.
     setTimeout(() => {
       this.setState({
-        testVal1: 5,
+        testVal1: 15,
         testVal2: 2
       });
     });

@@ -5,7 +5,7 @@ import { store } from '../strux/strux';
 
 window.store = store;
 
-Navigation.reactsWhen({
+Navigation.takesStateWhen({
   Home: {
     testVal1: newVal => newVal > 10,
     testVal2: (newVal, oldVal) => newVal !== oldVal
