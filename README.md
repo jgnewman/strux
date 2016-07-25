@@ -1,4 +1,4 @@
-# Strux
+# Strux (1.0 Beta)
 
 Cross-component communication _finally_ made simple.
 
