@@ -1,6 +1,6 @@
 {
   "name": "strux",
-  "version": "0.2.2",
+  "version": "1.0.0",
   "description": "Cross-component communication finally made simple.",
   "author": "John Newman",
   "license": "MIT",
@@ -58,6 +58,7 @@
     "react",
     "redux",
     "flux",
-    "state"
+    "state",
+    "component"
   ]
 }
