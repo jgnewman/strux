@@ -12,8 +12,9 @@ way – as a separate concern.
 
 ## What problem does it solve?
 
-**In short, you don't write disptaches and subscribes _within_ your components.
-Instead, use Strux to just plug those components together in another file.**
+**In short, you don't write disptaches and subscriptions _within_ your
+components. Instead, use Strux to just plug those components together in another
+file.**
 
 tl;dr; –
 
@@ -41,11 +42,12 @@ dispatch actions, subscribe to dispatches, or anything else.
 Here's a full, working example:
 
 ```javascript
-// Notice we're not importing this from React.
+// Notice we're not importing Component from React.
 import { Component } from 'strux';
 
-// All we're doing here is creating a (mostly) standard class.
-// We'll come back to this.
+// All we're doing here is creating a standard class.
+// The only real difference is that we get to use
+// 1 new lifecycle method – componentTakesState.
 class Foo extends Component {
   constructor() {
     super();
@@ -66,7 +68,8 @@ class Foo extends Component {
   }
 }
 
-// And let's create another class here, just for fun.
+// And let's create another class here, just so we can
+// have 2 classes that talk to each other.
 class Bar extends Component {
   constructor() {
     super();
@@ -87,8 +90,10 @@ class Bar extends Component {
   }
 }
 
-// Now we can describe how these components will pass
-// data to each other.
+/*****************************************************
+ * Now we can describe how these components will pass
+ * data to each other.
+******************************************************/
 
 // The Foo class will take new data whenever the `valueA` value
 // changes on the Bar class.
@@ -116,7 +121,7 @@ Sure thing.
 By using Strux's extension of React's `Component` class, you get access to
 2 new features:
 
-1. A new static class called `takesStateWhen`.
+1. A new static method called `takesStateWhen`.
 2. A new lifecycle method called `componentTakesState`.
 
 In addition to having these new methods exposed, Strux works behind the scenes
@@ -174,8 +179,8 @@ sense will be called whenever `setState` updates the component in question.
 It will be handed the updated value and the previous value for the state
 property and will allow you to determine whether or not your observer
 component cares about the update. For example, here we've said that whenever
-the Foo class updates its `value1` property, the Bar class is only going to
-react to that change only if the updated value is greater than 0.
+the Foo class updates its `value1` property, the Bar class is _only_ going to
+react to that change if the updated value is greater than 0.
 
 I keep mentioning that the updated data will be passed to a
 `componentTakesState` method. But now let's be a little more specific.
@@ -251,9 +256,15 @@ Strux's version of `Component` doesn't do anything special except extend React's
 `Component` to set up a few handlers for lifecycle functions when the component
 gets instantiated, and exposes the features we talked about.
 
-It's the simplest possible user experience and, overall, you'll be taking less
-of a performance hit than you would if you were to use traditional react-redux
-instead.
+In fact, you can take an entire, pre-existing React app, change the
+import location of `Component` from `react` to `strux` on every class, and
+nothing will break (unless you're using replaceState, because that method is
+not supported on ES6 classes and will probably be removed from React in the
+future).
+
+I believe this is the simplest possible user experience and, overall, you'll be
+taking less of a performance hit than you would if you were to use traditional
+react-redux instead.
 
 ## Does Strux handle anything asynchronous?
 
@@ -276,14 +287,14 @@ it.
 
 Yep, here's a list for you:
 
-1. Strux implicitly uses Redux. You will not need to manually import Redux and
+1. Strux implicitly uses Redux as a peer dependency so you'll need to include it
+in your dependencies. However, you will not need to manually import Redux and
 create your own store. If you do, your store will not play well with the Strux
 store.
-2. _Strux implicitly uses Redux._ In other words, react-redux will not play
+2. _**Strux implicitly uses Redux.**_ In other words, react-redux will not play
 nicely with Strux. You'll need to pick one or the other.
-3. If you call `this.state = ...` inside of a component constructor, Strux will
+3. If you call `this.state = ...` inside of a component constructor for the
+purpose of setting up an initial state, Strux will
 not consider that initial state as something that should be communicated
-across components. It will wait until that initial state starts getting
+across components. It will wait until the state starts getting
 manipulated before it will start passing data around.
-4. Strux is just a layer on top of Redux. You'll need to make sure Redux is
-added to your project dependencies as well as Strux.
